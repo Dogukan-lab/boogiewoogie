@@ -1,10 +1,11 @@
 #include <iostream>
 
-int returnSomething(int val1, int val2) {
-    return val1 + val2;
-}
+#include "AritistBuilder.hpp"
+
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    AritistBuilder builder;
+    builder.BuildAritist("test");
+
     return 0;
 }
