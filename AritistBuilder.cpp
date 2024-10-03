@@ -8,6 +8,17 @@
 
 #include "FileProxy.hpp"
 
+using namespace std;
+string getFileExtension(const string& filename) {
+    size_t lastDotPos = filename.find_last_of('.');
+    if (lastDotPos == string::npos) {
+        // No dot found, return an empty string as there's no extension
+        return "";
+    } else {
+        return filename.substr(lastDotPos + 1);
+    }
+}
+
 void BuildAritistCsv(std::string fileData) {
     std::cout << "build csv:   " << fileData << std::endl;
 }
@@ -15,29 +26,35 @@ void BuildAritistXml(std::string fileData) {
     std::cout << "build xml:   " << fileData << std::endl;
 }
 
-enum FileType { csv, xml, txt };
+// enum FileType { csv, xml, txt };
 
 void AritistBuilder::BuildAritist(std::string fileLocation) {
     FileProxy file;
     std::cout << "read file\n";
     std::string fileData = file.ReadFile(fileLocation);
 
-    FileType fileType = csv;
 
-    switch(fileType) {
-        case csv  : {
-            BuildAritistCsv(fileData);
+    string extension = getFileExtension(fileLocation);
+
+    switch(extension[0]) {
+        case 'c'  : {
+            if (extension == "csv") {
+                BuildAritistCsv(fileData);
+            }
             break;
         }
 
-        case xml : {
-            std::cout << "read xml\n";
-            BuildAritistXml(fileLocation);
+        case 'x': {
+            if (extension == "xml") {
+                BuildAritistXml(fileLocation);
+            }
             break;
         }
 
-        case txt : {
-            std::cout << "read txt ...\n";
+        case 't': {
+            if (extension == "txt") {
+                // BuildAritistTxt(fileLocation);
+            }
             break;
         }
 

@@ -5,7 +5,7 @@
 
 int main() {
     AritistBuilder builder;
-    builder.BuildAritist("test");
+    builder.BuildAritist("../Files/artists.csv");
 
     return 0;
 }
