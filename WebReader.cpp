@@ -7,5 +7,5 @@
 #include <iostream>
 
 std::string WebReader::ReadFile(std::string fileLocation) {
-    std::cout << "web read: " << fileLocation << "\n";
+    return "web read: " + fileLocation + "\n";
 }

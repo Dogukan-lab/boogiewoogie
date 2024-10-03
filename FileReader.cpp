@@ -7,5 +7,5 @@
 #include <iostream>
 
 std::string FileReader::ReadFile(std::string fileLocation) {
-    std::cout << "file read: " << fileLocation << "\n";
+    return "file read: " + fileLocation + "\n";
 }
