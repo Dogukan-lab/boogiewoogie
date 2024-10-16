@@ -6,6 +6,7 @@
 #define BUILDER_HPP
 
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -39,13 +40,13 @@ struct TileType {
 
 struct Tile {
     Vector2D position;
-    std::vector<Tile> neighbours;
+    std::vector<std::shared_ptr<Tile> > neighbours;
     TileType *type;
     Shape shape;
 };
 
 struct Map {
-    std::vector<Tile> tiles;
+    std::vector<std::shared_ptr<Tile> > tiles;
 };
 
 struct Artist {

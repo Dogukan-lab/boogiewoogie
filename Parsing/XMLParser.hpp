@@ -60,28 +60,28 @@ public:
 #////// nodes //////
         pugi::xml_node nodes = doc.child("canvas").child("nodes");
         for (pugi::xml_node node = nodes.first_child(); node; node = node.next_sibling()) {
-            Tile tile;
+            std::shared_ptr<Tile> tile = std::make_shared<Tile>();
             // Set tile type by matching tag names (e.g., "Y", "R")
             for (const auto &tileType: tileTypes) {
                 if (tileType.name == node.name()) {
-                    tile.type = const_cast<TileType *>(&tileType); // Assign tile type
+                    tile->type = const_cast<TileType *>(&tileType); // Assign tile type
                     break;
                 }
             }
 
             // Get position of the tile
-            tile.position.x = node.attribute("x").as_int();
-            tile.position.y = node.attribute("y").as_int();
+            tile->position.x = node.attribute("x").as_int();
+            tile->position.y = node.attribute("y").as_int();
 
             // Get edges and position of neighbours
             pugi::xml_node edges = node.child("edges");
             for (pugi::xml_node edge = edges.child("edge"); edge; edge = edge.next_sibling("edge")) {
-                Tile neighbour;
-                neighbour.position.x = edge.attribute("x").as_int();
-                neighbour.position.y = edge.attribute("y").as_int();
+                std::shared_ptr<Tile> neighbour = std::make_shared<Tile>();
+                neighbour->position.x = edge.attribute("x").as_int();
+                neighbour->position.y = edge.attribute("y").as_int();
 
                 // Note: you may need to look up or assign the actual Tile object here if needed
-                tile.neighbours.push_back(neighbour);
+                tile->neighbours.push_back(neighbour);
             }
 
             result.push_back(tile);

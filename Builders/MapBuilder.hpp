@@ -8,23 +8,23 @@
 #include <stdexcept>
 
 #include "Builder.hpp"
-
+#include <memory>
 
 class MapBuilder : public Builder<Map> {
 public:
-    MapBuilder &addTile(const Tile &tile) {
+    MapBuilder &addTile(const std::shared_ptr<Tile> &tile) {
         map.tiles.emplace_back(tile);
         return *this;
     }
 
-    MapBuilder &addTiles(const std::vector<Tile> &tiles) {
-        for (const auto &tile : tiles) {
-            map.tiles.emplace_back(tile);
+    MapBuilder &addTiles(const std::vector<std::shared_ptr<Tile> > &tiles) {
+        for (const auto &tile: tiles) {
+            addTile(tile);
         }
         return *this;
     }
 
-    MapBuilder &replaceTiles(const std::vector<Tile> &tiles) {
+    MapBuilder &replaceTiles(const std::vector<std::shared_ptr<Tile> > &tiles) {
         map.tiles.clear();
         map.tiles = tiles;
         return *this;
@@ -32,16 +32,15 @@ public:
 
     Map &build() override {
         // Link tiles to neighbours
-        for (Tile &tile : map.tiles) {
-            std::cout << "P: " << tile.position.x << " " << tile.position.y << std::endl;
-            for (auto &neighbour : tile.neighbours) {
-                Tile *foundNeighbour = nullptr;
-                if (this->doesExist(neighbour.position, foundNeighbour)) {
-                    neighbour = *foundNeighbour; //std::make_shared<Tile>(*foundNeighbour);
+        for (std::shared_ptr<Tile> &tile: map.tiles) {
+            for (auto &neighbour: tile->neighbours) {
+                std::shared_ptr<Tile> *foundNeighbour = nullptr;
+                if (this->doesExist(neighbour->position, foundNeighbour)) {
+                    neighbour = *foundNeighbour;
                 } else {
                     throw std::runtime_error("Neighbour tile not found at position (" +
-                                             std::to_string(neighbour.position.x) + ", " +
-                                             std::to_string(neighbour.position.y) + ")");
+                                             std::to_string(neighbour->position.x) + ", " +
+                                             std::to_string(neighbour->position.y) + ")");
                 }
             }
         }
@@ -49,9 +48,9 @@ public:
         return map;
     }
 
-    bool doesExist(const Vector2D &tilePosition, Tile *& _tile) {
-        for (Tile &tile : map.tiles) {
-            if (tilePosition == tile.position) {
+    bool doesExist(const Vector2D &tilePosition, std::shared_ptr<Tile> *&_tile) {
+        for (std::shared_ptr<Tile> &tile: map.tiles) {
+            if (tilePosition == tile->position) {
                 _tile = &tile;
                 return true;
             }

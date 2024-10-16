@@ -20,27 +20,27 @@ ArtistsObject getArtists() {
     WebReader wReader{};
     std::vector<std::string> file_data = readFromFile(R"(D:/GitHub/boogiewoogie/Files/artists.csv)", dReader);
 
-    for (auto csvCel: file_data) {
-        if (csvCel == "\n")
-            std::cout << "/n" << std::endl;
-        else
-            std::cout << csvCel << ",";
-    }
+    // for (auto csvCel: file_data) {
+    //     if (csvCel == "\n")
+    //         std::cout << "/n" << std::endl;
+    //     else
+    //         std::cout << csvCel << ",";
+    // }
 
     CSVParser csvParser;
     std::vector<Artist> artistsCSV = csvParser.Pars<Artist>(file_data);
 
-    std::cout << std::endl;
-    for (auto artist: artistsCSV) {
-        std::cout << artist.position.x << ", " << artist.position.y << std::endl;
-    }
+    // std::cout << std::endl;
+    // for (auto artist: artistsCSV) {
+    //     std::cout << artist.position.x << ", " << artist.position.y << std::endl;
+    // }
 
     auto artists = ArtistBuilder().replaceArtists(artistsCSV).build();
 
-    std::cout << std::endl;
-    for (auto artist: artists.artists) {
-        std::cout << artist.position.x << ", " << artist.position.y << std::endl;
-    }
+    // std::cout << std::endl;
+    // for (auto artist: artists.artists) {
+    //     std::cout << artist.position.x << ", " << artist.position.y << std::endl;
+    // }
 
     return artists;
 }
@@ -93,15 +93,15 @@ Map getMapXML() {
 
     XMLParser xmlParser;
     // TXT //todo: implement
-    std::vector<Tile> tileVec = xmlParser.Pars<Tile>(file_data);
+    std::vector<std::shared_ptr<Tile> > tileVec = xmlParser.Pars<std::shared_ptr<Tile> >(file_data);
 
     // for (const auto &tile: tileVec) {
-    //     std::cout << "Tile Type: " << tile.type->name
-    //             << ", Position: (" << tile.position.x << ", " << tile.position.y << ")"
-    //             << ", Neighbours: " << tile.neighbours.size() << std::endl;
+    //     std::cout << "Tile Type: " << tile->type->name
+    //             << ", Position: (" << tile->position.x << ", " << tile->position.y << ")"
+    //             << ", Neighbours: " << tile->neighbours.size() << std::endl;
     //
-    //     for (const auto &neighbour: tile.neighbours) {
-    //         std::cout << "  Neighbour Position: (" << neighbour.position.x << ", " << neighbour.position.y << ")" <<
+    //     for (const auto &neighbour: tile->neighbours) {
+    //         std::cout << "  Neighbour Position: (" << neighbour->position.x << ", " << neighbour->position.y << ")" <<
     //                 std::endl;
     //     }
     // }
@@ -109,17 +109,17 @@ Map getMapXML() {
 
     auto map = MapBuilder().replaceTiles(tileVec).build();
 
-    for (const auto &tile: map.tiles) {
-        std::cout << "Tile Type: " << tile.type->name
-                << ", Position: (" << tile.position.x << ", " << tile.position.y << ")"
-                << ", Neighbours: " << tile.neighbours.size() << std::endl;
-
-        for (const auto &neighbour: tile.neighbours) {
-            std::cout << "  Neighbour Position: (" << neighbour.position.x << ", " << neighbour.position.y << ")" <<
-                    std::endl;
-        }
-    }
-    std::cout << std::endl;
+    // for (const auto &tile: map.tiles) {
+    //     std::cout << "Tile Type: " << tile->type
+    //             << ", Position: (" << tile->position.x << ", " << tile->position.y << ")"
+    //             << ", Neighbours: " << tile->neighbours.size() << std::endl;
+    //
+    //     for (const auto &neighbour: tile->neighbours) {
+    //         std::cout << "  Neighbour Position: (" << neighbour->position.x << ", " << neighbour->position.y << ")" <<
+    //                 std::endl;
+    //     }
+    // }
+    // std::cout << std::endl;
 
     return map;
 }
@@ -127,7 +127,8 @@ Map getMapXML() {
 
 int main() {
     ArtistsObject artists = getArtists();
-    Map map = getMapXML();
+    Map map0 = getMapXML();
+    // Map map1 = getMapTXT();
 
     return 0;
 }
