@@ -8,18 +8,22 @@
 #include <vector>
 #include "../dummydata/DummyTile.hpp"
 
-//TODO Figure out how this
+struct SDL_Renderer;
+struct SDL_Window;
+
+//TODO Figure out how this will function
 class BoogieRenderer {
 public:
-    BoogieRenderer();
+    explicit BoogieRenderer(SDL_Window& window);
 
-    void RegisterTiles(const DummyTile& tile);
+    void RegisterTiles(std::shared_ptr<DummyTile> tile);
 
     void Draw();
     void DrawInstance();
 
 private:
-    std::vector<std::shared_ptr<DummyTile>> _tiles;
+    std::vector<std::weak_ptr<DummyTile>> _tiles;
+    std::unique_ptr<SDL_Renderer> renderContext;
 };
 
 

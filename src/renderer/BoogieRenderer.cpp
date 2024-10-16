@@ -4,10 +4,20 @@
 
 #include "BoogieRenderer.hpp"
 
-void BoogieRenderer::RegisterTiles(const DummyTile &tile) {
-    _tiles.emplace_back(std::make_shared<DummyTile>(tile));
+#include <SDL_render.h>
+
+BoogieRenderer::BoogieRenderer(SDL_Window &window) {
+    renderContext.reset(SDL_CreateRenderer(&window, -1, SDL_RENDERER_ACCELERATED));
+}
+
+void BoogieRenderer::RegisterTiles(std::shared_ptr<DummyTile> tile) {
+    _tiles.emplace_back(tile);
 }
 
 void BoogieRenderer::Draw() {
-
+    for(const auto& tileRef: _tiles) {
+        if(auto tile = tileRef.lock()) {
+            SDL_RenderDrawRect(renderContext.get(), &tile->getShape<Rectangle>().rectangle);
+        }
+    }
 }

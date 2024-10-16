@@ -13,6 +13,8 @@ add_executable(${PROJECT_NAME} main.cpp
         src/BoogieWoogieApp.cpp
         src/dummydata/Map.hpp
         src/dummydata/DummyTile.hpp
+        src/TileManager.cpp
+        src/TileManager.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}

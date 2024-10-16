@@ -9,6 +9,11 @@
 #include <SDL_video.h>
 
 constexpr bool isRunning = true;
+
+class BoogieRenderer;
+class TileManager;
+
+
 //Immovable object :)
 class BoogieWoogieApp {
 public:
@@ -20,10 +25,12 @@ public:
     BoogieWoogieApp(BoogieWoogieApp&& other) = delete;
     BoogieWoogieApp operator=(BoogieWoogieApp&& other) = delete;
 
-    static void RunSimulation();
+    void RunSimulation() const;
 
 private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> _window;
+    std::unique_ptr<BoogieRenderer> _renderer;
+    std::unique_ptr<TileManager> _tileManager;
 
     void SetupSimulation();
 };
