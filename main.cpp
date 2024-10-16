@@ -25,6 +25,7 @@ bool printDebug(const std::vector<std::shared_ptr<Tile> > &tileVec) {
     for (const auto &tile: tileVec) {
         std::cout << "Tile Type: " << tile->type->name
                 << ", Position: (" << tile->position.x << ", " << tile->position.y << ")"
+                << ", Weight: (" << tile->type->weight << ")"
                 << ", Neighbours: " << tile->neighbours.size() << std::endl;
 
         for (const auto &neighbour: tile->neighbours) {
