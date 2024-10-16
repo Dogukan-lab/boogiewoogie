@@ -32,16 +32,18 @@ public:
 
     Map &build() override {
         // Link tiles to neighbours
-        for (std::shared_ptr<Tile> &tile: map.tiles) {
-            for (auto &neighbour: tile->neighbours) {
+        for (std::shared_ptr<Tile> &tile : map.tiles) {
+            // Use an iterator to loop through neighbours
+            auto it = tile->neighbours.begin();
+            while (it != tile->neighbours.end()) {
                 std::shared_ptr<Tile> *foundNeighbour = nullptr;
-                if (this->doesExist(neighbour->position, foundNeighbour)) {
-                    neighbour = *foundNeighbour;
+                if (this->doesExist((*it)->position, foundNeighbour)) {
+                    // If the neighbour exists, update the shared pointer
+                    *it = *foundNeighbour;
+                    ++it;  // Move to the next neighbour
                 } else {
-                    neighbour.reset();
-                    // throw std::runtime_error("Neighbour tile not found at position (" +
-                    //                          std::to_string(neighbour->position.x) + ", " +
-                    //                          std::to_string(neighbour->position.y) + ")");
+                    // Remove the neighbour if it doesn't exist
+                    it = tile->neighbours.erase(it);  // Erase returns the new iterator
                 }
             }
         }
