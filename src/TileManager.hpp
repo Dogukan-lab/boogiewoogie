@@ -19,11 +19,11 @@ public:
     void AddTile(const DummyTile& tile);
 
     //Iterator for removing it from the list.
-    void RemoveTile(DummyTile tile);
+    void RemoveTile(const DummyTile& tile);
 
     //Getters for tiles
     // DummyTile& getTile();
-    std::vector<std::unique_ptr<DummyTile>>& getTiles();
+    std::vector<std::shared_ptr<DummyTile>>& getTiles();
 
 private:
     std::vector<std::shared_ptr<DummyTile>> _tiles;

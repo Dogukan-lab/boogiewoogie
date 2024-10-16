@@ -3,9 +3,10 @@
 #include "src/BoogieWoogieApp.hpp"
 
 int main(void) {
-    BoogieWoogieApp::SetupSimulation();
-    BoogieWoogieApp::RunSimulation();
+    BoogieWoogieApp app{};
 
-    std::cout << "Hello, World!" << std::endl;
+    app.SetupSimulation();
+    app.RunSimulation();
+
     return 0;
 }

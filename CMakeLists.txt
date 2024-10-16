@@ -20,4 +20,5 @@ add_executable(${PROJECT_NAME} main.cpp
 target_link_libraries(${PROJECT_NAME}
         mingw32
         ${SDL2_PATH}/lib/libSDL2main.a
-        ${SDL2_PATH}/lib/libSDL2.dll.a)
+        ${SDL2_PATH}/lib/libSDL2.dll.a
+)

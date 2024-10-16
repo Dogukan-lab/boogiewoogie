@@ -11,7 +11,7 @@ struct Shape {
     virtual ~Shape() = default;
 };
 
-struct Rectangle final : Shape {
+struct Rectangle : Shape {
     //Initialize SDL_Rect with standard units of 50,50 pixels.
     Rectangle(): Rectangle(50, 50) {}
 
@@ -19,10 +19,10 @@ struct Rectangle final : Shape {
 
     Rectangle(const int newWidth, const int newHeight, const int newPosX, const int
               newPosY) {
-        rectangle.w = newWidth;
-        rectangle.h = newHeight;
         rectangle.x = newPosX;
         rectangle.y = newPosY;
+        rectangle.w = newWidth;
+        rectangle.h = newHeight;
     }
 
     SDL_Rect rectangle{};
@@ -34,9 +34,9 @@ struct DummyTileType {
     int weight; //Not relevant for now
     //Maybe use shape here instead?
 
-    DummyTileType(const char& character, int* colours, const int& weight):
+    DummyTileType(const char& character, const int* colours, const int& weight):
     tag(character), weight(weight) {
-        std::copy(colours, colours + 3, rgb);
+        memcpy(rgb, colours, sizeof(int)*3);
     }
 };
 
@@ -44,6 +44,7 @@ struct DummyTile {
     DummyTile(const DummyTileType &type, const Shape &newShape): shape(newShape), type(type) {
     }
 
+    //Counter intuitive :(
     template<typename T>
     T& getShape() {
         return static_cast<T&>(shape);

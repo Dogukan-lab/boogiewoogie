@@ -6,8 +6,8 @@
 
 #include <SDL_render.h>
 
-BoogieRenderer::BoogieRenderer(SDL_Window &window) {
-    renderContext.reset(SDL_CreateRenderer(&window, -1, SDL_RENDERER_ACCELERATED));
+BoogieRenderer::BoogieRenderer(SDL_Window* window): renderContext(nullptr, SDL_DestroyRenderer) {
+    renderContext.reset(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
 }
 
 void BoogieRenderer::RegisterTiles(std::shared_ptr<DummyTile> tile) {

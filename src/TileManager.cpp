@@ -3,9 +3,7 @@
 //
 
 #include "TileManager.hpp"
-
 #include <algorithm>
-
 #include "dummydata/DummyTile.hpp"
 
 TileManager::TileManager(): TileManager(5) {
@@ -15,16 +13,14 @@ TileManager::TileManager(int capacity) {
     _tiles.reserve(capacity);
 }
 
-void TileManager::AddTile(const DummyTile& tile) {
-    const auto foundTile = std::find(_tiles.begin(), _tiles.end(), tile);
-
-    if(foundTile == _tiles.end())
+void TileManager::AddTile(const DummyTile &tile) {
     _tiles.emplace_back(std::make_shared<DummyTile>(tile));
 }
 
-void TileManager::RemoveTile(DummyTile tile) {
-    const auto foundTile = std::remove_if(_tiles.begin(), _tiles.end(), [&tile](const auto& t){return &t == &tile;});
+//TODO Worry about this later
+void TileManager::RemoveTile(const DummyTile &tile) {
+}
 
-    if(foundTile != _tiles.end())
-        _tiles.erase(foundTile);
+std::vector<std::shared_ptr<DummyTile> > &TileManager::getTiles() {
+    return _tiles;
 }
