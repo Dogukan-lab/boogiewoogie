@@ -31,8 +31,8 @@ public:
             std::cerr << "Not enough data to set rows and columns." << std::endl;
             return tiles;
         }
-        int rows = extractValue(txt[0], "rows=");
-        int cols = extractValue(txt[1], "cols=");
+        rows = extractValue(txt[0], "rows=");
+        cols = extractValue(txt[1], "cols=");
 
         line = getLine(txt);
         // 2: Parse the tile definitions header
@@ -60,10 +60,10 @@ public:
             for (int columIndex = 0; columIndex < line.size() && columIndex < cols; ++columIndex) {
                 char c = line[columIndex];
 
-                if (c == ',') {
-                    std::cout << "\n";
-                }
-                std::cout << c;
+                // if (c == ',') {
+                //     std::cout << "\n";
+                // }
+                // std::cout << c;
 
                 if (c == '_') {
                     continue;
@@ -80,6 +80,8 @@ public:
                     // Determine the TileType based on the character
                     std::string typeName(1, c); // Convert char to string (e.g., 'Y' -> "Y")
                     tile->type = getTileType(typeName);
+
+                    setTileNeighbours(tile);
 
                     // Check if TileType was found and report an error if not
                     if (tile->type == nullptr) {
@@ -127,6 +129,8 @@ private:
 #////// nodeTypes //////
     std::vector<TileType> tileTypes; //todo: make persistand
     int lineIndex = 0;
+    int rows = 0;
+    int cols = 0;
 
     //todo: check if ok
     bool parseTileType(const std::string &line) {
@@ -178,6 +182,30 @@ private:
             }
         }
         return -1; // Return a negative value to indicate an error
+    }
+
+    void setTileNeighbours(std::shared_ptr<Tile> &tile) {
+        int x = tile->position.x;
+        int y = tile->position.y;
+
+        // Define relative positions for neighbors: left, right, up, down
+        std::vector<std::pair<int, int> > offsets = {
+            {x - 1, y}, // Left
+            {x + 1, y}, // Right
+            {x, y - 1}, // Up
+            {x, y + 1} // Down
+        };
+
+        // Create neighbors based on valid offsets
+        for (const auto &[nx, ny]: offsets) {
+            if (nx >= 0 && ny >= 0 && nx < rows && ny < cols) {
+                // Ensure non-negative positions
+                auto neighbour = std::make_shared<Tile>();
+                neighbour->position.x = nx;
+                neighbour->position.y = ny;
+                tile->neighbours.push_back(neighbour);
+            }
+        }
     }
 };
 

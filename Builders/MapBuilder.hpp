@@ -38,9 +38,10 @@ public:
                 if (this->doesExist(neighbour->position, foundNeighbour)) {
                     neighbour = *foundNeighbour;
                 } else {
-                    throw std::runtime_error("Neighbour tile not found at position (" +
-                                             std::to_string(neighbour->position.x) + ", " +
-                                             std::to_string(neighbour->position.y) + ")");
+                    neighbour.reset();
+                    // throw std::runtime_error("Neighbour tile not found at position (" +
+                    //                          std::to_string(neighbour->position.x) + ", " +
+                    //                          std::to_string(neighbour->position.y) + ")");
                 }
             }
         }
