@@ -107,27 +107,9 @@ public:
         return nullptr; // Return nullptr if no matching type is found
     }
 
-    void printTileTypes() const {
-        //todo: optional
-        // std::cout << "Tile Types:" << std::endl;
-        // for (const auto &pair: tileTypes) {
-        //     const auto &tile = pair.second;
-        //     std::cout << tile.letter << " => RGB(" << tile.color.red << ", " << tile.color.green << ", " << tile.color.
-        //             blue << "), Weight: " << tile.weight << std::endl;
-        // }
-    }
-
-    void printGrid() const {
-        //todo: optional
-        // std::cout << "Grid (" << grid.rows << "x" << grid.cols << "):" << std::endl;
-        // for (const auto &row: grid.data) {
-        //     std::cout << row << std::endl;
-        // }
-    }
-
 private:
 #////// nodeTypes //////
-    std::vector<TileType> tileTypes; //todo: make persistand
+    std::vector<TileType> tileTypes; //todo: set global tiletypes
     int lineIndex = 0;
     int rows = 0;
     int cols = 0;

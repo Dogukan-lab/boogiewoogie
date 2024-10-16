@@ -39,7 +39,7 @@ public:
 
         pugi::xml_node nodeTypes = doc.child("canvas").child("nodeTypes");
 
-        std::vector<TileType> tileTypes; //todo: make persistand
+        std::vector<TileType> tileTypes; //todo: set global tiletypes
         TileType tileType;
 
 #////// nodeTypes //////
@@ -61,9 +61,9 @@ public:
             //todo: not use tile
             std::shared_ptr<Tile> tile = std::make_shared<Tile>();
             // Set tile type by matching tag names (e.g., "Y", "R")
-            for (const auto &tileType: tileTypes) {
-                if (tileType.name == node.name()) {
-                    tile->type = const_cast<TileType *>(&tileType); // Assign tile type
+            for (const auto &_tileType: tileTypes) {
+                if (_tileType.name == node.name()) {
+                    tile->type = const_cast<TileType *>(&_tileType); // Assign tile type
                     break;
                 }
             }

@@ -50,7 +50,7 @@ public:
         return map;
     }
 
-    bool doesExist(const Vector2D &tilePosition, std::shared_ptr<Tile> *&_tile) {
+    bool doesExist(const Vector2D<int> &tilePosition, std::shared_ptr<Tile> *&_tile) {
         for (std::shared_ptr<Tile> &tile: map.tiles) {
             if (tilePosition == tile->position) {
                 _tile = &tile;

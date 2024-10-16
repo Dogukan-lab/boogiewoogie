@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "Parser.hpp"
-#include "../Builders/Builder.hpp" //todo only vector2D
 
 class CSVParser : public Parser {
 public:
@@ -20,7 +19,7 @@ public:
     std::vector<T> Pars(const std::vector<std::string> &csv) {
         std::vector<T> result;
 
-        T artist; //todo: expect artist, must be kinde unkown
+        T artist;
 
         for (std::size_t i = 0; i < csv.size(); ++i) {
             if (i <= 4) {
@@ -33,19 +32,19 @@ public:
 
             switch (i % 5) {
                 case 0:
-                    artist.position.x = stoi(csv[i]); //todo: string(double/float) to int
+                    artist.position.x = stod(csv[i]);
                     break;
 
                 case 1:
-                    artist.position.y = stoi(csv[i]); //todo: string(double/float) to int
+                    artist.position.y = stod(csv[i]);
                     break;
 
                 case 2:
-                    // artist.position.xv = stoi(csv[i]);
+                    artist.direction.x = stod(csv[i]);
                     break;
 
                 case 3:
-                    // artist.position.yv = stoi(csv[i]);
+                    artist.direction.y = stod(csv[i]);
                     break;
             }
         }

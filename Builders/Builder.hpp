@@ -10,9 +10,10 @@
 #include <string>
 #include <vector>
 
+template<typename T>
 struct Vector2D {
-    int x;
-    int y;
+    T x;
+    T y;
 
     bool operator==(const Vector2D &other) const {
         return x == other.x && y == other.y;
@@ -24,22 +25,15 @@ struct Shape {
     int height;
 };
 
-enum class Tag {
-    Y, // Yellow
-    B, // Blue
-    R, // Red
-    G // Green
-};
 
 struct TileType {
-    Tag tag;
     std::string name;
     int rgb[3];
     int weight;
 };
 
 struct Tile {
-    Vector2D position;
+    Vector2D<int> position;
     std::vector<std::shared_ptr<Tile> > neighbours;
     TileType *type;
     Shape shape;
@@ -50,7 +44,8 @@ struct Map {
 };
 
 struct Artist {
-    Vector2D position;
+    Vector2D<double> position;
+    Vector2D<double> direction;
 };
 
 struct ArtistsObject {
