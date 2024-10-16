@@ -39,17 +39,17 @@ public:
 
         pugi::xml_node nodeTypes = doc.child("canvas").child("nodeTypes");
 
-        std::vector<TileType> tileTypes; //todo: set global tiletypes
-        TileType tileType;
+        std::vector<std::shared_ptr<TileType> > tileTypes; //todo: set global tiletypes
+        std::shared_ptr<TileType> tileType;
 
 #////// nodeTypes //////
         for (pugi::xml_node nodeType = nodeTypes.child("nodeType"); nodeType;
              nodeType = nodeType.next_sibling("nodeType")) {
-            tileType.name = nodeType.attribute("tag").as_string();
-            tileType.rgb[0] = nodeType.attribute("red").as_int();
-            tileType.rgb[1] = nodeType.attribute("green").as_int();
-            tileType.rgb[2] = nodeType.attribute("blue").as_int();
-            tileType.weight = nodeType.attribute("weight").as_int();
+            tileType->name = nodeType.attribute("tag").as_string();
+            tileType->rgb[0] = nodeType.attribute("red").as_int();
+            tileType->rgb[1] = nodeType.attribute("green").as_int();
+            tileType->rgb[2] = nodeType.attribute("blue").as_int();
+            tileType->weight = nodeType.attribute("weight").as_int();
 
             tileTypes.push_back(tileType);
         }
@@ -62,8 +62,8 @@ public:
             std::shared_ptr<Tile> tile = std::make_shared<Tile>();
             // Set tile type by matching tag names (e.g., "Y", "R")
             for (const auto &_tileType: tileTypes) {
-                if (_tileType.name == node.name()) {
-                    tile->type = const_cast<TileType *>(&_tileType); // Assign tile type
+                if (_tileType->name == node.name()) {
+                    tile->type = *const_cast<std::shared_ptr<TileType> *>(&_tileType); // Assign tile type
                     break;
                 }
             }

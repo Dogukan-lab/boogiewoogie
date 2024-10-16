@@ -35,7 +35,7 @@ struct TileType {
 struct Tile {
     Vector2D<int> position;
     std::vector<std::shared_ptr<Tile> > neighbours;
-    TileType *type;
+    std::shared_ptr<TileType> type; //todo: cant be deleted if no refrences, becouse of later use
     Shape shape;
 };
 

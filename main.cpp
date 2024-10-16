@@ -96,7 +96,7 @@ std::vector<std::shared_ptr<Tile> > getMapTXT() {
     if (DEBUG && printDebug(file_data)) {}
 
     TXTParser txtParser;
-    auto tileVec = txtParser.Pars<std::shared_ptr<Tile> >(file_data);
+    auto tileVec = txtParser.Pars<std::shared_ptr<Tile> >(file_data); //todo: csv txt std::shared_ptr consistency
 
     if (DEBUG && printDebug(tileVec)) {}
     return tileVec;

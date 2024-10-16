@@ -11,9 +11,6 @@
 class Parser {
 public:
     virtual ~Parser() = default;
-
-    // template<typename T>
-    // std::vector<T> Pars(); //todo: later
 };
 
 

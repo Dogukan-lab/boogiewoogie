@@ -98,10 +98,10 @@ public:
         return tiles;
     }
 
-    TileType *getTileType(const std::string &name) {
+    std::shared_ptr<TileType> getTileType(const std::string &name) {
         for (auto &tileType: tileTypes) {
-            if (tileType.name == name) {
-                return &tileType;
+            if (tileType->name == name) {
+                return tileType;
             }
         }
         return nullptr; // Return nullptr if no matching type is found
@@ -109,7 +109,7 @@ public:
 
 private:
 #////// nodeTypes //////
-    std::vector<TileType> tileTypes; //todo: set global tiletypes
+    std::vector<std::shared_ptr<TileType> > tileTypes; //todo: set global tiletypes
     int lineIndex = 0;
     int rows = 0;
     int cols = 0;
@@ -120,12 +120,12 @@ private:
         std::smatch matches;
 
         if (std::regex_search(line, matches, tilePattern)) {
-            TileType tileType;
-            tileType.name = matches[1].str()[0];
-            tileType.rgb[0] = std::stoi(matches[2]);
-            tileType.rgb[1] = std::stoi(matches[3]);
-            tileType.rgb[2] = std::stoi(matches[4]);
-            tileType.weight = std::stoi(matches[5]);
+            std::shared_ptr<TileType> tileType = std::make_shared<TileType>();
+            tileType->name = matches[1].str()[0];
+            tileType->rgb[0] = std::stoi(matches[2]);
+            tileType->rgb[1] = std::stoi(matches[3]);
+            tileType->rgb[2] = std::stoi(matches[4]);
+            tileType->weight = std::stoi(matches[5]);
 
             tileTypes.push_back(tileType);
             return true;

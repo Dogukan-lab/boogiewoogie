@@ -28,7 +28,6 @@ public:
         return *this;
     }
 
-    //todo: check
     Map &build() override {
         // Link tiles to neighbours
         for (std::shared_ptr<Tile> &tile: map.tiles) {
