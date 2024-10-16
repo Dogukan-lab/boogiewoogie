@@ -11,6 +11,7 @@ struct Data {
     int data;
 };
 
+//todo: check file reader is ok
 std::vector<std::string> readFromFile(const std::string &path, FileReader &reader) {
     return reader.openFile(path);
 }
@@ -59,7 +60,7 @@ Map getMapTXT() {
 
     TXTParser txtParser;
     // TXT //todo: implement
-    std::vector<Map> mapTXT = txtParser.Pars<Map>(file_data);
+    auto mapTXT = txtParser.Pars<std::shared_ptr<Tile> >(file_data);
 
     std::cout << std::endl;
     for (auto nodes: mapTXT) {
@@ -128,7 +129,7 @@ Map getMapXML() {
 int main() {
     ArtistsObject artists = getArtists();
     Map map0 = getMapXML();
-    // Map map1 = getMapTXT();
+    Map map1 = getMapTXT();
 
     return 0;
 }

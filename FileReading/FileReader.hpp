@@ -22,28 +22,11 @@ public:
 
     // virtual void extractData(const std::string& path) = 0;
     virtual std::vector<std::string> openFile(const std::string &path) {
-        // std::fstream stream(path);
-        // printf(path.c_str());
-        // std::vector<std::string> sourceData{};
-        // try {
-        //     std::string line{};
-        //     while (std::getline(stream, line)) {
-        //         std::cout << "LINE: " << line << "\n";
-        //         sourceData.emplace_back(line);
-        //     }
-        //     std::cout << std::endl;
-        // } catch (const std::runtime_error &ex) {
-        //     std::cerr << ex.what() << std::endl;
-        // }
-        //
-        // stream.close();
-        // return sourceData;
-
         std::ifstream file(path);
         std::cout << path.c_str() << std::endl;
 
         if (!file.is_open()) {
-            std::cerr << "Error opening CSV file." << std::endl;
+            throw std::runtime_error("Error opening file: " + path);
         }
 
         std::string line;
