@@ -126,11 +126,11 @@ Map builMap(std::vector<std::shared_ptr<Tile> > tileVec) {
 int main() {
     ArtistsObject artists = getArtists();
 
-    auto tileVec0 = getMapTXT();
-    Map map0 = builMap(tileVec0);
+    // auto tileVec0 = getMapTXT();
+    // Map map0 = builMap(tileVec0);
 
-    // auto tileVec1 = getMapXML();
-    // Map map1 = builMap(tileVec1);
+    auto tileVec1 = getMapXML();
+    Map map1 = builMap(tileVec1);
 
     return 0;
 }

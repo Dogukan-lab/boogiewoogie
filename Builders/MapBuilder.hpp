@@ -4,8 +4,6 @@
 
 #ifndef MAPBUILDER_HPP
 #define MAPBUILDER_HPP
-#include <iostream>
-#include <stdexcept>
 
 #include "Builder.hpp"
 #include <memory>
@@ -30,9 +28,10 @@ public:
         return *this;
     }
 
+    //todo: check
     Map &build() override {
         // Link tiles to neighbours
-        for (std::shared_ptr<Tile> &tile : map.tiles) {
+        for (std::shared_ptr<Tile> &tile: map.tiles) {
             // Use an iterator to loop through neighbours
             auto it = tile->neighbours.begin();
             while (it != tile->neighbours.end()) {
@@ -40,10 +39,10 @@ public:
                 if (this->doesExist((*it)->position, foundNeighbour)) {
                     // If the neighbour exists, update the shared pointer
                     *it = *foundNeighbour;
-                    ++it;  // Move to the next neighbour
+                    ++it; // Move to the next neighbour
                 } else {
                     // Remove the neighbour if it doesn't exist
-                    it = tile->neighbours.erase(it);  // Erase returns the new iterator
+                    it = tile->neighbours.erase(it); // Erase returns the new iterator
                 }
             }
         }

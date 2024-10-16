@@ -21,23 +21,21 @@ public:
     template<typename T>
     std::vector<T> Pars(const std::vector<std::string> &xml) {
         std::vector<T> result;
-        //<T> tile; //todo: not use tile
-        Tile tile;
 
         // Create a pugi::xml_document object
         pugi::xml_document doc;
 
-        // Load the XML data from the vector of strings
-        std::string xml_data = "";
+        // Combine the XML data from the vector of strings
+        std::string xml_data;
         for (const auto &line: xml) {
             xml_data += line;
         }
-        doc.load_string(xml_data.c_str());
 
-        //
-
-        //todo: use vector string
-        if (!doc.load_file("D:/GitHub/boogiewoogie/Files/graph.xml")) return result;
+        // Load the XML data from the combined string
+        if (!doc.load_string(xml_data.c_str())) {
+            std::cerr << "Failed to parse XML data." << std::endl;
+            return result;
+        }
 
         pugi::xml_node nodeTypes = doc.child("canvas").child("nodeTypes");
 
@@ -60,6 +58,7 @@ public:
 #////// nodes //////
         pugi::xml_node nodes = doc.child("canvas").child("nodes");
         for (pugi::xml_node node = nodes.first_child(); node; node = node.next_sibling()) {
+            //todo: not use tile
             std::shared_ptr<Tile> tile = std::make_shared<Tile>();
             // Set tile type by matching tag names (e.g., "Y", "R")
             for (const auto &tileType: tileTypes) {
