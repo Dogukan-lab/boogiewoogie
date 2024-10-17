@@ -19,8 +19,8 @@ public:
     ~XMLParser() override = default;
 
     template<typename T>
-    std::vector<T> Pars(const std::vector<std::string> &xml) {
-        std::vector<T> result;
+    std::vector<std::shared_ptr<T> > Pars(const std::vector<std::string> &xml) {
+        std::vector<std::shared_ptr<T> > result;
 
         // Create a pugi::xml_document object
         pugi::xml_document doc;
@@ -45,6 +45,7 @@ public:
 #////// nodeTypes //////
         for (pugi::xml_node nodeType = nodeTypes.child("nodeType"); nodeType;
              nodeType = nodeType.next_sibling("nodeType")) {
+            tileType = std::make_shared<TileType>();
             tileType->name = nodeType.attribute("tag").as_string();
             tileType->rgb[0] = nodeType.attribute("red").as_int();
             tileType->rgb[1] = nodeType.attribute("green").as_int();
@@ -58,8 +59,7 @@ public:
 #////// nodes //////
         pugi::xml_node nodes = doc.child("canvas").child("nodes");
         for (pugi::xml_node node = nodes.first_child(); node; node = node.next_sibling()) {
-            //todo: not use tile
-            std::shared_ptr<Tile> tile = std::make_shared<Tile>();
+            std::shared_ptr<T> tile = std::make_shared<T>();
             // Set tile type by matching tag names (e.g., "Y", "R")
             for (const auto &_tileType: tileTypes) {
                 if (_tileType->name == node.name()) {
@@ -75,7 +75,7 @@ public:
             // Get edges and position of neighbours
             pugi::xml_node edges = node.child("edges");
             for (pugi::xml_node edge = edges.child("edge"); edge; edge = edge.next_sibling("edge")) {
-                std::shared_ptr<Tile> neighbour = std::make_shared<Tile>();
+                std::shared_ptr<T> neighbour = std::make_shared<T>();
                 neighbour->position.x = edge.attribute("x").as_int();
                 neighbour->position.y = edge.attribute("y").as_int();
 

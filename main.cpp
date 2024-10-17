@@ -66,7 +66,6 @@ struct Data {
     int data;
 };
 
-//todo: check file reader is ok
 std::vector<std::string> readFromFile(const std::string &path, FileReader &reader) {
     return reader.openFile(path);
 }
@@ -97,7 +96,7 @@ std::vector<std::shared_ptr<Tile> > getMapTXT() {
     if (DEBUG && printDebug(file_data)) {}
 
     TXTParser txtParser;
-    auto tileVec = txtParser.Pars<std::shared_ptr<Tile> >(file_data); //todo: csv txt std::shared_ptr consistency
+    auto tileVec = txtParser.Pars<Tile>(file_data);
 
     if (DEBUG && printDebug(tileVec)) {}
     return tileVec;
@@ -111,8 +110,7 @@ std::vector<std::shared_ptr<Tile> > getMapXML() {
     if (DEBUG && printDebug(file_data)) {}
 
     XMLParser xmlParser;
-    // TXT //todo: implement
-    auto tileVec = xmlParser.Pars<std::shared_ptr<Tile> >(file_data);
+    auto tileVec = xmlParser.Pars<Tile>(file_data);
 
     if (DEBUG && printDebug(tileVec)) {}
     return tileVec;

@@ -20,9 +20,8 @@ public:
     ~TXTParser() override = default;
 
     template<typename T>
-    std::vector<T> Pars(const std::vector<std::string> &txt) {
-        //<T> tile; //todo: not use tile
-        std::vector<std::shared_ptr<Tile> > tiles;
+    std::vector<std::shared_ptr<T> > Pars(const std::vector<std::string> &txt) {
+        std::vector<std::shared_ptr<T> > tiles;
         lineIndex = 0;
 
         std::string line = getLine(txt);
@@ -72,7 +71,7 @@ public:
                 // Create a Tile if the character is Y, R, G, or B
                 if (c == 'Y' || c == 'R' || c == 'G' || c == 'B') {
                     // Create a new Tile
-                    auto tile = std::make_shared<Tile>();
+                    auto tile = std::make_shared<T>();
 
                     // Set the position based on the index
                     tile->position = {(columIndex), rowIndex};
@@ -114,7 +113,6 @@ private:
     int rows = 0;
     int cols = 0;
 
-    //todo: check if ok
     bool parseTileType(const std::string &line) {
         std::regex tilePattern(R"((\w),\[(\d+),(\d+),(\d+)\],(\d+))");
         std::smatch matches;
@@ -166,7 +164,8 @@ private:
         return -1; // Return a negative value to indicate an error
     }
 
-    void setTileNeighbours(std::shared_ptr<Tile> &tile) {
+    template<typename T>
+    void setTileNeighbours(std::shared_ptr<T> &tile) {
         int x = tile->position.x;
         int y = tile->position.y;
 
@@ -182,7 +181,7 @@ private:
         for (const auto &[nx, ny]: offsets) {
             if (nx >= 0 && ny >= 0 && nx < rows && ny < cols) {
                 // Ensure non-negative positions
-                auto neighbour = std::make_shared<Tile>();
+                auto neighbour = std::make_shared<T>();
                 neighbour->position.x = nx;
                 neighbour->position.y = ny;
                 tile->neighbours.push_back(neighbour);
