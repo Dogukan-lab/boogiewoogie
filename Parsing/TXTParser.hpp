@@ -25,7 +25,7 @@ public:
 
         std::string line = getLine(txt);
 
-        std::regex rowColPattern(R"(rows=(\d+),cols=(\d+))"); //todo: what if change in order
+        std::regex rowColPattern(R"(,?rows=(\d+),?cols=(\d+))"); //todo: what if change in order
         std::smatch matches;
 
         if (!line.empty() && std::regex_search(line, matches, rowColPattern) && matches.size() == 3) {
@@ -36,9 +36,12 @@ public:
         }
 
         line = getLine(txt);
-        // 2: Parse the tile definitions header
-        if (line != "letter,rgb,weight") {
-            //todo: what if change in order
+
+        //todo: what if change in order
+        std::regex tileTypesPattern(R"((letter,rgb,weight))");
+
+        // Check if the location matches the URL pattern
+        if (!std::regex_search(line, tileTypesPattern)) {
             std::cerr << "Expected 'letter,rgb,weight' header line, got: '" << line << "'" << std::endl;
             return tiles;
         }

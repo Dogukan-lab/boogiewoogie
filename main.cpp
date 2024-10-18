@@ -8,6 +8,8 @@
 #include "Parsing/CSVParser.hpp"
 #include "Parsing/TXTParser.hpp"
 #include "Parsing/XMLParser.hpp"
+#include <string>
+#include <regex>
 
 #define DEBUG 1
 
@@ -89,11 +91,35 @@ ArtistsObject getArtists() {
     return artists;
 }
 
+bool isLocalFile(const std::string &location) {
+    // Regular expression to match common URL protocols (e.g., http, https, ftp)
+    std::regex urlPattern(R"((https?|ftp)://)");
 
-std::vector<std::shared_ptr<Tile> > getMapTXT() {
-    DiskReader dReader{};
-    WebReader wReader{};
-    std::vector<std::string> file_data = readFromFile(R"(D:/GitHub/boogiewoogie/Files/grid.txt)", dReader);
+    // Check if the location matches the URL pattern
+    if (std::regex_search(location, urlPattern)) {
+        return false; // It's a URL, not a local file
+    }
+
+    return true; // If no URL pattern is detected, assume it's a local file
+}
+
+std::vector<std::string> readFile(const std::string &location) {
+    std::vector<std::string> file_data;
+
+    if (isLocalFile(location)) {
+        DiskReader dReader{};
+        file_data = readFromFile(location, dReader);
+    } else {
+        WebReader wReader{};
+        file_data = readFromFile(location, wReader);
+    }
+
+    return file_data;
+}
+
+
+std::vector<std::shared_ptr<Tile> > getMapTXT(const std::string &location) {
+    std::vector<std::string> file_data = readFile(location);
 
     if (DEBUG && printDebug(file_data)) {}
 
@@ -104,10 +130,8 @@ std::vector<std::shared_ptr<Tile> > getMapTXT() {
     return tileVec;
 }
 
-std::vector<std::shared_ptr<Tile> > getMapXML() {
-    DiskReader dReader{};
-    WebReader wReader{};
-    std::vector<std::string> file_data = readFromFile(R"(D:/GitHub/boogiewoogie/Files/graph.xml)", dReader);
+std::vector<std::shared_ptr<Tile> > getMapXML(const std::string &location) {
+    std::vector<std::string> file_data = readFile(location);
 
     if (DEBUG && printDebug(file_data)) {}
 
@@ -127,12 +151,17 @@ Map builMap(const std::vector<std::shared_ptr<Tile> > &tileVec) {
 
 
 int main() {
+    std::string gridUrl = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media";
+    std::string graphUrl = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media";
+    std::string gridDisk = "D:/GitHub/boogiewoogie/Files/grid.txt";
+    std::string graphDisk = "D:/GitHub/boogiewoogie/Files/graph.xml";
+
     ArtistsObject artists = getArtists();
 
-    auto tileVec0 = getMapTXT();
+    auto tileVec0 = getMapTXT(gridDisk);
     Map map0 = builMap(tileVec0);
 
-    auto tileVec1 = getMapXML();
+    auto tileVec1 = getMapXML(graphDisk);
     Map map1 = builMap(tileVec1);
 
 
