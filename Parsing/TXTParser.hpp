@@ -26,17 +26,21 @@ public:
 
         std::string line = getLine(txt);
 
-        if (line.empty() || txt.size() < 2) {
-            std::cerr << "Not enough data to set rows and columns." << std::endl;
-            return tiles;
+        std::regex rowColPattern(R"(rows=(\d+),cols=(\d+))"); //todo: what if change in order
+        std::smatch matches;
+
+        if (!line.empty() && std::regex_search(line, matches, rowColPattern) && matches.size() == 3) {
+            rows = std::stoi(matches[1].str());
+            cols = std::stoi(matches[2].str());
+        } else {
+            std::cerr << "Could not set rows and columns." << std::endl;
         }
-        rows = extractValue(txt[0], "rows=");
-        cols = extractValue(txt[1], "cols=");
 
         line = getLine(txt);
         // 2: Parse the tile definitions header
-        if (line != ",letter,rgb,weight") {
-            std::cerr << "Expected ',letter,rgb,weight' header line, got: " << line << std::endl;
+        if (line != "letter,rgb,weight") {
+            //todo: what if change in order
+            std::cerr << "Expected 'letter,rgb,weight' header line, got: '" << line << "'" << std::endl;
             return tiles;
         }
 
@@ -56,20 +60,15 @@ public:
         // 5: Iterate through row
         for (int rowIndex = 0; !line.empty() && rowIndex < rows; line = getLine(txt), rowIndex++) {
             // 5: Iterate through each character
-            for (int columIndex = 0; columIndex < line.size() && columIndex < cols; ++columIndex) {
+            for (int columIndex = 0; columIndex < line.length() && columIndex < cols; ++columIndex) {
                 char c = line[columIndex];
 
-                // if (c == ',') {
-                //     std::cout << "\n";
-                // }
-                // std::cout << c;
-
                 if (c == '_') {
-                    continue;
+                    // continue;
                 }
-
                 // Create a Tile if the character is Y, R, G, or B
-                if (c == 'Y' || c == 'R' || c == 'G' || c == 'B') {
+                else if (c == 'Y' || c == 'R' || c == 'G' || c == 'B') {
+                    //todo tile type names
                     // Create a new Tile
                     auto tile = std::make_shared<T>();
 
@@ -90,6 +89,8 @@ public:
 
                     // Add the Tile to the vector
                     tiles.push_back(tile);
+                } else {
+                    std::cerr << "Error: Unknown tile type '" << c << "'" << std::endl;
                 }
             }
         }
@@ -133,18 +134,12 @@ private:
     }
 
     std::string getLine(const std::vector<std::string> &txt) {
-        // if (lineIndex >= txt.size()) {
-        //     throw std::runtime_error("Read line out of range lineIndex: " + lineIndex);
-        // }
-        std::string line;
-
-        for (; lineIndex < txt.size(); ++lineIndex) {
-            if (txt[lineIndex] == "\n") {
-                lineIndex++;
-                break;
-            }
-            line.append("," + txt[lineIndex]);
+        if (lineIndex >= txt.size()) {
+            return "";
         }
+
+        std::string line = txt[lineIndex];
+        lineIndex++;
 
         return line;
     }

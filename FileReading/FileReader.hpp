@@ -35,17 +35,10 @@ public:
         std::vector<std::string> data;
 
         while (std::getline(file, line)) {
-            std::istringstream lineStream(line);
-            std::string cell;
-
-            while (std::getline(lineStream, cell, ',')) {
-                data.push_back(cell);
-            }
-
-            data.push_back("\n");
+            data.push_back(line);
         }
 
-        file.close();
+        file.close(); //todo: smartpointer to clean up
         return data;
     };
 };

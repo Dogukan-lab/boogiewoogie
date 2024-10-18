@@ -6,6 +6,7 @@
 #define CSVPARSER_HPP
 #include <string>
 #include <vector>
+#include <regex>
 
 #include "Parser.hpp"
 
@@ -21,37 +22,33 @@ public:
 
         T artist;
 
-        for (std::size_t i = 0; i < csv.size(); ++i) {
-            if (i <= 4) {
-                continue;
+        for (const auto &line: csv) {
+            bool first = true;
+            if (first) {
+                first = false;
+                std::istringstream lineStream(line);
+                std::string cell;
+
+                while (std::getline(lineStream, cell, ',')) {
+                    if (cell == "x" || cell == "y" || cell == "vx" || cell == "vy") {}
+                }
             }
-            if (csv[i] == "\n") {
+
+            std::regex tilePattern(R"((\w),\[(\d+),(\d+),(\d+)\],(\d+))");
+            std::smatch matches;
+
+            if (std::regex_search(line, matches, tilePattern)) {
+                artist.position.x = stod(matches[0]);
+                artist.position.y = stod(matches[1]);
+                artist.direction.x = stod(matches[2]);
+                artist.direction.y = stod(matches[3]);
+
                 result.push_back(artist);
-                continue;
-            }
-
-            switch (i % 5) {
-                case 0:
-                    artist.position.x = stod(csv[i]);
-                    break;
-
-                case 1:
-                    artist.position.y = stod(csv[i]);
-                    break;
-
-                case 2:
-                    artist.direction.x = stod(csv[i]);
-                    break;
-
-                case 3:
-                    artist.direction.y = stod(csv[i]);
-                    break;
             }
         }
         return result; // Return the parsed result
     }
 };
-
 
 #endif //CSVPARSER_HPP
 
