@@ -1,11 +1,5 @@
-// //
-// // Created by hmkam on 03/10/2024.
-// //
 //
-// #include "WebReader.hpp"
+// Created by hmkam on 03/10/2024.
 //
-// #include <iostream>
-//
-// std::string WebReader::ReadFile(std::string fileLocation) {
-//     return "web read: " + fileLocation + "\n";
-// }
+
+#include "WebReader.hpp"

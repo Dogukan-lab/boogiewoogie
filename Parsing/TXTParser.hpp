@@ -119,7 +119,7 @@ private:
         std::smatch matches;
 
         if (std::regex_search(line, matches, tilePattern)) {
-            std::shared_ptr<TileType> tileType = std::make_shared<TileType>();
+            const auto tileType = std::make_shared<TileType>();
             tileType->name = matches[1].str()[0];
             tileType->rgb[0] = std::stoi(matches[2]);
             tileType->rgb[1] = std::stoi(matches[3]);

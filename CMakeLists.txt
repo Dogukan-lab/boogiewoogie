@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(boogiewoogie main.cpp
         Builders/AritistBuilder.cpp
         Builders/AritistBuilder.hpp
-        FileReading/FileProxy.cpp
-        FileReading/FileProxy.hpp
         FileReading/WebReader.cpp
         FileReading/WebReader.hpp
         FileReading/FileReader.cpp
