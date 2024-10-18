@@ -26,7 +26,7 @@ void BoogieWoogieApp::SetupSimulation() const {
     DummyTileType blueType('B', blue, 10);
     std::vector types = {yellowType, greenType, redType, blueType};
 
-    for(int i = 0; i < _tileManager->getTiles().capacity(); i++) {
+    for(int i = 0; i < _tileManager->getTiles().size(); i++) {
         _tileManager->AddTile(DummyTile(types[i%4], Rectangle(32,32)));
     }
 
