@@ -5,6 +5,12 @@
 #ifndef WEBREADER_HPP
 #define WEBREADER_HPP
 #include <string>
+#include <sstream>
+// #include <curl>
+#include "../curl/curl.h" // Include libcurl for HTTP requests
+
+//Filereader virtual Read() = 0; virtual openStream(const std::string& path) = 0;
+//Webreader Read() override;
 
 #include "FileReader.hpp"
 

@@ -3,6 +3,8 @@
 #include "FileReading/FileReader.hpp"
 #include "Builders/AritistBuilder.hpp"
 #include "Builders/MapBuilder.hpp"
+#include "FileReading/DiskReader.hpp"
+#include "FileReading/WebReader.hpp"
 #include "Parsing/CSVParser.hpp"
 #include "Parsing/TXTParser.hpp"
 #include "Parsing/XMLParser.hpp"

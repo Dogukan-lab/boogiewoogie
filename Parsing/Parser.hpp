@@ -4,9 +4,6 @@
 
 #ifndef PARSER_HPP
 #define PARSER_HPP
-#include <iostream>
-#include <memory>
-#include <vector>
 
 class Parser {
 public:

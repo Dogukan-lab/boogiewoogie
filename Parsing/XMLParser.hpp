@@ -40,12 +40,12 @@ public:
         pugi::xml_node nodeTypes = doc.child("canvas").child("nodeTypes");
 
         std::vector<std::shared_ptr<TileType> > tileTypes; //todo: set global tiletypes
-        std::shared_ptr<TileType> tileType;
+
 
 #////// nodeTypes //////
         for (pugi::xml_node nodeType = nodeTypes.child("nodeType"); nodeType;
              nodeType = nodeType.next_sibling("nodeType")) {
-            tileType = std::make_shared<TileType>();
+            std::shared_ptr<TileType> tileType = std::make_shared<TileType>();
             tileType->name = nodeType.attribute("tag").as_string();
             tileType->rgb[0] = nodeType.attribute("red").as_int();
             tileType->rgb[1] = nodeType.attribute("green").as_int();

@@ -6,21 +6,15 @@
 #define FILEREADER_HPP
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <vector>
 #include <string>
-// #include <curl>
-#include "../curl/curl.h" // Include libcurl for HTTP requests
 
-//Filereader virtual Read() = 0; virtual openStream(const std::string& path) = 0;
-//Webreader Read() override;
 
-//Standard
 class FileReader {
 public:
     FileReader() = default;
 
-    ~FileReader() = default;
+    virtual ~FileReader() = default;
 
     // virtual void extractData(const std::string& path) = 0;
     virtual std::vector<std::string> openFile(const std::string &path) {

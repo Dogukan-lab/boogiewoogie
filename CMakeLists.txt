@@ -14,8 +14,6 @@ add_executable(boogiewoogie main.cpp
         Builders/builder.hpp
         Builders/MapBuilder.cpp
         Builders/MapBuilder.hpp
-        Builders/TileBuilder.cpp
-        Builders/TileBuilder.hpp
         Parsing/Parser.cpp
         Parsing/Parser.hpp
         Parsing/CSVParser.cpp
@@ -23,4 +21,6 @@ add_executable(boogiewoogie main.cpp
         Parsing/TXTParser.cpp
         Parsing/TXTParser.hpp
         Parsing/XMLParser.cpp
-        Parsing/XMLParser.hpp)
+        Parsing/XMLParser.hpp
+        FileReading/DiskReader.cpp
+        FileReading/DiskReader.hpp)
