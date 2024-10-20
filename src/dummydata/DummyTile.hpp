@@ -5,51 +5,51 @@
 #ifndef DUMMYTILE_HPP
 #define DUMMYTILE_HPP
 #include <SDL_rect.h>
+#include <stdexcept>
 
-struct Shape {
-    Shape() = default;
-    virtual ~Shape() = default;
+enum class ShapeType {
+    Rectangle,
+    Other,
 };
 
-struct Rectangle : Shape {
-    //Initialize SDL_Rect with standard units of 50,50 pixels.
-    Rectangle(): Rectangle(50, 50) {}
+struct Shape {
+    Shape(): Shape(32,32,0,0,ShapeType::Rectangle){}
 
-    Rectangle(const int newWidth, const int newHeight): Rectangle(newWidth, newHeight, 0, 0) {}
+    Shape(int width, int height): Shape(width, height, 0,0,ShapeType::Rectangle){}
 
-    Rectangle(const int newWidth, const int newHeight, const int newPosX, const int
-              newPosY) {
-        rectangle.x = newPosX;
-        rectangle.y = newPosY;
-        rectangle.w = newWidth;
-        rectangle.h = newHeight;
-    }
+    Shape(int width, int height, int newPosX, int newPosY, ShapeType type): width(width), height(height),posX(newPosX), posY(newPosY), shape(type){}
 
-    SDL_Rect rectangle{};
+    int getWidth() const{ return width;}
+    int getHeight() const{ return height;}
+    int getX() const{ return posX;}
+    int getY() const{ return posY;}
+    ShapeType getShape() const{ return shape;}
+
+private:
+    ShapeType shape;
+    int width;
+    int height;
+    int posX;
+    int posY;
 };
 
 struct DummyTileType {
     char tag;
-    int rgb[3];
+    SDL_Colour colour;
     int weight; //Not relevant for now
     //Maybe use shape here instead?
 
-    DummyTileType(const char& character, const int* colours, const int& weight):
-    tag(character), weight(weight) {
-        memcpy(rgb, colours, sizeof(int)*3);
+    DummyTileType(const char &character, const SDL_Colour& colour, const int &weight): tag(character), weight
+    (weight), colour(colour) {
     }
 };
 
-struct DummyTile {
-    DummyTile(const DummyTileType &type, const Shape &newShape): shape(newShape), type(type) {
+class DummyTile {
+public:
+    explicit DummyTile(const DummyTileType &type, const Shape& shape): type(type), shape(shape) {
     }
 
     //Counter intuitive :(
-    template<typename T>
-    T& getShape() {
-        return static_cast<T&>(shape);
-    }
-
     Shape shape;
     DummyTileType type;
 };

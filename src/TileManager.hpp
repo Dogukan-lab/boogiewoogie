@@ -23,10 +23,10 @@ public:
 
     //Getters for tiles
     // DummyTile& getTile();
-    std::vector<std::shared_ptr<DummyTile>>& getTiles();
+    std::vector<std::unique_ptr<DummyTile>>& getTiles();
 
 private:
-    std::vector<std::shared_ptr<DummyTile>> _tiles;
+    std::vector<std::unique_ptr<DummyTile>> _tiles;
 };
 
 

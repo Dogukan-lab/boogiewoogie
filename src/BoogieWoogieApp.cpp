@@ -5,20 +5,22 @@
 #include "BoogieWoogieApp.hpp"
 #include <iostream>
 #include <SDL.h>
+#include <iostream>
 #include <SDL_video.h>
 
 #include "TileManager.hpp"
+#include "dummydata/DummyTile.hpp"
 #include "renderer/BoogieRenderer.hpp"
 
-void BoogieWoogieApp::SetupSimulation() const {
+void BoogieWoogieApp::SetupSimulation() {
     //Setup tiles for now...
     //Surfaces?
     //Or just deprecated....
 
-    int yellow[] = {255,255,0};
-    int red[] = {255,0,0};
-    int green[] = {0,255,0};
-    int blue[] = {0,0,255};
+    SDL_Colour yellow{255, 255, 0};
+    SDL_Colour red{255, 0, 0};
+    SDL_Colour green{0, 255, 0};
+    SDL_Colour blue{0, 0, 255};
 
     DummyTileType yellowType('Y', yellow, 10);
     DummyTileType greenType('G', green, 10);
@@ -26,45 +28,62 @@ void BoogieWoogieApp::SetupSimulation() const {
     DummyTileType blueType('B', blue, 10);
     std::vector types = {yellowType, greenType, redType, blueType};
 
-    for(int i = 0; i < _tileManager->getTiles().size(); i++) {
-        _tileManager->AddTile(DummyTile(types[i%4], Rectangle(32,32)));
+    int j = 0;
+    for (int i = 0; i < _tileManager->getTiles().capacity(); i++) {
+        DummyTile tile(types[i % 4], Shape(32, 32, i, j, ShapeType::Rectangle));
+        _tileManager->AddTile(tile);
+        j++;
     }
 
+    _renderer->RegisterTiles(_tileManager->getTiles());
 }
 
-BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 640, 480){
+BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 640, 480) {
 }
 
 //TODO Maybe make a window class instead??? <-- I should...
-BoogieWoogieApp::BoogieWoogieApp(const char *windowName, const bool isCentered, const int width, const int height): _window(nullptr, SDL_DestroyWindow) {
+BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height): _window(
+    nullptr, SDL_DestroyWindow) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << SDL_GetError() << std::endl;
     }
     if (isCentered) {
         _window.reset(SDL_CreateWindow(windowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        width, height, SDL_WINDOW_SHOWN));
-    }
-    else {
+                                       width, height, SDL_WINDOW_SHOWN));
+    } else {
         _window.reset(SDL_CreateWindow(windowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        width, height, SDL_WINDOW_SHOWN));
+                                       width, height, SDL_WINDOW_SHOWN));
     }
-
+    isRunning = true;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>();
 }
 
-void BoogieWoogieApp::RunSimulation() const {
+void BoogieWoogieApp::RunSimulation() {
     //Main loop van SDL2 applicatie
-    // while(isRunning) {
-    //     //Logica afhandelen
-    //     //Rendering
-    // }
+    SDL_Event event;
+    while (isRunning) {
+        //Poll keyboard events
+        //Dude there has to be a better way XD
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym) {
+                        case SDLK_ESCAPE:
+                            // std::cout << "PRESSING ESCAPE!" << std::endl;
+                            isRunning=false;
+                        default: break;
+                    }
+                break;
+                case SDL_QUIT:
+                    isRunning = false;
+                default:
+                    break;
+            }
+        }
+        //Update tiles ofcourse
 
-    for(const auto& tile: _tileManager->getTiles()) {
-        std::cout << tile->type.tag << "," << tile->type.rgb[0] << "," << tile->type.weight <<
-            "\n";
-        //TODO Shape is not working!
-        auto shape = tile->getShape<Rectangle>().rectangle;
-        std::cout << "SHAPE WIDTH: " << shape.w << " SHAPE HEIGHT: " << shape.h << std::endl;
+        //Render tiles
+        _renderer->Draw();
     }
 }

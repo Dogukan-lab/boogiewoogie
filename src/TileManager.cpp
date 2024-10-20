@@ -14,13 +14,13 @@ TileManager::TileManager(int capacity) {
 }
 
 void TileManager::AddTile(const DummyTile &tile) {
-    _tiles.emplace_back(std::make_shared<DummyTile>(tile));
+    _tiles.emplace_back(std::make_unique<DummyTile>(tile));
 }
 
 //TODO Worry about this later
 void TileManager::RemoveTile(const DummyTile &tile) {
 }
 
-std::vector<std::shared_ptr<DummyTile> > &TileManager::getTiles() {
+std::vector<std::unique_ptr<DummyTile>> &TileManager::getTiles() {
     return _tiles;
 }
