@@ -35,7 +35,11 @@ void BoogieWoogieApp::SetupSimulation() {
         j++;
     }
 
+    for(int i = 0; i < 1; i++) {
+        _artistManager->AddArtist(Artist());
+    }
     _renderer->RegisterTiles(_tileManager->getTiles());
+    _renderer->RegisterArtists(_artistManager->GetArtists());
 }
 
 BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 640, 480) {
@@ -57,6 +61,7 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
     isRunning = true;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>();
+    _artistManager = std::make_unique<ArtistManager>();
 }
 
 void BoogieWoogieApp::RunSimulation() {
@@ -82,6 +87,7 @@ void BoogieWoogieApp::RunSimulation() {
             }
         }
         //Update tiles ofcourse
+        _artistManager->UpdateArtists();
 
         //Render tiles
         _renderer->Draw();

@@ -7,9 +7,9 @@
 #include <memory>
 #include <SDL_video.h>
 
+#include "ArtistManager.hpp"
 #include "TileManager.hpp"
 #include "renderer/BoogieRenderer.hpp"
-
 
 //Immovable object :)
 class BoogieWoogieApp {
@@ -30,6 +30,7 @@ private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> _window;
     std::unique_ptr<BoogieRenderer> _renderer;
     std::unique_ptr<TileManager> _tileManager;
+    std::unique_ptr<ArtistManager> _artistManager;
 
 };
 
