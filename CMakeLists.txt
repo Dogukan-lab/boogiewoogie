@@ -15,6 +15,7 @@ add_executable(${PROJECT_NAME} main.cpp
         src/dummydata/DummyTile.hpp
         src/TileManager.cpp
         src/TileManager.hpp
+        src/dummydata/DummyArtist.hpp
 )
 
 target_link_libraries(${PROJECT_NAME}
