@@ -160,20 +160,27 @@ int main() {
 
     ArtistsObject artists = getArtists();
 
-    auto tileVec0 = getMapTXT(gridDisk);
-    Map map0 = builMap(tileVec0);
+    Map map0 = builMap(getMapTXT(gridDisk));
+    Map map1 = builMap(getMapXML(graphDisk));
 
-    auto tileVec1 = getMapXML(graphDisk);
-    Map map1 = builMap(tileVec1);
+    std::shared_ptr<Tile> src = nullptr;
+    std::shared_ptr<Tile> dest = nullptr;
 
-    // Example source and destination
-    std::shared_ptr<Tile> src = map0.tiles.front();
-    std::shared_ptr<Tile> dest = map0.tiles.back();
+    src = map0.tiles.front();
+    dest = map0.tiles.at(50);
+    if (!Dijkstra().IsPath(src, dest, map0.tiles)) { std::cout << "No path found 1" << std::endl; }
+    src = map0.tiles.front();
+    dest = map0.tiles.at(100);
+    if (!Dijkstra().IsPath(src, dest, map0.tiles)) { std::cout << "No path found 2" << std::endl; }
 
-    if (Dijkstra().IsPath(src, dest, map0.tiles)) {
-        std::cout << "Dijkstra calculated successfully!" << std::endl;
-    }
+    src = map1.tiles.front();
+    dest = map1.tiles.at(150);
+    if (!Dijkstra().IsPath(src, dest, map1.tiles)) { std::cout << "No path found 3" << std::endl; }
+    src = map1.tiles.front();
+    dest = map1.tiles.back();
+    if (!Dijkstra().IsPath(src, dest, map1.tiles)) { std::cout << "No path found 4" << std::endl; }
 
+    if (!Dijkstra().IsPath(src, dest, map0.tiles)) { std::cout << "No path found 5" << std::endl; } //todo: not consistent when run sometimes IsPath() returns true some false.
 
     return 0;
 }
