@@ -24,7 +24,11 @@ add_executable(PROJECT_NAME main.cpp
         Parsing/XMLParser.cpp
         Parsing/XMLParser.hpp
         FileReading/DiskReader.cpp
-        FileReading/DiskReader.hpp)
+        FileReading/DiskReader.hpp
+        Algorithms/Dijkstra.cpp
+        Algorithms/Dijkstra.hpp
+        Algorithms/Pathfinder.cpp
+        Algorithms/Pathfinder.hpp)
 
 # Explicitly link the urlmon library for MinGW
 if (MINGW)

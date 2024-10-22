@@ -11,7 +11,9 @@
 #include <string>
 #include <regex>
 
-#define DEBUG 1
+#include "Algorithms/Dijkstra.hpp"
+
+#define DEBUG 0
 
 bool printDebug(const std::vector<std::string> &file_data) {
     for (const auto &celData: file_data) {
@@ -163,6 +165,14 @@ int main() {
 
     auto tileVec1 = getMapXML(graphDisk);
     Map map1 = builMap(tileVec1);
+
+    // Example source and destination
+    std::shared_ptr<Tile> src = map0.tiles.front();
+    std::shared_ptr<Tile> dest = map0.tiles.back();
+
+    if (Dijkstra().IsPath(src, dest, map0.tiles)) {
+        std::cout << "Dijkstra calculated successfully!" << std::endl;
+    }
 
 
     return 0;
