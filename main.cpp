@@ -196,14 +196,15 @@ int main() {
         std::cout << "No path 3" << std::endl;
     }
 
-    // // watch out! map1.tiles are in map0, but path is not build correctly
-    // if (dijkstra.calculatePath(src, dest, map0.tiles)) {
-    //     std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-    //     std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
-    //     // dijkstra.printPath();
-    // } else {
-    //     std::cout << "No path 4" << std::endl;
-    // }
+    dest = std::make_shared<Tile>(Tile());
+    // watch out! map1.tiles are in map0, but path is not build correctly
+    if (dijkstra.calculatePath(src, dest, map1.tiles)) {
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
+        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        // dijkstra.printPath();
+    } else {
+        std::cout << "No path 4" << std::endl;
+    }
 
     src = map1.tiles.front();
     dest = map1.tiles.back();
@@ -213,6 +214,27 @@ int main() {
         // dijkstra.printPath();
     } else {
         std::cout << "No path 5" << std::endl;
+    }
+
+    src = std::make_shared<Tile>(Tile());
+    // watch out! map1.tiles are in map0, but path is not build correctly
+    if (dijkstra.calculatePath(src, dest, map1.tiles)) {
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
+        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        // dijkstra.printPath();
+    } else {
+        std::cout << "No path 6" << std::endl;
+    }
+
+    src = std::make_shared<Tile>(Tile());
+    dest = std::make_shared<Tile>(Tile());
+    // watch out! map1.tiles are in map0, but path is not build correctly
+    if (dijkstra.calculatePath(src, dest, map1.tiles)) {
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
+        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        // dijkstra.printPath();
+    } else {
+        std::cout << "No path 7" << std::endl;
     }
 
     return 0;

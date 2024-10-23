@@ -69,6 +69,9 @@ public:
 
         setsolvedPaths(dist, reversePath, dest, solvedPaths);
 
+        // if destenation tile is found but can't be connected to source tile
+        if (solvedPaths[0].empty()) { return false; }
+
         return destFound;
     }
 
