@@ -9,8 +9,8 @@
 #include <string>
 #include <vector>
 #include "Parser.hpp"
-#include "../Builders/Builder.hpp"
-#include "../pugixml/pugixml.hpp"  // for XML parsing
+#include "Builder.hpp"
+#include "D:\githoebrepos\boogiewoogie\libs\pugixml\pugixml.hpp"  // for XML parsing
 
 class XMLParser : public Parser {
 public:

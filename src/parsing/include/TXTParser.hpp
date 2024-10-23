@@ -10,7 +10,7 @@
 #include <regex>
 
 #include "Parser.hpp"
-#include "../Builders/Builder.hpp"
+#include "Builder.hpp"
 
 class TXTParser : public Parser {
 public:
