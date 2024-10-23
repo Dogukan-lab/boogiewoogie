@@ -4,8 +4,6 @@
 
 #ifndef BUILDER_HPP
 #define BUILDER_HPP
-
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -56,7 +54,6 @@ template<typename T>
 class Builder {
 public:
     virtual ~Builder() = default;
-
     virtual T &build() = 0;
 };
 
