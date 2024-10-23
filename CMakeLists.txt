@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(BoogieWoogie)
+project(boogiewoogie)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -26,3 +26,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     BUILD_WITH_INSTALL_RPATH TRUE
         INSTALL_RPATH "${CURL_RUNTIME_PATH};${CURL_LIB_PATH}"
 )
+set(SDL2_PATH ${CMAKE_SOURCE_DIR}/libs/SDL2)
+include_directories(${SDL2_PATH}/include/SDL2)
+
+add_subdirectory(libs/glm)
+include_directories(libs/glm)

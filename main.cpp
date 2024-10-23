@@ -1,7 +1,12 @@
 #include <iostream>
 
-#include "WebReader.hpp"
+#include "src/BoogieWoogieApp.hpp"
 
-int main() {
+int main(void) {
+    BoogieWoogieApp app{};
+
+    app.SetupSimulation();
+    app.RunSimulation();
+
     return 0;
 }
