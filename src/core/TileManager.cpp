@@ -4,7 +4,7 @@
 
 #include "TileManager.hpp"
 #include <algorithm>
-#include "dummydata/DummyTile.hpp"
+#include "DummyTile.hpp"
 
 TileManager::TileManager(): TileManager(5) {
 }

@@ -1,8 +1,21 @@
 cmake_minimum_required(VERSION 3.28)
-project(boogiewoogie)
+project(BoogieWoogie)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# SDL2 VARS
+set(SDL2_ROOT "${CMAKE_SOURCE_DIR}/libs/SDL2")
+set(SDL2_INCLUDE_PATH "${SDL2_ROOT}/include/SDL2")
+set(SDL2_LIBRARIES_PATH "${SDL2_ROOT}/lib/libSDL2.dll.a")
+set(SDL2_RUNTIME_PATH "${SDL2_ROOT}/bin/SDL2.dll")
+
+# Check status of the SDL2 vars
+message(STATUS "SDL2 Root Directory: ${SDL2_ROOT}/include")
+message(STATUS "SDL2 Include Directory: ${SDL2_INCLUDE_PATH}")
+message(STATUS "SDL2 Library Directory: ${SDL2_LIBRARIES_PATH}")
+message(STATUS "SDL2 Library Directory: ${SDL2_RUNTIME_PATH}")
+
+# CURL VARS
 set(CURL_ROOT "${CMAKE_SOURCE_DIR}/libs/curl")
 set(CURL_RUNTIME_PATH "${CURL_ROOT}/bin/libcurl-x64.dll")
 set(CURL_LIB_PATH "${CURL_ROOT}/lib/libcurl.dll.a")
@@ -11,23 +24,34 @@ set(CURL_LIB_PATH "${CURL_ROOT}/lib/libcurl.dll.a")
 message(STATUS "CURL Include Directory: ${CURL_ROOT}/include")
 message(STATUS "CURL Library Directory: ${CURL_LIB_PATH}")
 
+# GLM
+add_subdirectory(libs/glm)
+include_directories(libs/glm)
+include_directories(${SDL2_INCLUDE_PATH})
+
+# SRC plus pugiXML
 add_subdirectory(src)
 add_subdirectory(${CMAKE_SOURCE_DIR}/libs/pugixml)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+    external/FileReadingTest.cpp # File reading Test
 
+)
+
+# Link CURL + SDL2
 target_link_directories(${PROJECT_NAME} PRIVATE ${CURL_ROOT}/include)
+target_link_directories(${PROJECT_NAME} PUBLIC ${SDL2_INCLUDE_PATH})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal pugixml
+# Link Pugi, Glm, Curl, SDL2
+target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
+        pugixml
+        glm
         ${CURL_LIB_PATH}
+        ${SDL2_LIBRARIES_PATH}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     BUILD_WITH_INSTALL_RPATH TRUE
-        INSTALL_RPATH "${CURL_RUNTIME_PATH};${CURL_LIB_PATH}"
+    INSTALL_RPATH "${CURL_RUNTIME_PATH};${CURL_LIB_PATH};${SDL2_RUNTIME_PATH};${SDL2_LIBRARIES_PATH}"
 )
-set(SDL2_PATH ${CMAKE_SOURCE_DIR}/libs/SDL2)
-include_directories(${SDL2_PATH}/include/SDL2)
 
-add_subdirectory(libs/glm)
-include_directories(libs/glm)

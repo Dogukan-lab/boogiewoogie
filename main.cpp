@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "src/BoogieWoogieApp.hpp"
+#include "BoogieWoogieApp.hpp"
 
 int main(void) {
     BoogieWoogieApp app{};

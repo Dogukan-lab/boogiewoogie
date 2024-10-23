@@ -7,8 +7,8 @@
 #include <memory>
 #include <SDL_render.h>
 #include <vector>
-#include "../dummydata/DummyTile.hpp"
-#include "src/dummydata/DummyArtist.hpp"
+#include "DummyTile.hpp"
+#include "DummyArtist.hpp"
 
 //TODO Figure out how this will function
 class BoogieRenderer {

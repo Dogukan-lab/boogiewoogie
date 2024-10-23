@@ -9,7 +9,7 @@
 
 #include "ArtistManager.hpp"
 #include "TileManager.hpp"
-#include "renderer/BoogieRenderer.hpp"
+#include "BoogieRenderer.hpp"
 
 //Immovable object :)
 class BoogieWoogieApp {

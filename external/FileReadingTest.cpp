@@ -5,13 +5,12 @@
 #include "FileReadingTest.hpp"
 
 #include <regex>
-
-#include "builders/AritistBuilder.hpp"
-#include "builders/MapBuilder.hpp"
-#include "filereading/DiskReader.hpp"
-#include "filereading/WebReader.hpp"
-#include "parsing/CSVParser.hpp"
-#include "parsing/TXTParser.hpp"
+#include "AritistBuilder.hpp"
+#include "MapBuilder.hpp"
+#include "DiskReader.hpp"
+#include "WebReader.hpp"
+#include "CSVParser.hpp"
+#include "TXTParser.hpp"
 #define DEBUG 1
 
 ArtistsObject FileReadingTest::getArtists() {

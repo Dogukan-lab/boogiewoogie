@@ -6,7 +6,6 @@
 #define ARITISTBUILDER_HPP
 #include "Builder.hpp"
 
-
 class ArtistBuilder : public Builder<ArtistsObject> {
 public:
     ArtistBuilder &addArtist(const Artist &artist) {

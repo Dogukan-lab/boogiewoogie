@@ -7,8 +7,8 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "builders/Builder.hpp"
-#include "filereading/FileReader.hpp"
+#include "Builder.hpp"
+#include "FileReader.hpp"
 
 class FileReadingTest {
 public:
@@ -35,7 +35,7 @@ private:
 
     std::vector<std::string> readFile(const std::string &location);
 
-    std::vector<std::shared_ptr<Tile> > getMapTXT(const std::string &location);
+    std::vector<std::shared_ptr<Tile>> getMapTXT(const std::string &location);
 
     Map builMap(const std::vector<std::shared_ptr<Tile> > &tileVec);
 

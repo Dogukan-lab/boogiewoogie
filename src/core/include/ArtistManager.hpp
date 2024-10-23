@@ -4,10 +4,10 @@
 
 #ifndef ARTISTMANAGER_HPP
 #define ARTISTMANAGER_HPP
+#include <DummyArtist.hpp>
+
 #include <memory>
 #include <vector>
-
-#include "dummydata/DummyArtist.hpp"
 
 class ArtistManager {
 public:
