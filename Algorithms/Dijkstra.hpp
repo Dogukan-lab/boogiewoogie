@@ -44,7 +44,7 @@ public:
         dist[src] = 0;
 
         // Find shortest path
-        for (size_t count = 0; count < tiles.size() - 1; count++) {
+        for (size_t count = 0; count < tiles.size(); count++) {
             std::shared_ptr<Tile> tile = minDistance(dist, shortestPathSet);
 
             if (tile == dest) {
@@ -55,7 +55,7 @@ public:
 
             // Update dist value of the neighboring tiles of the picked tile
             for (const std::shared_ptr<Tile> &neighbour: tile->neighbours) {
-                int weight = DistBetweenTiles(tile, neighbour);
+                int weight = neighbour->type->weight;
                 // if shorter path
                 if (!shortestPathSet[neighbour] && dist[tile] != INT_MAX && dist[tile] + weight < dist[neighbour]) {
                     dist[neighbour] = dist[tile] + weight;
@@ -99,10 +99,6 @@ public:
     std::shared_ptr<Tile> destination = nullptr;
 
 private:
-    int DistBetweenTiles(const std::shared_ptr<Tile> &a, const std::shared_ptr<Tile> &b) {
-        return std::sqrt(std::pow(a->position.x - b->position.x, 2) + std::pow(a->position.y - b->position.y, 2));
-    }
-
     // find Tile with the minimum dist value that is not set in shortestPathSet //todo: sorted list
     std::shared_ptr<Tile> minDistance(const std::unordered_map<std::shared_ptr<Tile>, int> &dist,
                                       std::unordered_map<std::shared_ptr<Tile>, bool> &shortestPathSet) {
