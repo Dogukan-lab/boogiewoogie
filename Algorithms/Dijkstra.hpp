@@ -21,16 +21,91 @@
 
 class Dijkstra : Pathfinder {
 public:
-    bool calculatePath();
+    bool calculatePath(const std::shared_ptr<Tile> &src, const std::shared_ptr<Tile> &dest,
+                       const std::vector<std::shared_ptr<Tile> > &tiles) {
+        bool destFound = false;
 
-    // Helper function to calculate Euclidean distance between two tiles
-    int calculateDistance(std::shared_ptr<Tile> a, std::shared_ptr<Tile> b) {
+        std::unordered_map<std::shared_ptr<Tile>, int> dist;
+        std::unordered_map<std::shared_ptr<Tile>, bool> shortestPathSet;
+        std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > reversePath;
+
+        exploredPath.clear();
+        solvedPaths.clear();
+        shortestPathWeight = (INT_MAX);
+        source = src;
+        destination = dest;
+
+        // Initialize distances as INFINITE and shortestPathSet[] as false
+        for (std::shared_ptr<Tile> tile: tiles) {
+            dist[tile] = INT_MAX;
+            shortestPathSet[tile] = false;
+            reversePath[tile] = nullptr;
+        }
+        dist[src] = 0;
+
+        // Find shortest path
+        for (size_t count = 0; count < tiles.size() - 1; count++) {
+            std::shared_ptr<Tile> tile = minDistance(dist, shortestPathSet);
+
+            if (tile == dest) {
+                destFound = true;
+                break;
+            }
+            shortestPathSet[tile] = true;
+
+            // Update dist value of the neighboring tiles of the picked tile
+            for (const std::shared_ptr<Tile> &neighbour: tile->neighbours) {
+                int weight = DistBetweenTiles(tile, neighbour);
+                // if shorter path
+                if (!shortestPathSet[neighbour] && dist[tile] != INT_MAX && dist[tile] + weight < dist[neighbour]) {
+                    dist[neighbour] = dist[tile] + weight;
+                    reversePath[neighbour] = tile;
+                    exploredPath.push_back(tile);
+                }
+            }
+        }
+
+        if (!destFound) { return false; }
+
+        setsolvedPaths(dist, reversePath, dest, solvedPaths);
+
+        return destFound;
+    }
+
+    void printPath() {
+        if (source == nullptr || destination == nullptr || solvedPaths.empty()) {
+            std::cout << "Empty path" << std::endl;
+            return;
+        }
+
+        std::cout << "Shortest distance from " << source->type->name << " to " << destination->type->name << " is " <<
+                shortestPathWeight
+                << "\n";
+        std::cout << "Path: " << source->type->name << std::endl;
+
+        for (const auto &it: solvedPaths[0]) {
+            std::cout << it->type->name << ": " << it->position.x << ";" << it->position.y << std::endl;
+        }
+
+        std::cout << "size viewed: " << exploredPath.size() << "\n";
+
+        std::cout << std::endl;
+    }
+
+    std::vector<std::shared_ptr<Tile> > exploredPath;
+    std::vector<std::vector<std::shared_ptr<Tile> > > solvedPaths;
+    int shortestPathWeight = (INT_MAX);
+    std::shared_ptr<Tile> source = nullptr;
+    std::shared_ptr<Tile> destination = nullptr;
+
+private:
+    int DistBetweenTiles(const std::shared_ptr<Tile> &a, const std::shared_ptr<Tile> &b) {
         return std::sqrt(std::pow(a->position.x - b->position.x, 2) + std::pow(a->position.y - b->position.y, 2));
     }
 
-    // Function to find the Tile with the minimum distance value
-    std::shared_ptr<Tile> minDistance(std::unordered_map<std::shared_ptr<Tile>, int> &dist,
-                                      std::unordered_map<std::shared_ptr<Tile>, bool> &sptSet) {
+    // find Tile with the minimum dist value that is not set in shortestPathSet //todo: sorted list
+    std::shared_ptr<Tile> minDistance(const std::unordered_map<std::shared_ptr<Tile>, int> &dist,
+                                      std::unordered_map<std::shared_ptr<Tile>, bool> &shortestPathSet) {
         int min = INT_MAX;
         std::shared_ptr<Tile> minTile = nullptr;
 
@@ -38,7 +113,7 @@ public:
             std::shared_ptr<Tile> tile = pair.first;
             int distance = pair.second;
 
-            if (!sptSet[tile] && distance <= min) {
+            if (!shortestPathSet[tile] && distance <= min) {
                 min = distance;
                 minTile = tile;
             }
@@ -46,83 +121,26 @@ public:
         return minTile;
     }
 
-    // Function to print the shortest path from source to destination
-    void printPath(std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > &reverceDijkstraPath,
-                   std::shared_ptr<Tile> dest) {
-        if (reverceDijkstraPath[dest] == nullptr) {
+    //todo: Punten 5: Omgaan met meerdere goedkoopste paden
+    void solvePaths(std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > &reversePath,
+                    const std::shared_ptr<Tile> &dest,
+                    std::vector<std::vector<std::shared_ptr<Tile> > > &solvedPaths) {
+        if (reversePath[dest] == nullptr) {
             return;
         }
-        printPath(reverceDijkstraPath, reverceDijkstraPath[dest]);
-        std::cout << dest->type->name << ": " << dest->position.x << ";" << dest->position.y << std::endl;
+        solvePaths(reversePath, reversePath[dest], solvedPaths);
+        solvedPaths[0].emplace_back(dest);
     }
 
-    void printSolution(std::unordered_map<std::shared_ptr<Tile>, int> &dist,
-                       std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > &reverceDijkstraPath,
-                       std::shared_ptr<Tile> src,
-                       std::shared_ptr<Tile> dest) {
-        std::cout << "Shortest distance from " << src->type->name << " to " << dest->type->name << " is " << dist[dest]
-                << "\n";
-        std::cout << "Path: " << src->type->name << std::endl;
-        printPath(reverceDijkstraPath, dest);
-        std::cout << "\n";
+    void setsolvedPaths(std::unordered_map<std::shared_ptr<Tile>, int> &dist,
+                        std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > &reversePath,
+                        const std::shared_ptr<Tile> &dest,
+                        std::vector<std::vector<std::shared_ptr<Tile> > > &solvedPaths) {
+        solvedPaths.emplace_back();
+        solvePaths(reversePath, dest, solvedPaths);
+
+        shortestPathWeight = dist[dest];
     }
-
-    bool IsPath(std::shared_ptr<Tile> src, std::shared_ptr<Tile> dest,
-                const std::vector<std::shared_ptr<Tile> > &tiles) {
-        bool destFound = false;
-
-        std::unordered_map<std::shared_ptr<Tile>, int> dist;
-        std::unordered_map<std::shared_ptr<Tile>, bool> sptSet;
-        std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > reverceDijkstraPath;
-
-        std::vector<std::shared_ptr<Tile> > viewedPath;
-        std::vector<std::vector<std::shared_ptr<Tile> > > solvedPaths;
-
-
-        // Initialize distances as INFINITE and sptSet[] as false
-        for (std::shared_ptr<Tile> tile: tiles) {
-            dist[tile] = INT_MAX;
-            sptSet[tile] = false;
-            reverceDijkstraPath[tile] = nullptr;
-        }
-
-        dist[src] = 0;
-
-        // Find shortest path from source to destination
-        for (size_t count = 0; count < tiles.size() - 1; count++) {
-            std::shared_ptr<Tile> u = minDistance(dist, sptSet);
-
-            if (u == dest) {
-                destFound = true;
-                break;
-            }
-
-            sptSet[u] = true;
-
-            // Update dist value of the neighboring tiles of the picked tile
-            for (const std::shared_ptr<Tile> &v: u->neighbours) {
-                int weight = calculateDistance(u, v);
-                if (!sptSet[v] && dist[u] != INT_MAX && dist[u] + weight < dist[v]) {
-                    dist[v] = dist[u] + weight;
-                    reverceDijkstraPath[v] = u; // Record the reverceDijkstraPath
-                    viewedPath.push_back(u);
-                }
-            }
-        }
-
-        // Print the shortest path from source to destination
-        printSolution(dist, reverceDijkstraPath, src, dest);
-
-        // setsolvedPaths(dist, viewedPath);
-        std::cout << "size viewed: " << viewedPath.size() << "\n";
-
-        return destFound;
-    }
-
-private:
-    void dijkstra();
-
-    bool findPath(int source, int destination);
 };
 
 

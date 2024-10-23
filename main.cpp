@@ -168,19 +168,32 @@ int main() {
 
     src = map0.tiles.front();
     dest = map0.tiles.at(50);
-    if (!Dijkstra().IsPath(src, dest, map0.tiles)) { std::cout << "No path found 1" << std::endl; }
+    Dijkstra dijkstra = Dijkstra();
+    if (dijkstra.calculatePath(src, dest, map0.tiles)) { dijkstra.printPath(); } else {
+        std::cout << "No path 1" << std::endl;
+    }
     src = map0.tiles.front();
     dest = map0.tiles.at(100);
-    if (!Dijkstra().IsPath(src, dest, map0.tiles)) { std::cout << "No path found 2" << std::endl; }
+    if (Dijkstra().calculatePath(src, dest, map0.tiles)) { dijkstra.printPath(); } else {
+        std::cout << "No path 2" << std::endl;
+    }
 
     src = map1.tiles.front();
     dest = map1.tiles.at(150);
-    if (!Dijkstra().IsPath(src, dest, map1.tiles)) { std::cout << "No path found 3" << std::endl; }
+    if (Dijkstra().calculatePath(src, dest, map1.tiles)) { dijkstra.printPath(); } else {
+        std::cout << "No path 3" << std::endl;
+    }
+
+    // letop map1.tiles are in map0
+    if (Dijkstra().calculatePath(src, dest, map0.tiles)) { dijkstra.printPath(); } else {
+        std::cout << "No path 4" << std::endl;
+    }
+
     src = map1.tiles.front();
     dest = map1.tiles.back();
-    if (!Dijkstra().IsPath(src, dest, map1.tiles)) { std::cout << "No path found 4" << std::endl; }
-
-    if (!Dijkstra().IsPath(src, dest, map0.tiles)) { std::cout << "No path found 5" << std::endl; } //todo: not consistent when run sometimes IsPath() returns true some false.
+    if (Dijkstra().calculatePath(src, dest, map1.tiles)) { dijkstra.printPath(); } else {
+        std::cout << "No path 5" << std::endl;
+    }
 
     return 0;
 }
