@@ -12,8 +12,8 @@ Artist::Artist(const Shape shape, const SDL_Color colour, const glm::vec2 startP
 // Certainly! This code snippet will provide an Artist to move with the glm::vec2 data type you have suggested.
 void Artist::Move(const float deltaTime) {
     //TODO Bounds
-    std::cout << "MOVING: " << position.x << "," << position.y << "\n";
-    std::cout << "DIRECTION: " << direction.x << "," << direction.y << "\n";
+    // std::cout << "MOVING: " << position.x << "," << position.y << "\n";
+    // std::cout << "DIRECTION: " << direction.x << "," << direction.y << "\n";
 
     //Second option, which is kind of weird.
     position.x += direction.x * deltaTime / 10.f;
