@@ -19,8 +19,8 @@ public:
     ~TXTParser() override = default;
 
     template<typename T>
-    std::vector<std::shared_ptr<T> > Pars(const std::vector<std::string> &txt) {
-        std::vector<std::shared_ptr<T> > tiles;
+    std::vector<std::shared_ptr<T>> Pars(const std::vector<std::string> &txt) {
+        std::vector<std::shared_ptr<T>> tiles;
         lineIndex = 0;
 
         std::string line = getLine(txt);

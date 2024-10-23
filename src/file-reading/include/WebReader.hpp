@@ -3,51 +3,29 @@
 //
 #ifndef WEBREADER_HPP
 #define WEBREADER_HPP
-#include <string>
-#include <vector>
-//#include <urlmon.h>
-#include <sstream>
-#include <stdexcept>
-// #pragma comment(lib, "urlmon.lib")
-
+#include <memory>
+#include <curl/curl.h>
 #include "FileReader.hpp"
 
 // WebReader class to read data from a URL
 class WebReader : public FileReader {
 public:
-    std::vector<std::string> openFile(const std::string &url) override {
-        // Open the URL stream
- //       IStream *stream;
- //       HRESULT hr = URLOpenBlockingStream(0, url.c_str(), &stream, 0, nullptr);
- //       if (hr != S_OK) {
- //           throw std::runtime_error("Failed to open URL stream.");
- //       }
-//
- //       // Read from the stream
- //       std::vector<std::string> data;
- //       char buffer[1024];
- //       unsigned long bytesRead;
-//
- //       std::stringstream contentStream;
- //       while (true) {
- //           hr = stream->Read(buffer, sizeof(buffer), &bytesRead);
- //           if (hr != S_OK || bytesRead == 0) break;
- //           contentStream.write(buffer, bytesRead);
- //       }
-//
- //       // Close the stream
- //       stream->Release();
-//
- //       // Split content into lines and store in vector
- //       std::string line;
- //       while (std::getline(contentStream, line)) {
- //           data.push_back(line);
- //       }
-//
- //       return data;
+    WebReader();
 
-      return std::vector<std::string>();
-    }
+    std::vector<std::string> openFile(const std::string& url) override;
+
+private:
+    /**
+     * @param contents the contents downloaded from the server
+     * @param size The size of each element, most of the time 1 byte
+     * @param nmemb Indication of the number of elements
+     * @param userp User defined pointer, to store and/or manipulate data.
+     * @return total number of bytes processed gets returned.
+     */
+    static size_t StreamCallback(void *contents, size_t size, size_t nmemb, std::stringstream* userp);
+
+    std::unique_ptr<CURL, decltype(&curl_easy_cleanup)> curlptr;
+    CURLcode result;
 };
 
 #endif //WEBREADER_HPP

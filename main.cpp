@@ -1,6 +1,9 @@
 #include <iostream>
 
+#include "WebReader.hpp"
+
 int main() {
-    std::cout << "Hello world!" << std::endl;
+    WebReader reader;
+    reader.openFile("https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media");
     return 0;
 }
