@@ -12,6 +12,7 @@
 #include <regex>
 
 #include "Algorithms/Dijkstra.hpp"
+#include "Collision/Colission.hpp"
 
 #define DEBUG 0
 
@@ -76,23 +77,6 @@ std::vector<std::string> readFromFile(const std::string &path, FileReader &reade
     return reader.openFile(path);
 }
 
-ArtistsObject getArtists() {
-    DiskReader dReader{};
-    WebReader wReader{};
-    std::vector<std::string> file_data = readFromFile(R"(D:/GitHub/boogiewoogie/Files/artists.csv)", dReader);
-
-    if (DEBUG && printDebug(file_data)) {}
-
-    CSVParser csvParser;
-    std::vector<Artist> artistsCSV = csvParser.Pars<Artist>(file_data);
-
-    if (DEBUG && printDebug(artistsCSV)) {}
-    auto artists = ArtistBuilder().replaceArtists(artistsCSV).build();
-
-    if (DEBUG && printDebug(artists)) {}
-    return artists;
-}
-
 bool isLocalFile(const std::string &location) {
     // Regular expression to match common URL protocols (e.g., http, https, ftp)
     std::regex urlPattern(R"((https?|ftp)://)");
@@ -151,6 +135,24 @@ Map builMap(const std::vector<std::shared_ptr<Tile> > &tileVec) {
     return map;
 }
 
+std::vector<Artist> getArtistsCSV(const std::string &location) {
+    std::vector<std::string> file_data = readFile(location);
+
+    if (DEBUG && printDebug(file_data)) {}
+
+    CSVParser csvParser;
+    auto artistVec = csvParser.Pars<Artist>(file_data);
+
+    if (DEBUG && printDebug(artistVec)) {}
+    return artistVec;
+}
+
+ArtistsObject builArtists(const std::vector<Artist> &artistVec) {
+    ArtistsObject artists = ArtistBuilder().replaceArtists(artistVec).build();
+
+    if (DEBUG && printDebug(artists)) {}
+    return artists;
+}
 
 int main() {
     std::string gridUrl = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media";
@@ -158,10 +160,11 @@ int main() {
     std::string gridDisk = "D:/GitHub/boogiewoogie/Files/grid.txt";
     std::string graphDisk = "D:/GitHub/boogiewoogie/Files/graph.xml";
 
-    ArtistsObject artists = getArtists();
-
     Map map0 = builMap(getMapTXT(gridDisk));
     Map map1 = builMap(getMapXML(graphDisk));
+
+    std::string artistDisk = R"(D:/GitHub/boogiewoogie/Files/artists.csv)";
+    ArtistsObject artistsObject = builArtists(getArtistsCSV(artistDisk));
 
     std::shared_ptr<Tile> src = nullptr;
     std::shared_ptr<Tile> dest = nullptr;
@@ -170,8 +173,8 @@ int main() {
     dest = map0.tiles.at(50);
     Dijkstra dijkstra = Dijkstra();
     if (dijkstra.calculatePath(src, dest, map0.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 1" << std::endl;
@@ -179,8 +182,8 @@ int main() {
     src = map0.tiles.front();
     dest = map0.tiles.at(100);
     if (dijkstra.calculatePath(src, dest, map0.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 2" << std::endl;
@@ -189,8 +192,8 @@ int main() {
     src = map1.tiles.front();
     dest = map1.tiles.at(150);
     if (dijkstra.calculatePath(src, dest, map1.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 3" << std::endl;
@@ -199,8 +202,8 @@ int main() {
     dest = std::make_shared<Tile>(Tile());
     // watch out! map1.tiles are in map0, but path is not build correctly
     if (dijkstra.calculatePath(src, dest, map1.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 4" << std::endl;
@@ -209,8 +212,8 @@ int main() {
     src = map1.tiles.front();
     dest = map1.tiles.back();
     if (dijkstra.calculatePath(src, dest, map1.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 5" << std::endl;
@@ -219,8 +222,8 @@ int main() {
     src = std::make_shared<Tile>(Tile());
     // watch out! map1.tiles are in map0, but path is not build correctly
     if (dijkstra.calculatePath(src, dest, map1.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 6" << std::endl;
@@ -230,11 +233,27 @@ int main() {
     dest = std::make_shared<Tile>(Tile());
     // watch out! map1.tiles are in map0, but path is not build correctly
     if (dijkstra.calculatePath(src, dest, map1.tiles)) {
-        std::cout << "Path cost: " << dijkstra.shortestPathWeight << std::endl;
-        std::cout << "Paths explored: " << dijkstra.exploredPath.size() << std::endl;
+        std::cout << "Path cost: " << dijkstra.shortestPathWeight << "\t\t" << "Paths explored: " << dijkstra.
+                exploredPath.size() << std::endl;
         // dijkstra.printPath();
     } else {
         std::cout << "No path 7" << std::endl;
+    }
+
+    Colission colissionCheck{};
+    if (colissionCheck.doCollide(map1.tiles.at(0), map1.tiles.at(0))) { std::cout << "Colide" << std::endl; } else {
+        std::cout << "No collision" << std::endl;
+    }
+    if (colissionCheck.doCollide(map1.tiles.at(0), map1.tiles.at(1))) { std::cout << "Colide" << std::endl; } else {
+        std::cout << "No collision" << std::endl;
+    }
+    if (colissionCheck.
+        doCollide(map1.tiles.at(0), artistsObject.artists.at(1))) { std::cout << "Colide" << std::endl; } else {
+        std::cout << "No collision" << std::endl;
+    }
+    if (colissionCheck.
+        doCollide(artistsObject.artists.at(0), map1.tiles.at(0))) { std::cout << "Colide" << std::endl; } else {
+        std::cout << "No collision" << std::endl;
     }
 
     return 0;

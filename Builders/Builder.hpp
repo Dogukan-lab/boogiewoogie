@@ -20,9 +20,10 @@ struct Vector2D {
     }
 };
 
+template<typename T>
 struct Shape {
-    int width;
-    int height;
+    T width;
+    T height;
 };
 
 
@@ -36,7 +37,7 @@ struct Tile {
     Vector2D<int> position;
     std::vector<std::shared_ptr<Tile> > neighbours;
     std::shared_ptr<TileType> type; //todo: cant be deleted if no refrences, becouse of later use
-    Shape shape;
+    Shape<int> shape = {1, 1};
 };
 
 struct Map {
@@ -46,6 +47,7 @@ struct Map {
 struct Artist {
     Vector2D<double> position;
     Vector2D<double> direction;
+    Shape<double> shape = {0.1, 0.1};
 };
 
 struct ArtistsObject {

@@ -28,7 +28,9 @@ add_executable(PROJECT_NAME main.cpp
         Algorithms/Dijkstra.cpp
         Algorithms/Dijkstra.hpp
         Algorithms/Pathfinder.cpp
-        Algorithms/Pathfinder.hpp)
+        Algorithms/Pathfinder.hpp
+        Collision/Colission.cpp
+        Collision/Colission.hpp)
 
 # Explicitly link the urlmon library for MinGW
 if (MINGW)
