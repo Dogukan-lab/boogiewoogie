@@ -102,7 +102,7 @@ public:
     std::shared_ptr<Tile> destination = nullptr;
 
 private:
-    // find Tile with the minimum dist value that is not set in shortestPathSet //todo: sorted list
+    // find Tile with the minimum dist value that is not set in shortestPathSet //todo: speed improvement? sorted list?
     std::shared_ptr<Tile> minDistance(const std::unordered_map<std::shared_ptr<Tile>, int> &dist,
                                       std::unordered_map<std::shared_ptr<Tile>, bool> &shortestPathSet) {
         int min = INT_MAX;
