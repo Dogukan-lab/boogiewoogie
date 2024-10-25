@@ -9,35 +9,13 @@
 #include <SDL_video.h>
 
 #include "TileManager.hpp"
-#include "dummydata/DummyTile.hpp"
-#include "renderer/BoogieRenderer.hpp"
+#include "BoogieRenderer.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {
     //Setup tiles for now...
     //Surfaces?
     //Or just deprecated....
 
-    SDL_Colour yellow{255, 255, 0};
-    SDL_Colour red{255, 0, 0};
-    SDL_Colour green{0, 255, 0};
-    SDL_Colour blue{0, 0, 255};
-
-    DummyTileType yellowType('Y', yellow, 10);
-    DummyTileType greenType('G', green, 10);
-    DummyTileType redType('R', red, 10);
-    DummyTileType blueType('B', blue, 10);
-    std::vector types = {yellowType, greenType, redType, blueType};
-
-    int j = 0;
-    for (int i = 0; i < _tileManager->getTiles().capacity(); i++) {
-        DummyTile tile(types[i % 4], Shape(32, 32, i, j, ShapeType::Rectangle));
-        _tileManager->AddTile(tile);
-        j++;
-    }
-
-    for(int i = 0; i < 1; i++) {
-        _artistManager->AddArtist(Artist());
-    }
     _renderer->RegisterTiles(_tileManager->getTiles());
     _renderer->RegisterArtists(_artistManager->GetArtists());
 }

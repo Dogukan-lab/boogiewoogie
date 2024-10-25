@@ -10,7 +10,6 @@
 #include <regex>
 
 #include "Parser.hpp"
-#include "Builder.hpp"
 
 class TXTParser : public Parser {
 public:
@@ -19,7 +18,7 @@ public:
     ~TXTParser() override = default;
 
     template<typename T>
-    std::vector<std::shared_ptr<T>> Pars(const std::vector<std::string> &txt) {
+    std::vector<std::shared_ptr<T>> Parse(const std::vector<std::string> &txt) {
         std::vector<std::shared_ptr<T>> tiles;
         lineIndex = 0;
 

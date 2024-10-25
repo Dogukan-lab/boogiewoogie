@@ -10,14 +10,14 @@
 
 #include "Parser.hpp"
 
+//This is responsible for parsing CSV files
 class CSVParser : public Parser {
 public:
     CSVParser() = default;
-
     ~CSVParser() override = default;
 
     template<typename T>
-    std::vector<T> Pars(const std::vector<std::string> &csv) {
+    std::vector<T> Parse(const std::vector<std::string> &csv) {
         std::vector<T> result;
 
         T artist;

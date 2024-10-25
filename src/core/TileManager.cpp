@@ -3,8 +3,7 @@
 //
 
 #include "TileManager.hpp"
-#include <algorithm>
-#include "DummyTile.hpp"
+#include "Tile.hpp"
 
 TileManager::TileManager(): TileManager(5) {
 }
@@ -13,14 +12,14 @@ TileManager::TileManager(int capacity) {
     _tiles.reserve(capacity);
 }
 
-void TileManager::AddTile(const DummyTile &tile) {
-    _tiles.emplace_back(std::make_unique<DummyTile>(tile));
+void TileManager::AddTile(const Tile &tile) {
+    _tiles.emplace_back(std::make_unique<Tile>(tile));
 }
 
 //TODO Worry about this later
-void TileManager::RemoveTile(const DummyTile &tile) {
+void TileManager::RemoveTile(const Tile &tile) {
 }
 
-std::vector<std::unique_ptr<DummyTile>> &TileManager::getTiles() {
+std::vector<std::unique_ptr<Tile>> &TileManager::getTiles() {
     return _tiles;
 }

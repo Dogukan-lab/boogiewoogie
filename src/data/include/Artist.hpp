@@ -6,9 +6,9 @@
 #define DUMMYARTIST_HPP
 #include <cstdio>
 #include <SDL_Rect.h>
+#include <Shape.hpp>
 #include <vec2.hpp>
 
-#include "DummyTile.hpp"
 
 class Artist {
 public:

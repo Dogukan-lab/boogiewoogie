@@ -5,6 +5,8 @@
 #include "FileReadingTest.hpp"
 
 #include <regex>
+#include <XMLParser.hpp>
+
 #include "AritistBuilder.hpp"
 #include "MapBuilder.hpp"
 #include "DiskReader.hpp"
@@ -16,13 +18,13 @@
 ArtistsObject FileReadingTest::getArtists() {
     DiskReader dReader{};
     WebReader wReader{};
-    std::vector<std::string> file_data = readFromFile(R"(D:/GitHub/boogiewoogie/Files/artists.csv)", dReader);
+    std::vector<std::string> file_data = readFromFile(R"(D:/githoebrepos/boogiewoogie/assets/artists.csv)", dReader);
 
     if (DEBUG && printDebug(file_data)) {
     }
 
     CSVParser csvParser;
-    std::vector<Artist> artistsCSV = csvParser.Pars<Artist>(file_data);
+    std::vector<Artist> artistsCSV = csvParser.Parse<Artist>(file_data);
 
     if (DEBUG && printDebug(artistsCSV)) {
     }
@@ -36,8 +38,8 @@ ArtistsObject FileReadingTest::getArtists() {
 void FileReadingTest::runFileTests() {
     std::string gridUrl = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media";
     std::string graphUrl = "https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media";
-    std::string gridDisk = "D:/GitHub/boogiewoogie/Files/grid.txt";
-    std::string graphDisk = "D:/GitHub/boogiewoogie/Files/graph.xml";
+    std::string gridDisk = "D:/githoebrepos/boogiewoogie/assets/grid.txt";
+    std::string graphDisk = "D:/githoebrepos/boogiewoogie/assets/graph.xml";
 
     ArtistsObject artists = getArtists();
 
@@ -138,7 +140,7 @@ std::vector<std::shared_ptr<Tile> > FileReadingTest::getMapTXT(const std::string
     }
 
     TXTParser txtParser;
-    auto tileVec = txtParser.Pars<Tile>(file_data);
+    auto tileVec = txtParser.Parse<Tile>(file_data);
 
     if (DEBUG && printDebug(tileVec)) {
     }
@@ -152,4 +154,18 @@ Map FileReadingTest::builMap(const std::vector<std::shared_ptr<Tile> > &tileVec)
     if (DEBUG && printDebug(map)) {
     }
     return map;
+}
+
+std::vector<std::shared_ptr<Tile> > FileReadingTest::getMapXML(const std::string &location) {
+    std::vector<std::string> file_data = readFile(location);
+
+    if (DEBUG && printDebug(file_data)) {
+    }
+
+    XMLParser xmlParser;
+    auto tileVec = xmlParser.Pars<Tile>(file_data);
+
+    if (DEBUG && printDebug(tileVec)) {
+    }
+    return tileVec;
 }

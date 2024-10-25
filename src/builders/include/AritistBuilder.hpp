@@ -4,34 +4,19 @@
 
 #ifndef ARITISTBUILDER_HPP
 #define ARITISTBUILDER_HPP
+#include <vector>
 #include "Builder.hpp"
 
-class ArtistBuilder : public Builder<ArtistsObject> {
+class Artist;
+
+class ArtistBuilder : public Builder<std::vector<Artist>> {
 public:
-    ArtistBuilder &addArtist(const Artist &artist) {
-        artistsObject.artists.emplace_back(artist);
-        return *this;
-    }
-
-    ArtistBuilder &addArtists(const std::vector<Artist> &artists) {
-        for (auto artist: artists) {
-            artistsObject.artists.emplace_back(artist);
-        }
-        return *this;
-    }
-
-    ArtistBuilder &replaceArtists(const std::vector<Artist> &artists) {
-        artistsObject.artists.clear();
-        artistsObject.artists = artists;
-        return *this;
-    }
-
-    ArtistsObject &build() override {
-        return artistsObject;
-    }
+    ArtistBuilder &addArtist(const Artist &artist);
+    ArtistBuilder &addArtists(const std::vector<Artist> &artists);
+    ArtistBuilder &replaceArtists(const std::vector<Artist> &artists);
 
 private:
-    ArtistsObject artistsObject;
+    std::vector<Artist> _artists;
 };
 
 

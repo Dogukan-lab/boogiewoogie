@@ -5,6 +5,7 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+// This is the interface for parsing things
 class Parser {
 public:
     virtual ~Parser() = default;

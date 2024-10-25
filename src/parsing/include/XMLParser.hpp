@@ -6,21 +6,21 @@
 #define XMLPARSER_HPP
 
 #include <iostream>
+#include <memory>
 #include <string>
+#include <Tile.hpp>
 #include <vector>
 #include "Parser.hpp"
-#include "Builder.hpp"
-#include "D:\githoebrepos\boogiewoogie\libs\pugixml\pugixml.hpp"  // for XML parsing
+#include "pugixml.hpp"
 
 class XMLParser : public Parser {
 public:
     XMLParser() = default;
-
     ~XMLParser() override = default;
 
     template<typename T>
-    std::vector<std::shared_ptr<T> > Pars(const std::vector<std::string> &xml) {
-        std::vector<std::shared_ptr<T> > result;
+    std::vector<std::shared_ptr<T>> Parse(const std::vector<std::string> &xml) {
+        std::vector<std::shared_ptr<T>> result;
 
         // Create a pugi::xml_document object
         pugi::xml_document doc;
@@ -42,21 +42,28 @@ public:
         std::vector<std::shared_ptr<TileType> > tileTypes; //todo: set global tiletypes
 
 
-#////// nodeTypes //////
+        ////// nodeTypes //////
         for (pugi::xml_node nodeType = nodeTypes.child("nodeType"); nodeType;
              nodeType = nodeType.next_sibling("nodeType")) {
-            std::shared_ptr<TileType> tileType = std::make_shared<TileType>();
-            tileType->name = nodeType.attribute("tag").as_string();
-            tileType->rgb[0] = nodeType.attribute("red").as_int();
-            tileType->rgb[1] = nodeType.attribute("green").as_int();
-            tileType->rgb[2] = nodeType.attribute("blue").as_int();
-            tileType->weight = nodeType.attribute("weight").as_int();
+            SDL_Colour colour{
+               static_cast<Uint8>(nodeType.attribute("red").as_uint()),
+               static_cast<Uint8>(nodeType.attribute("green").as_uint()),
+               static_cast<Uint8>(nodeType.attribute("blue").as_uint()),
+                255
+            };
+            char tag = nodeType.attribute("tag").as_string()[0];
+            int weight = nodeType.attribute("weight").as_int();
+            std::shared_ptr<TileType> tileType = std::make_shared<TileType>(
+                tag,
+                 colour,
+                 weight
+            );
 
             tileTypes.push_back(tileType);
         }
 
 
-#////// nodes //////
+        ////// nodes //////
         pugi::xml_node nodes = doc.child("canvas").child("nodes");
         for (pugi::xml_node node = nodes.first_child(); node; node = node.next_sibling()) {
             std::shared_ptr<T> tile = std::make_shared<T>();
@@ -85,7 +92,6 @@ public:
 
             result.push_back(tile);
         }
-
         return result;
     }
 };

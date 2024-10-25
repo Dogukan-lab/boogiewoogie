@@ -7,61 +7,32 @@
 
 #include "Builder.hpp"
 #include <memory>
+#include <vec2.hpp>
+#include <vector>
 
-class MapBuilder : public Builder<Map> {
+class Tile;
+
+//TODO Might be needed to make these uptrs instead
+class MapBuilder : public Builder<std::vector<std::vector<Tile>>> {
 public:
-    MapBuilder &addTile(const std::shared_ptr<Tile> &tile) {
-        map.tiles.emplace_back(tile);
-        return *this;
-    }
+    MapBuilder();
+    ~MapBuilder() override;
 
-    MapBuilder &addTiles(const std::vector<std::shared_ptr<Tile> > &tiles) {
-        for (const auto &tile: tiles) {
-            addTile(tile);
-        }
-        return *this;
-    }
+    MapBuilder& setNeighbours();
 
-    MapBuilder &replaceTiles(const std::vector<std::shared_ptr<Tile> > &tiles) {
-        map.tiles.clear();
-        map.tiles = tiles;
-        return *this;
-    }
+    MapBuilder& setMapSize(const int rows, const int cols);
 
-    Map &build() override {
-        // Link tiles to neighbours
-        for (std::shared_ptr<Tile> &tile: map.tiles) {
-            // Use an iterator to loop through neighbours
-            for (auto it = tile->neighbours.begin(); it != tile->neighbours.end();) {
-                std::shared_ptr<Tile> *foundNeighbour = nullptr;
-                if (this->doesExist((*it)->position, foundNeighbour)) {
-                    // If the neighbour exists, update the shared pointer
-                    *it = *foundNeighbour;
-                    ++it;
-                } else {
-                    // Remove the neighbour if it doesn't exist
-                    it = tile->neighbours.erase(it);
-                }
-            }
-        }
+    MapBuilder& addTile(const Tile& tile);
+    MapBuilder& addTiles(const std::vector<Tile>& tiles);
 
-        return map;
-    }
+    //Why???
+    MapBuilder& replaceTiles(const std::vector<Tile>& tiles);
 
+    std::vector<std::vector<Tile>> && build() override;
 private:
-    bool doesExist(const Vector2D<int> &tilePosition, std::shared_ptr<Tile> *&_tile) {
-        for (std::shared_ptr<Tile> &tile: map.tiles) {
-            if (tilePosition == tile->position) {
-                _tile = &tile;
-                return true;
-            }
-        }
+    static bool doesExist(const glm::vec2 &tilePosition, std::shared_ptr<Tile>*&_tile);
 
-        _tile = nullptr;
-        return false;
-    }
-
-    Map map;
+    std::vector<std::vector<Tile>> tileMap;
 };
 
 

@@ -4,10 +4,11 @@
 
 #ifndef ARTISTMANAGER_HPP
 #define ARTISTMANAGER_HPP
-#include <DummyArtist.hpp>
 
 #include <memory>
 #include <vector>
+
+class Artist;
 
 class ArtistManager {
 public:
@@ -22,7 +23,7 @@ public:
 
     std::vector<std::unique_ptr<Artist>>& GetArtists();
 
-    void UpdateArtists();
+    void UpdateArtists() const;
 
 private:
     std::vector<std::unique_ptr<Artist>> _artists;

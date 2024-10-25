@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-class DummyTile;
+class Tile;
 
 class TileManager {
 public:
@@ -16,17 +16,17 @@ public:
 
     explicit TileManager(int capacity);
 
-    void AddTile(const DummyTile& tile);
+    void AddTile(const Tile& tile);
 
     //Iterator for removing it from the list.
-    void RemoveTile(const DummyTile& tile);
+    void RemoveTile(const Tile& tile);
 
     //Getters for tiles
     // DummyTile& getTile();
-    std::vector<std::unique_ptr<DummyTile>>& getTiles();
+    std::vector<std::unique_ptr<Tile>>& getTiles();
 
 private:
-    std::vector<std::unique_ptr<DummyTile>> _tiles;
+    std::vector<std::unique_ptr<Tile>> _tiles;
 };
 
 

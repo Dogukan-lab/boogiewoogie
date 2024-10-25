@@ -1,9 +1,9 @@
 //
 // Created by doguk on 10/21/2024.
 //
-#include "DummyArtist.hpp"
+#include "Artist.hpp"
 #include <geometric.hpp>
-#include <iostream>
+#include "Shape.hpp"
 
 Artist::Artist(): Artist(Shape(), {0,0,0,255}, {1.f, 1.f}, {0.5f, 0.f}){}
 

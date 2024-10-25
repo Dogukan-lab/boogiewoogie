@@ -7,8 +7,11 @@
 #include <memory>
 #include <SDL_render.h>
 #include <vector>
-#include "DummyTile.hpp"
-#include "DummyArtist.hpp"
+
+#include "Tile.hpp"
+#include "Artist.hpp"
+
+
 
 //TODO Figure out how this will function
 class BoogieRenderer {
@@ -17,14 +20,14 @@ public:
 
     ~BoogieRenderer();
 
-    void RegisterTiles(const std::vector<std::unique_ptr<DummyTile>>& tile);
+    void RegisterTiles(const std::vector<std::unique_ptr<Tile>>& tile);
     void RegisterArtists(const std::vector<std::unique_ptr<Artist>>& artists);
 
     void Draw() const;
     void DrawInstance();
 
 private:
-    std::vector<DummyTile*> _tiles;
+    std::vector<Tile*> _tiles;
     std::vector<Artist*> _artists;
     SDL_Renderer* renderContext;
 };

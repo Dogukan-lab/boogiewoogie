@@ -14,7 +14,7 @@ BoogieRenderer::~BoogieRenderer() {
     SDL_DestroyRenderer(renderContext);
 }
 
-void BoogieRenderer::RegisterTiles(const std::vector<std::unique_ptr<DummyTile> > &tiles) {
+void BoogieRenderer::RegisterTiles(const std::vector<std::unique_ptr<Tile> > &tiles) {
     for (auto &tile: tiles) {
         _tiles.emplace_back(tile.get());
     }
@@ -32,28 +32,28 @@ void BoogieRenderer::Draw() const {
     //Draw tiles
     for (const auto &tile: _tiles) {
         auto &shape = tile->shape;
-        auto &colour = tile->type.colour;
+        // auto &colour = tile->type.colour;
         //TODO have shape always scaled
-        SDL_Rect rect{
-            shape.GetX() * shape.GetWidth(), shape.GetY() * shape.GetHeight(), shape.GetWidth(), shape.GetHeight()
-        };
-        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
-        SDL_RenderFillRect(renderContext, &rect);
+        // SDL_Rect rect{
+            // shape.GetX() * shape.GetWidth(), shape.GetY() * shape.GetHeight(), shape.GetWidth(), shape.GetHeight()
+        // };
+        // SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+        // SDL_RenderFillRect(renderContext, &rect);
     }
 
     //Draw Artists
     for (const auto &artist: _artists) {
-        auto &shape = artist->GetShape();
-        auto &colour = artist->GetColour();
+        // auto &shape = artist->GetShape();
+        // auto &colour = artist->GetColour();
         //TODO have shape always scaled
-        SDL_FRect rect{
-            shape.GetWidth() * artist->GetPosition().x,
-            shape.GetHeight() * artist->GetPosition().y,
-            shape.GetWidth() / 2.f,
-            shape.GetHeight() / 2.f
-        };
-        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
-        SDL_RenderFillRectF(renderContext, &rect);
+        // SDL_FRect rect{
+            // shape.GetWidth() * artist->GetPosition().x,
+            // shape.GetHeight() * artist->GetPosition().y,
+            // shape.GetWidth() / 2.f,
+            // shape.GetHeight() / 2.f
+        // };
+        // SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+        // SDL_RenderFillRectF(renderContext, &rect);
     }
 
     SDL_RenderPresent(renderContext);

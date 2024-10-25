@@ -39,6 +39,9 @@ private:
 
     Map builMap(const std::vector<std::shared_ptr<Tile> > &tileVec);
 
+    std::vector<std::shared_ptr<Tile>> getMapXML(const std::string &location);
+
+
     ArtistsObject getArtists();
 };
 

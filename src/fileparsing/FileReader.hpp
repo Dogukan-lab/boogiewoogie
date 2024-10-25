@@ -1,0 +1,66 @@
+//
+// Created by doguk on 10/24/2024.
+//
+
+#ifndef FILEREADER_HPP
+#define FILEREADER_HPP
+#include <iostream>
+#include <string>
+#include <vector>
+
+class FileReader {
+public:
+    virtual ~FileReader() = default;
+
+    /**
+     * @brief Template method function for reading a file (disk or web)
+     * It will always:
+     * 1. Extract the fileType for the eventual Strategy to use for parsing;
+     * 2. Open its stream, file stream or web stream;
+     * 3. Read the data that is inside of the file stream;
+     * 4. Close the stream and cleanup properly.
+     * @param sourceFile The initial file that we want to read (disk or web)
+     * @return a list of lines to be parsed into a standard format, of whatever fileType we read.
+     */
+    std::pair<std::string, std::vector<std::string> > ReadContent(const std::string &sourceFile) {
+        //Find last occurence of a '.' and
+        try {
+            std::string fileType = ExtractFileType(sourceFile);
+            OpenStream(sourceFile);
+            std::vector<std::string> lines = ReadLines();
+            CloseStream();
+            return std::pair{fileType, lines};
+        } catch (const std::exception &exception) {
+            std::cerr << exception.what() <<  std::endl;
+            return {};
+        }
+    }
+
+protected:
+    /**
+     * @brief Extracts the file type from 
+     * @param sourceFile The path or url to extract the type from
+     * @return the file type found within the url or path
+     */
+    virtual std::string ExtractFileType(const std::string &sourceFile) = 0;
+
+    /**
+     * @brief Opens the corresponding stream to read data from.
+     * @param sourceFile The path or url to initiate the stream with.
+     */
+    virtual void OpenStream(const std::string &sourceFile) = 0;
+
+    /**
+     * @brief Reads contents of the stream and returns a list of lines.
+     * @return the raw lines from the given source.
+     */
+    virtual std::vector<std::string> ReadLines() = 0;
+
+    /**
+     * @brief Closes the corresponding stream.
+     */
+    virtual void CloseStream() = 0;
+};
+
+
+#endif //FILEREADER_HPP

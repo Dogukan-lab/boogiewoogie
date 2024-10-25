@@ -27,24 +27,25 @@ message(STATUS "CURL Library Directory: ${CURL_LIB_PATH}")
 # GLM
 add_subdirectory(libs/glm)
 include_directories(libs/glm)
+
+#SDL2
 include_directories(${SDL2_INCLUDE_PATH})
+
 
 # SRC plus pugiXML
 add_subdirectory(src)
-add_subdirectory(${CMAKE_SOURCE_DIR}/libs/pugixml)
 
 add_executable(${PROJECT_NAME} main.cpp
-    external/FileReadingTest.cpp # File reading Test
-
+#    external/FileReadingTest.cpp # File reading Test
+#        external/FileReadingTest.hpp
 )
 
 # Link CURL + SDL2
-target_link_directories(${PROJECT_NAME} PRIVATE ${CURL_ROOT}/include)
+target_link_directories(${PROJECT_NAME} PUBLIC ${CURL_ROOT}/include)
 target_link_directories(${PROJECT_NAME} PUBLIC ${SDL2_INCLUDE_PATH})
 
 # Link Pugi, Glm, Curl, SDL2
 target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
-        pugixml
         glm
         ${CURL_LIB_PATH}
         ${SDL2_LIBRARIES_PATH}
