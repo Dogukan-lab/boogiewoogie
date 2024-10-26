@@ -5,10 +5,10 @@
 #ifndef ARTISTMANAGER_HPP
 #define ARTISTMANAGER_HPP
 
+#include <Artist.hpp>
 #include <memory>
 #include <vector>
 
-class Artist;
 
 class ArtistManager {
 public:
@@ -17,6 +17,10 @@ public:
     explicit ArtistManager(int capacity);
 
     void AddArtist(Artist&& artist);
+    void SetArtists(std::vector<std::unique_ptr<Artist>>&& artists) {
+        //WHAT????? MOVE THE RVALUE TO A RVALUE???
+        _artists = std::move(artists);
+    }
 
     //TODO implement this eventually
     void RemoveAritst(const Artist& artist);
@@ -26,7 +30,7 @@ public:
     void UpdateArtists() const;
 
 private:
-    std::vector<std::unique_ptr<Artist>> _artists;
+    std::vector<std::unique_ptr<Artist>> _artists{};
 
 };
 

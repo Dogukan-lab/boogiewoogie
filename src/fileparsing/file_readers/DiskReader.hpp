@@ -14,14 +14,14 @@
  */
 class DiskReader : public FileReader {
 public:
-    DiskReader();
+    DiskReader(const std::string& sourceFile);
 
     ~DiskReader() override;
 
 protected:
-    std::string ExtractFileType(const std::string &sourceFile) override;
+    std::string ExtractFileType() override;
 
-    void OpenStream(const std::string &sourceFile) override;
+    void OpenStream() override;
 
     std::vector<std::string> ReadLines() override;
 

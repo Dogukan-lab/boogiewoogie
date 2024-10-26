@@ -14,16 +14,14 @@
  */
 class WebReader: public FileReader {
 public:
-    WebReader();
+    explicit WebReader(const std::string &sourceFile);
+
     ~WebReader() override;
 
 protected:
-    std::string ExtractFileType(const std::string &sourceFile) override;
-
-    void OpenStream(const std::string &sourceFile) override;
-
+    std::string ExtractFileType() override;
+    void OpenStream() override;
     std::vector<std::string> ReadLines() override;
-
     void CloseStream() override;
 
 private:

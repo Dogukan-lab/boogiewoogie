@@ -10,7 +10,7 @@ ArtistManager::ArtistManager(): ArtistManager(10) {
 }
 
 ArtistManager::ArtistManager(int capacity) {
-    _artists.reserve(capacity);
+    _artists.resize(capacity);
 }
 
 void ArtistManager::AddArtist(Artist &&artist) {

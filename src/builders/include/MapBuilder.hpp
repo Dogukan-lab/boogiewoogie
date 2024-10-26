@@ -5,34 +5,33 @@
 #ifndef MAPBUILDER_HPP
 #define MAPBUILDER_HPP
 
+#include <algorithm>
+#include <Tile.hpp>
+
 #include "Builder.hpp"
-#include <memory>
-#include <vec2.hpp>
 #include <vector>
 
-class Tile;
+class DataEntry;
 
-//TODO Might be needed to make these uptrs instead
-class MapBuilder : public Builder<std::vector<std::vector<Tile>>> {
+//TODO Remove the templating, and just accept to use a singleton instance of the manager
+class MapBuilder : public Builder<std::vector<std::vector<std::unique_ptr<Tile>>>> {
 public:
     MapBuilder();
     ~MapBuilder() override;
 
     MapBuilder& setNeighbours();
-
     MapBuilder& setMapSize(const int rows, const int cols);
+    MapBuilder& addTile(DataEntry& entry);
+    MapBuilder& addTileType(DataEntry& entry);
+    MapBuilder& addTiles(std::vector<DataEntry>& entries);
 
-    MapBuilder& addTile(const Tile& tile);
-    MapBuilder& addTiles(const std::vector<Tile>& tiles);
+    std::vector<std::vector<std::unique_ptr<Tile>>>&& build() override;
 
-    //Why???
-    MapBuilder& replaceTiles(const std::vector<Tile>& tiles);
-
-    std::vector<std::vector<Tile>> && build() override;
 private:
-    static bool doesExist(const glm::vec2 &tilePosition, std::shared_ptr<Tile>*&_tile);
+    std::vector<std::vector<std::unique_ptr<Tile>>> tileMap;
+    std::vector<std::unique_ptr<TileType>> tileTypes;
 
-    std::vector<std::vector<Tile>> tileMap;
+    static void checkAndAddNeighbour(Tile& cur, Tile& neighbour);
 };
 
 

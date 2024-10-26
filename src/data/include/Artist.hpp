@@ -14,7 +14,7 @@ class Artist {
 public:
     Artist();
 
-    Artist(Shape shape, SDL_Colour colour, glm::vec2 startPos, glm::vec2 direction);
+    Artist(const Shape& shape, const SDL_Colour& colour, const glm::vec2& startPos, const glm::vec2& direction);
 
     void Move(float deltaTime);
 

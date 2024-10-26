@@ -5,17 +5,17 @@
 #include "DiskReader.hpp"
 #include <filesystem>
 
-DiskReader::DiskReader() = default;
+DiskReader::DiskReader(const std::string& sourceFile): FileReader(sourceFile){}
 
 DiskReader::~DiskReader() = default;
 
-std::string DiskReader::ExtractFileType(const std::string &sourceFile) {
-    return sourceFile.substr(sourceFile.find_last_of('.'));
+std::string DiskReader::ExtractFileType() {
+    return source.substr(source.find_last_of('.')+1);
 }
 
-void DiskReader::OpenStream(const std::string &sourceFile) {
-        if (std::filesystem::exists(sourceFile))
-            fileStream.open(sourceFile);
+void DiskReader::OpenStream() {
+        if (std::filesystem::exists(source))
+            fileStream.open(source);
         else
             throw std::runtime_error("File does not exist!");
 }

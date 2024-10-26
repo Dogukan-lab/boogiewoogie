@@ -9,7 +9,6 @@ function(gather_sources_headers dir target)
     file(GLOB_RECURSE sources "${dir}/*.cpp")
     if (TARGET ${target})
         target_sources(${target} PRIVATE ${sources})
-
         #Check if the directory has an include folder, otherwise just gather whatever it can find.
         if (EXISTS "${dir}/include")
             target_include_directories(${target} PUBLIC "${dir}/include")
@@ -18,7 +17,6 @@ function(gather_sources_headers dir target)
             target_include_directories(${target} PUBLIC "${dir}")
             message(STATUS "Added current dir ${dir} for target ${target}, no include dir found")
         endif ()
-
     else ()
         message(WARNING "No target found for ${target}!")
     endif ()

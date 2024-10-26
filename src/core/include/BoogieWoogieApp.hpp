@@ -22,7 +22,7 @@ public:
     BoogieWoogieApp(BoogieWoogieApp&& other) = delete;
     BoogieWoogieApp operator=(BoogieWoogieApp&& other) = delete;
 
-    void SetupSimulation();
+    void SetupSimulation(const std::string& source);
     void RunSimulation();
 
 private:

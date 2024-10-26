@@ -3,57 +3,84 @@
 //
 
 #include "MapBuilder.hpp"
+
+#include <DataEntry.hpp>
+#include <stdexcept>
+
 #include "Tile.hpp"
 
-MapBuilder::MapBuilder(): tileMap(std::vector<std::vector<Tile>>()) {
+MapBuilder &MapBuilder::setNeighbours() {
+    return *this;
 }
 
-//TODO Figure out how to set neighbours properly
-MapBuilder& MapBuilder::setNeighbours() {
-    //Loop through the tile map, but only look for the four cardinal directions.
-    for(int i = 0; i < tileMap.size(); i++) {
-        for(int j = 0; j < tileMap[0].size(); j++) {
-            auto& tile = tileMap[i][j];
-            const glm::ivec2& tilePos = tile.shape.GetPosition();
+MapBuilder &MapBuilder::setMapSize(const int rows, const int cols) {
+    //Try to resize tilemap.
+    tileMap.resize(rows);
+    for (auto &buffer: tileMap) {
+        buffer.resize(cols);
+    }
 
-            //North
-            tile.neighbours.emplace_back(&tileMap[tilePos.x][tilePos.y-1]);
-            //South
-            tile.neighbours.emplace_back(&tileMap[tilePos.x][tilePos.y+1]);
-            //East
-            tile.neighbours.emplace_back(&tileMap[tilePos.x+1][tilePos.y]);
-            //West
-            tile.neighbours.emplace_back(&tileMap[tilePos.x-1][tilePos.y]);
+    return *this;
+}
+
+MapBuilder &MapBuilder::addTile(DataEntry &entry) {
+    glm::vec2 tilePos(std::stof(entry["x"]),std::stof(entry["y"]));
+    char tag = entry["tag"][0];
+    const auto it = std::find_if(tileTypes.begin(), tileTypes.end(), [&tag=tag](const std::unique_ptr<TileType> &type) {return type->tag == tag;});
+
+    if(it == tileTypes.end())
+        return *this;
+
+    Tile tile{
+        **it, //Disgusting...
+        tilePos,
+        Shape()
+    };
+
+    tileMap[static_cast<int>(tilePos.y)][static_cast<int>(tilePos.x)];
+
+    return *this;
+}
+
+MapBuilder &MapBuilder::addTileType(DataEntry &entry) {
+    TileType type{
+        entry["tag"][0],
+        SDL_Colour{
+            static_cast<Uint8>(std::stoi(entry["r"])),
+            static_cast<Uint8>(std::stoi(entry["g"])),
+            static_cast<Uint8>(std::stoi(entry["b"])),
+            255
+        },
+        std::stoi(entry["weight"])
+    };
+
+    tileTypes.emplace_back(std::make_unique<TileType>(type));
+
+    return *this;
+}
+
+std::vector<std::vector<std::unique_ptr<Tile>>> &&MapBuilder::build() {
+    //Loop through 2d array and set neighbours
+    for(int y = 0; y < tileMap.size(); y++ ) {
+        for(int x = 0; x < tileMap[0].size(); x++) {
+            const auto& tile = tileMap[y][x];
+
+            if(y > 0) //Check to add upper neighbour
+                checkAndAddNeighbour(*tile, *tileMap[y-1][x]);
+            if(y < tileMap.size() - 1) //Check to add lower neighbour
+                checkAndAddNeighbour(*tile, *tileMap[y+1][x]);
+            if(x > 0) //Check to add left neighbour
+                checkAndAddNeighbour(*tile, *tileMap[y][x-1]);
+            if(x < tileMap[0].size() -1) //Check to add right neighbour
+                checkAndAddNeighbour(*tile, *tileMap[y][x+1]);
         }
     }
 
-    return *this;
-}
-
-//TODO Debug if this allocated properly!
-MapBuilder& MapBuilder::setMapSize(const int rows, const int cols) {
-    tileMap.resize(rows);
-    for(auto& row: tileMap) {
-        row.resize(cols);
-    }
-    return *this;
-}
-
-MapBuilder& MapBuilder::addTile(const Tile &tile) {
-    //Checks the type, and converts it to integer for tile map lookup
-    const glm::ivec2& position = tile.shape.GetPosition();
-    tileMap[position.x][position.y] = tile;
-    return *this;
-}
-
-MapBuilder& MapBuilder::addTiles(const std::vector<Tile> &tiles) {
-    //Loop through each tile that we have parsed and add them to the
-    for(const auto& tile: tiles) {
-        addTile(tile);
-    }
-    return *this;
-}
-
-std::vector<std::vector<Tile>> && MapBuilder::build() {
     return std::move(tileMap);
+}
+
+void MapBuilder::checkAndAddNeighbour(Tile& cur, Tile& neighbour) {
+    if(neighbour.type.tag == 'W')
+        return;
+    cur.neighbours.push_back(&neighbour);
 }

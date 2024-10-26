@@ -3,21 +3,40 @@
 //
 
 #include "BoogieWoogieApp.hpp"
+
+#include "file_readers/FileReader.hpp"
+#include "file_readers/FileReaderFactory.hpp"
 #include <iostream>
 #include <SDL.h>
 #include <iostream>
 #include <SDL_video.h>
+#include <thread>
 
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
 
-void BoogieWoogieApp::SetupSimulation() {
+auto readData = [](const std::string& source) {
+     auto reader = FileReaderFactory::CreateFileReader(source);
+
+    auto [type, list] = reader->ReadContent();
+
+    std::cout << "FILETYPE: " << type << std::endl;
+    std::cout << "---START OF DATA----" << std::endl;
+    for(const auto& line : list) {
+        std::cout << line << "\n";
+    }
+    std::cout << "---END OF DATA---" << std::endl;
+};
+
+std::thread readJob;
+void BoogieWoogieApp::SetupSimulation(const std::string& source) {
     //Setup tiles for now...
     //Surfaces?
     //Or just deprecated....
+    readJob = std::thread(readData, source);
 
-    _renderer->RegisterTiles(_tileManager->getTiles());
-    _renderer->RegisterArtists(_artistManager->GetArtists());
+    // _renderer->RegisterTiles(_tileManager->getTiles());
+    // _renderer->RegisterArtists(_artistManager->GetArtists());
 }
 
 BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 640, 480) {
@@ -44,6 +63,8 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
 
 void BoogieWoogieApp::RunSimulation() {
     //Main loop van SDL2 applicatie
+    //Wait on thread finishing its reading job.
+    readJob.join();
     SDL_Event event;
     while (isRunning) {
         //Poll keyboard events
@@ -65,9 +86,9 @@ void BoogieWoogieApp::RunSimulation() {
             }
         }
         //Update tiles ofcourse
-        _artistManager->UpdateArtists();
+        // _artistManager->UpdateArtists();
 
         //Render tiles
-        _renderer->Draw();
+        // _renderer->Draw();
     }
 }

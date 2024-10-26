@@ -4,25 +4,33 @@
 
 #include "WebReader.hpp"
 
+#include <algorithm>
 #include <curl/curl.h>
 #include <sstream>
 
-WebReader::WebReader(): curlptr(curl_easy_init(), &curl_easy_cleanup) {
+void _trim(std::string& line) {
+    line.erase(std::remove_if(line.begin(), line.end(), [](char c) {
+        return c == '\r' || c == '\n';
+    }), line.end());
+}
+
+WebReader::WebReader(const std::string& sourceFile):
+FileReader(sourceFile), curlptr(curl_easy_init(),curl_easy_cleanup){
 }
 
 WebReader::~WebReader() = default;
 
-std::string WebReader::ExtractFileType(const std::string &sourceFile) {
+std::string WebReader::ExtractFileType() {
     //PosA checks for the last occurence of the dot, because of looking for a file extension
     //PosB checks for the las occurence of the ?, because we dont want the query alongside the file extension
-    const size_t posA = sourceFile.find_last_of('.');
-    const size_t posB = sourceFile.find_last_of('?');
-    auto string = sourceFile.substr(posA, posB - posA);
+    const size_t posA = source.find_last_of('.');
+    const size_t posB = source.find_last_of('?');
+    auto string = source.substr(posA, posB - posA);
     std::cout << string << std::endl;
     return string;
 }
 
-void WebReader::OpenStream(const std::string &sourceFile) {
+void WebReader::OpenStream() {
     if(!curlptr) {
         std::cout << "CURL POINTER NOT INITIALIZED!" << std::endl;
         curlptr = std::unique_ptr<CURL, decltype(&curl_easy_cleanup)>(curl_easy_init(), &curl_easy_cleanup);
@@ -31,7 +39,7 @@ void WebReader::OpenStream(const std::string &sourceFile) {
     //init curl
     curl_global_init(CURL_GLOBAL_DEFAULT);
     //Set url to read from
-    curl_easy_setopt(curlptr.get(), CURLOPT_URL, sourceFile.c_str());
+    curl_easy_setopt(curlptr.get(), CURLOPT_URL, source.c_str());
     //Set certificate
     curl_easy_setopt(curlptr.get(), CURLOPT_CAINFO, "../libs/curl/bin/curl-ca-bundle.crt");
     //Set certificate cache time (I believe this is 60seconds) + (optional).
@@ -55,8 +63,10 @@ std::vector<std::string> WebReader::ReadLines() {
 
     //Copy stringstream data into temp vector
     std::string line{};
-    while (std::getline(buffer, line))
+    while (std::getline(buffer, line)) {
+        _trim(line);
         data.emplace_back(line);
+    }
 
     return data;
 }

@@ -6,10 +6,13 @@
 #define FILEREADER_HPP
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 class FileReader {
 public:
+    explicit FileReader(std::string sourceFile): source(std::move(sourceFile)){}
+
     virtual ~FileReader() = default;
 
     /**
@@ -22,11 +25,11 @@ public:
      * @param sourceFile The initial file that we want to read (disk or web)
      * @return a list of lines to be parsed into a standard format, of whatever fileType we read.
      */
-    std::pair<std::string, std::vector<std::string> > ReadContent(const std::string &sourceFile) {
+    std::pair<std::string, std::vector<std::string> > ReadContent() {
         //Find last occurence of a '.' and
         try {
-            std::string fileType = ExtractFileType(sourceFile);
-            OpenStream(sourceFile);
+            std::string fileType = ExtractFileType();
+            OpenStream();
             std::vector<std::string> lines = ReadLines();
             CloseStream();
             return std::pair{fileType, lines};
@@ -42,13 +45,13 @@ protected:
      * @param sourceFile The path or url to extract the type from
      * @return the file type found within the url or path
      */
-    virtual std::string ExtractFileType(const std::string &sourceFile) = 0;
+    virtual std::string ExtractFileType() = 0;
 
     /**
      * @brief Opens the corresponding stream to read data from.
      * @param sourceFile The path or url to initiate the stream with.
      */
-    virtual void OpenStream(const std::string &sourceFile) = 0;
+    virtual void OpenStream() = 0;
 
     /**
      * @brief Reads contents of the stream and returns a list of lines.
@@ -60,6 +63,8 @@ protected:
      * @brief Closes the corresponding stream.
      */
     virtual void CloseStream() = 0;
+
+    std::string source;
 };
 
 

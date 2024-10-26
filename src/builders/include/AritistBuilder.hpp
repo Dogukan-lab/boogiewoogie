@@ -6,17 +6,20 @@
 #define ARITISTBUILDER_HPP
 #include <vector>
 #include "Builder.hpp"
+#include "Artist.hpp"
+#include "ArtistManager.hpp"
 
-class Artist;
+class DataEntry;
 
-class ArtistBuilder : public Builder<std::vector<Artist>> {
+class ArtistBuilder : public Builder<std::vector<std::unique_ptr<Artist>>> {
 public:
-    ArtistBuilder &addArtist(const Artist &artist);
-    ArtistBuilder &addArtists(const std::vector<Artist> &artists);
-    ArtistBuilder &replaceArtists(const std::vector<Artist> &artists);
+    ArtistBuilder& addArtist(DataEntry &artist);
+    ArtistBuilder& addArtists(std::vector<DataEntry> &artists);
+
+    std::vector<std::unique_ptr<Artist>> && build() override;
 
 private:
-    std::vector<Artist> _artists;
+    std::vector<std::unique_ptr<Artist>> _artists{};
 };
 
 

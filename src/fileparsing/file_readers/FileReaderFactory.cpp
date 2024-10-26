@@ -9,9 +9,9 @@
 
 std::unique_ptr<FileReader> FileReaderFactory::CreateFileReader(const std::string &source) {
     if (isWebUrl(source))
-        return std::make_unique<WebReader>();
+        return std::make_unique<WebReader>(source);
 
-    return std::make_unique<DiskReader>();
+    return std::make_unique<DiskReader>(source);
 }
 
 bool FileReaderFactory::isWebUrl(const std::string &sourceType) {
