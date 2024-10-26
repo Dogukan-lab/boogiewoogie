@@ -32,7 +32,7 @@ std::string WebReader::ExtractFileType() {
 
 void WebReader::OpenStream() {
     if(!curlptr) {
-        std::cout << "CURL POINTER NOT INITIALIZED!" << std::endl;
+        std::cerr << "CURL POINTER NOT INITIALIZED!" << std::endl;
         curlptr = std::unique_ptr<CURL, decltype(&curl_easy_cleanup)>(curl_easy_init(), &curl_easy_cleanup);
     }
 

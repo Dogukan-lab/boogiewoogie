@@ -23,6 +23,7 @@ std::vector<std::unique_ptr<Artist> > &ArtistManager::GetArtists() {
 
 
 //Update movement of artists
+//TODO Boundcheck
 void ArtistManager::UpdateArtists() const {
     constexpr float deltaTime = 0.166666666666667f;
     for (const auto &artist: _artists) {

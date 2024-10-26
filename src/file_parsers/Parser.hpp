@@ -14,7 +14,7 @@
 class Parser {
 public:
     virtual ~Parser() = default;
-    virtual void ParseData(std::vector<std::string> &data) = 0;
+    virtual std::vector<DataEntry> ParseData(std::vector<std::string> &data) = 0;
 protected:
     std::vector<DataEntry> _entries;
 };

@@ -4,8 +4,8 @@
 
 #include "BoogieWoogieApp.hpp"
 
-#include "file_readers/FileReader.hpp"
-#include "file_readers/FileReaderFactory.hpp"
+#include "FileReader.hpp"
+#include "FileReaderFactory.hpp"
 #include <iostream>
 #include <SDL.h>
 #include <iostream>
@@ -26,6 +26,11 @@ auto readData = [](const std::string& source) {
         std::cout << line << "\n";
     }
     std::cout << "---END OF DATA---" << std::endl;
+
+    //Key val <-- map<Type, Entry>
+    //case 'Type':
+    // entries doorlopen
+    // builder.
 };
 
 std::thread readJob;

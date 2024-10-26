@@ -5,21 +5,17 @@
 #include "TileManager.hpp"
 #include "Tile.hpp"
 
+
+std::map<char, std::pair<SDL_Colour, int> > TileManager::types;
+
 TileManager::TileManager(): TileManager(5) {
+    types.emplace('W', std::pair{SDL_Colour{255, 255, 255, 255}, 0});
 }
 
 TileManager::TileManager(int capacity) {
     _tiles.reserve(capacity);
 }
 
-void TileManager::AddTile(const Tile &tile) {
-    _tiles.emplace_back(std::make_unique<Tile>(tile));
-}
-
-//TODO Worry about this later
-void TileManager::RemoveTile(const Tile &tile) {
-}
-
-std::vector<std::unique_ptr<Tile>> &TileManager::getTiles() {
+std::vector<std::vector<std::unique_ptr<Tile> > > &TileManager::getTiles() {
     return _tiles;
 }

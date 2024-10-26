@@ -4,31 +4,31 @@
 
 #ifndef TILEMANAGER_HPP
 #define TILEMANAGER_HPP
-#include <memory>
-#include <vector>
-
-class Tile;
+#include "Tile.hpp"
+#include <map>
 
 class TileManager {
 public:
-
     TileManager();
 
     explicit TileManager(int capacity);
 
-    void AddTile(const Tile& tile);
+    void AddTiles(std::vector<std::vector<std::unique_ptr<Tile> > > &&tileMap) { _tiles = std::move(tileMap); }
 
-    //Iterator for removing it from the list.
-    void RemoveTile(const Tile& tile);
+    static std::pair<SDL_Colour, int>& GetType(const char c) {
+        return types.at(c);
+    }
 
-    //Getters for tiles
-    // DummyTile& getTile();
-    std::vector<std::unique_ptr<Tile>>& getTiles();
+    static void SetType(const char tag, const std::pair<SDL_Colour, int> config) {
+        types[tag] = config;
+    }
+
+    std::vector<std::vector<std::unique_ptr<Tile> > > &getTiles();
 
 private:
-    std::vector<std::unique_ptr<Tile>> _tiles;
+    std::vector<std::vector<std::unique_ptr<Tile> > > _tiles;
+    static std::map<char, std::pair<SDL_Colour, int> > types;
 };
-
 
 
 #endif //TILEMANAGER_HPP

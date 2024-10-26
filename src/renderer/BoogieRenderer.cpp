@@ -31,7 +31,7 @@ void BoogieRenderer::Draw() const {
     SDL_RenderClear(renderContext);
     //Draw tiles
     for (const auto &tile: _tiles) {
-        auto &shape = tile->shape;
+        // auto &shape = tile->shape;
         // auto &colour = tile->type.colour;
         //TODO have shape always scaled
         // SDL_Rect rect{

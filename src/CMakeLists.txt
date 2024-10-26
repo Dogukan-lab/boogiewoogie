@@ -1,13 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 #Pull in sources
 #Die inside
-add_library(BoogieWoogieInternal
-        fileparsing/file_parsers/Parser.hpp
-        fileparsing/file_parsers/CsvParser.cpp
-        fileparsing/file_parsers/CsvParser.hpp
-        fileparsing/file_parsers/TxtParser.cpp
-        fileparsing/file_parsers/TxtParser.hpp
-)
+add_library(BoogieWoogieInternal)
 #target_link_libraries(BoogieWoogieInternal PUBLIC pugixml)
 
 if (TARGET BoogieWoogieInternal)
@@ -17,5 +11,6 @@ if (TARGET BoogieWoogieInternal)
     gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/core" BoogieWoogieInternal)
     gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/data" BoogieWoogieInternal)
     gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/renderer" BoogieWoogieInternal)
-    gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/fileparsing" BoogieWoogieInternal)
+    gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/file_readers" BoogieWoogieInternal)
+    gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/file_parsers" BoogieWoogieInternal)
 endif ()

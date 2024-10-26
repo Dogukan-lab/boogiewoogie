@@ -8,7 +8,7 @@
 #include <sstream>
 #include <algorithm>
 
-void CSVParser::ParseData(std::vector<std::string> &data) {
+std::vector<DataEntry> CSVParser::ParseData(std::vector<std::string> &data) {
     //Read the header.
     std::rotate(data.begin(), data.begin() + 1, data.end());
     const auto header = *(data.end() - 1);
@@ -29,6 +29,8 @@ void CSVParser::ParseData(std::vector<std::string> &data) {
             }
         }
     }
+
+    return {};
 }
 
 std::vector<std::string> CSVParser::checkFormatting(const std::string &format) {

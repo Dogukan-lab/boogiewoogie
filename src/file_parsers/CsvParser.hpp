@@ -11,7 +11,7 @@ class CSVParser : public Parser {
 public:
     ~CSVParser() override = default;
 
-    void ParseData(std::vector<std::string> &data) override;
+    std::vector<DataEntry> ParseData(std::vector<std::string> &data) override;
 
     inline std::map<std::string, std::vector<std::string>>&
     getMapping() { return csvMapping; }
