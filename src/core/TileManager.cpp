@@ -6,7 +6,7 @@
 #include "Tile.hpp"
 
 
-std::map<char, std::pair<SDL_Colour, int> > TileManager::types;
+std::map<char, std::pair<SDL_Colour, int> > TileManager::types{};
 
 TileManager::TileManager(): TileManager(5) {
     types.emplace('W', std::pair{SDL_Colour{255, 255, 255, 255}, 0});

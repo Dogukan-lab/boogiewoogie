@@ -4,9 +4,11 @@
 
 #ifndef XMLPARSER_HPP
 #define XMLPARSER_HPP
+#include <Parser.hpp>
 
-class XMLParser {
-
+class XMLParser: public Parser  {
+public:
+    std::vector<DataEntry> ParseData(std::vector<std::string> &data) override;
 };
 
 

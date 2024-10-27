@@ -21,9 +21,18 @@ MapBuilder &MapBuilder::setNeighbours() {
 
 MapBuilder &MapBuilder::setMapSize(DataEntry &entry) {
     //Try to resize tilemap.
-    tileMap.resize(std::stoi(entry["cols"]));
+    tileMap.resize(std::stoi(entry["rows"]));
     for (auto &rows: tileMap) {
-        rows.resize(std::stoi(entry["rows"]));
+        rows.resize(std::stoi(entry["cols"]));
+
+    }
+
+    for(int y = 0; y < tileMap.size(); y++) {
+        for(int x =0; x < tileMap[0].size(); x++) {
+            std::unique_ptr<Tile> tile = std::make_unique<Tile>(glm::vec2(x,y), Shape());
+            tile->SetType<WhiteType>();
+            tileMap[y][x] = std::move(tile);
+        }
     }
 
     return *this;
@@ -36,7 +45,7 @@ MapBuilder &MapBuilder::addTile(DataEntry &entry) {
     switch (entry["type"][0]) {
         case '_':
             tile->SetType<WhiteType>();
-            break;
+        break;
         case 'Y':
             tile->SetType<YellowType>();
             break;

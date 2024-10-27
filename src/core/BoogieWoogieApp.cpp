@@ -17,6 +17,7 @@
 #include <SDL_video.h>
 #include <thread>
 #include <TxtParser.hpp>
+#include <XmlParser.hpp>
 
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
@@ -25,7 +26,7 @@ void BoogieWoogieApp::SetupSimulation() {
     //Setup tiles for now...
     //Surfaces?
     //Or just deprecated....
-    std::string mapSource = R"(../assets/grid.txt)";
+    std::string mapSource = R"(../assets/graph.xml)";
     std::string artistSource = R"(../assets/artists.csv)";
     CreateMap(mapSource);
     CreateArtists(artistSource);
@@ -101,10 +102,9 @@ void BoogieWoogieApp::RunSimulation() {
     }
 }
 
-void BoogieWoogieApp::CreateMap(const std::string &source) {
+void BoogieWoogieApp::CreateMap(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, list] = reader->ReadContent();
-
     std::unordered_map<std::string, std::function<void()> > actions{
         {
             "txt", [&] {
@@ -114,7 +114,7 @@ void BoogieWoogieApp::CreateMap(const std::string &source) {
 
                 for (auto &entry: entries) {
                     switch (entry.tag) {
-                        case DataEntry::Dimensions:
+                        case DataEntry::GridSize:
                             builder.setMapSize(entry);
                             break;
                         case DataEntry::TileType:
@@ -131,36 +131,35 @@ void BoogieWoogieApp::CreateMap(const std::string &source) {
         },
         {
             "xml", [&] {
-                // XMLParser parser;
-                // MapBuilder builder;
-                // auto entries = parser.ParseData(list);
+                XMLParser parser;
+                MapBuilder builder;
+                auto entries = parser.ParseData(list);
 
-                // for (auto &entry: entries) {
-                //     switch (entry.tag) {
-                //         case DataEntry::Dimensions:
-                //             builder.setMapSize(entry);
-                //         break;
-                //         case DataEntry::TileType:
-                //             builder.addTileType(entry);
-                //         break;
-                //         case DataEntry::Tile:
-                //             builder.addTile(entry);
-                //         break;
-                //         default: break;
-                //     }
-                // }
-                // _tileManager->AddTiles(std::move(builder.build()));
+                for (auto &entry: entries) {
+                    switch (entry.tag) {
+                        case DataEntry::GridSize:
+                            builder.setMapSize(entry);
+                            break;
+                        case DataEntry::TileType:
+                            builder.addTileType(entry);
+                            break;
+                        case DataEntry::Tile:
+                            builder.addTile(entry);
+                            break;
+                        default: break;
+                    }
+                }
+                _tileManager->AddTiles(std::move(builder.build()));
             }
         },
     };
-
     actions[type]();
 }
 
 void BoogieWoogieApp::CreateArtists(const std::string &source) {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, data] = reader->ReadContent();
-    std::unordered_map<std::string, std::function<void()> > actions{
+    std::unordered_map<std::string, std::function<void()>> actions{
         {
             "csv", [&] {
                 CSVParser parser;

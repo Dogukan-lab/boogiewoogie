@@ -32,7 +32,7 @@ private:
     std::unique_ptr<TileManager> _tileManager;
     std::unique_ptr<ArtistManager> _artistManager;
 
-    void CreateMap(const std::string& source);
+    void CreateMap(const std::string& source) const;
 
     void CreateArtists(const std::string &source);
 

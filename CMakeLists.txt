@@ -8,7 +8,6 @@ set(SDL2_ROOT "${CMAKE_SOURCE_DIR}/libs/SDL2")
 set(SDL2_INCLUDE_PATH "${SDL2_ROOT}/include/SDL2")
 set(SDL2_LIBRARIES_PATH "${SDL2_ROOT}/lib/libSDL2.dll.a")
 set(SDL2_RUNTIME_PATH "${SDL2_ROOT}/bin/SDL2.dll")
-
 # Check status of the SDL2 vars
 message(STATUS "SDL2 Root Directory: ${SDL2_ROOT}/include")
 message(STATUS "SDL2 Include Directory: ${SDL2_INCLUDE_PATH}")
@@ -19,18 +18,23 @@ message(STATUS "SDL2 Library Directory: ${SDL2_RUNTIME_PATH}")
 set(CURL_ROOT "${CMAKE_SOURCE_DIR}/libs/curl")
 set(CURL_RUNTIME_PATH "${CURL_ROOT}/bin/libcurl-x64.dll")
 set(CURL_LIB_PATH "${CURL_ROOT}/lib/libcurl.dll.a")
-
 #Check status of the CURL vars
 message(STATUS "CURL Include Directory: ${CURL_ROOT}/include")
 message(STATUS "CURL Library Directory: ${CURL_LIB_PATH}")
+
+# PUGI VARS
+set(PUGI_ROOT "${CMAKE_SOURCE_DIR}/libs/pugixml")
 
 # GLM
 add_subdirectory(libs/glm)
 include_directories(libs/glm)
 
+# PUGIXML
+add_subdirectory(${PUGI_ROOT})
+include_directories(${PUGI_ROOT})
+
 #SDL2
 include_directories(${SDL2_INCLUDE_PATH})
-
 
 # SRC plus pugiXML
 add_subdirectory(src)
@@ -46,6 +50,7 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${SDL2_INCLUDE_PATH})
 
 # Link Pugi, Glm, Curl, SDL2
 target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
+        pugixml
         glm
         ${CURL_LIB_PATH}
         ${SDL2_LIBRARIES_PATH}

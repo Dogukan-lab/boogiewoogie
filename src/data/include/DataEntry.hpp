@@ -13,7 +13,7 @@ struct DataEntry {
         Artist,
         Tile,
         TileType,
-        Dimensions
+        GridSize
     };
 
     EntryTag tag;

@@ -15,7 +15,7 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     //Header part: rows, cols, letter, rgb, weight
     //Read header
     //TODO holyyy please fix this... LarsGPT TM
-    DataEntry entry{DataEntry::Dimensions, {}};
+    DataEntry entry{DataEntry::GridSize, {}};
     auto posA = data[0].find_first_of('=');
     auto posB = data[0].find_first_of(',');
     entry.AddEntry("rows", data[0].substr(data[0].find_first_of('=') + 1, posB - posA - 1));
