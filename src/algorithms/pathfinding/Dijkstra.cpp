@@ -3,13 +3,13 @@
 //
 
 #include "Dijkstra.hpp"
-bool Dijkstra::calculatePath(const std::shared_ptr<Tile> &src, const std::shared_ptr<Tile> &dest,
-                       const std::vector<std::shared_ptr<Tile> > &tiles) {
+
+bool Dijkstra::calculatePath(Tile *src, Tile *dest, std::vector<Tile *> tiles) {
     bool destFound = false;
 
-    std::unordered_map<std::shared_ptr<Tile>, int> dist;
-    std::unordered_map<std::shared_ptr<Tile>, bool> shortestPathSet;
-    std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > reversePath;
+    std::unordered_map<Tile *, int> dist;
+    std::unordered_map<Tile *, bool> shortestPathSet;
+    std::unordered_map<Tile *, Tile *> reversePath;
 
     exploredPath.clear();
     solvedPaths.clear();
@@ -18,25 +18,24 @@ bool Dijkstra::calculatePath(const std::shared_ptr<Tile> &src, const std::shared
     destination = dest;
 
     // Initialize distances as INFINITE and shortestPathSet[] as false
-    for (const std::shared_ptr<Tile>& tile: tiles) {
+    for (Tile *tile: tiles) {
         dist[tile] = INT_MAX;
         shortestPathSet[tile] = false;
-        reversePath[tile] = nullptr;
     }
     dist[src] = 0;
 
     // Find shortest path
     for (size_t count = 0; count < tiles.size(); count++) {
-        std::shared_ptr<Tile> tile = minDistance(dist, shortestPathSet);
+        Tile *tile = minDistance(dist, shortestPathSet);
 
-        if (tile == dest) {
+        if (tile->position == dest->position) {
             destFound = true;
             break;
         }
         shortestPathSet[tile] = true;
 
         // Update dist value of the neighboring tiles of the picked tile
-        for (const std::shared_ptr<Tile> &neighbour: tile->neighbours) {
+        for (Tile *neighbour: tile->neighbours) {
             int weight = neighbour->type->weight;
             // if shorter path
             if (!shortestPathSet[neighbour] && dist[tile] != INT_MAX && dist[tile] + weight < dist[neighbour]) {
@@ -76,15 +75,13 @@ void Dijkstra::printPath() {
     std::cout << "size viewed: " << exploredPath.size() << "\n";
     std::cout << std::endl;
 }
-std::shared_ptr<Tile> Dijkstra::minDistance(const std::unordered_map<std::shared_ptr<Tile>, int> &dist,
-                                      std::unordered_map<std::shared_ptr<Tile>, bool> &shortestPathSet) {
+
+Tile *Dijkstra::minDistance(const std::unordered_map<Tile *, int> &dist,
+                            std::unordered_map<Tile *, bool> &shortestPathSet) {
     int min = INT_MAX;
-    std::shared_ptr<Tile> minTile = nullptr;
+    Tile *minTile = nullptr;
 
-    for (const auto &pair: dist) {
-        std::shared_ptr<Tile> tile = pair.first;
-        int distance = pair.second;
-
+    for (const auto [tile, distance]: dist) {
         if (!shortestPathSet[tile] && distance <= min) {
             min = distance;
             minTile = tile;
@@ -92,9 +89,10 @@ std::shared_ptr<Tile> Dijkstra::minDistance(const std::unordered_map<std::shared
     }
     return minTile;
 }
-void Dijkstra::solvePaths(std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile> > &reversePath,
-                    const std::shared_ptr<Tile> &dest,
-                    std::vector<std::vector<std::shared_ptr<Tile> > > &solvedPaths) {
+
+void Dijkstra::solvePaths(std::unordered_map<Tile *, Tile *> &reversePath,
+                          Tile *dest,
+                          std::vector<std::vector<Tile *> > &solvedPaths) {
     if (reversePath[dest] == nullptr) {
         return;
     }
@@ -102,9 +100,10 @@ void Dijkstra::solvePaths(std::unordered_map<std::shared_ptr<Tile>, std::shared_
     solvedPaths[0].emplace_back(dest);
 }
 
-void Dijkstra::setsolvedPaths(std::unordered_map<std::shared_ptr<Tile>, int> &dist,
-    std::unordered_map<std::shared_ptr<Tile>, std::shared_ptr<Tile>> &reversePath, const std::shared_ptr<Tile> &dest,
-    std::vector<std::vector<std::shared_ptr<Tile>>> &solvedPaths) {
+void Dijkstra::setsolvedPaths(std::unordered_map<Tile *, int> &dist,
+                              std::unordered_map<Tile *, Tile *> &reversePath,
+                              Tile *dest,
+                              std::vector<std::vector<Tile *> > &solvedPaths) {
     solvedPaths.emplace_back();
     solvePaths(reversePath, dest, solvedPaths);
 

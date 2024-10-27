@@ -5,18 +5,17 @@
 #include "WebReader.hpp"
 
 #include <algorithm>
-#include <curl/curl.h>
+#include <D:/GitHub/boogiewoogie/libs/curl/include/curl/curl.h>
 #include <sstream>
 
-void _trim(std::string& line) {
+void _trim(std::string &line) {
     line.erase(std::remove_if(line.begin(), line.end(), [](char c) {
         return c == '\r' || c == '\n';
     }), line.end());
 }
 
-WebReader::WebReader(const std::string& sourceFile):
-FileReader(sourceFile), curlptr(curl_easy_init(),curl_easy_cleanup){
-}
+WebReader::WebReader(const std::string &sourceFile): FileReader(sourceFile),
+                                                     curlptr(curl_easy_init(), curl_easy_cleanup) {}
 
 WebReader::~WebReader() = default;
 
@@ -31,7 +30,7 @@ std::string WebReader::ExtractFileType() {
 }
 
 void WebReader::OpenStream() {
-    if(!curlptr) {
+    if (!curlptr) {
         std::cerr << "CURL POINTER NOT INITIALIZED!" << std::endl;
         curlptr = std::unique_ptr<CURL, decltype(&curl_easy_cleanup)>(curl_easy_init(), &curl_easy_cleanup);
     }
