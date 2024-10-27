@@ -11,8 +11,6 @@
 #include "Tile.hpp"
 #include "Artist.hpp"
 
-
-
 //TODO Figure out how this will function
 class BoogieRenderer {
 public:
@@ -26,10 +24,13 @@ public:
     void RegisterArtists(const std::vector<std::unique_ptr<Artist>>& artists);
 
     void DeleteArtist(const Artist& artist);
+    void ClearTiles();
+    void ClearArtists();
 
     void Draw() const;
     void DrawInstance();
 
+    bool shouldRenderArtist;
 private:
     std::vector<Tile*> _tiles;
     std::vector<Artist*> _artists;

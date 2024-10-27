@@ -12,8 +12,6 @@
 #include <memory>
 #include <vector>
 
-class BoogieRenderer;
-
 class ArtistManager {
 public:
     explicit ArtistManager(BoogieRenderer& renderer);
@@ -22,6 +20,7 @@ public:
 
     Artist* AddArtist(Artist&& artist);
     void SetArtists(std::vector<std::unique_ptr<Artist>>&& artists) {
+        _renderer.ClearArtists();
         _artists = std::move(artists);
     }
 

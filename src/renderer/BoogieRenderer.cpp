@@ -5,12 +5,14 @@
 #include "BoogieRenderer.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <algorithm>
+#include <BoogieWoogieApp.hpp>
 #include <gtx/string_cast.hpp>
 #include <iostream>
 #include <SDL_render.h>
 
 BoogieRenderer::BoogieRenderer(SDL_Window *window): renderContext(
-    SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)) {
+    SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)),
+shouldRenderArtist(true){
 }
 
 BoogieRenderer::~BoogieRenderer() {
@@ -18,9 +20,11 @@ BoogieRenderer::~BoogieRenderer() {
     SDL_DestroyRenderer(renderContext);
 }
 
-void BoogieRenderer::RegisterArtist(Artist& artist) {
-    auto it = std::find_if(_artists.begin(), _artists.end(), [&artist=artist](const Artist* pArtist){return &artist ==
-     pArtist;});
+void BoogieRenderer::RegisterArtist(Artist &artist) {
+    auto it = std::find_if(_artists.begin(), _artists.end(), [&artist=artist](const Artist *pArtist) {
+        return &artist ==
+               pArtist;
+    });
     if (it == _artists.end())
         _artists.emplace_back(&artist);
 }
@@ -47,6 +51,14 @@ void BoogieRenderer::DeleteArtist(const Artist &artist) {
         _artists.erase(it);
 }
 
+void BoogieRenderer::ClearTiles() {
+    _tiles.clear();
+}
+
+void BoogieRenderer::ClearArtists() {
+    _artists.clear();
+}
+
 void BoogieRenderer::Draw() const {
     SDL_SetRenderDrawColor(renderContext, 255, 255, 255, 255);
     SDL_RenderClear(renderContext);
@@ -66,21 +78,22 @@ void BoogieRenderer::Draw() const {
         SDL_RenderFillRectF(renderContext, &rect);
     }
 
-    //Draw Artists
-    for (const auto &artist: _artists) {
-        auto &dimension = artist->GetShape().GetDimension();
-        auto &pos = artist->GetPosition();
-        auto &colour = artist->GetColour();
-        //TODO have shape always scaled
-        SDL_FRect rect{
-            dimension.x * pos.x + dimension.x / 4.f,
-            dimension.y * pos.y + dimension.y / 4.f,
-            dimension.x / 2.f,
-            dimension.y / 2.f
-        };
-        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
-        SDL_RenderFillRectF(renderContext, &rect);
+    if (shouldRenderArtist) {
+        //Draw Artists
+        for (const auto &artist: _artists) {
+            auto &dimension = artist->GetShape().GetDimension();
+            auto &pos = artist->GetPosition();
+            auto &colour = artist->GetColour();
+            //TODO have shape always scaled
+            SDL_FRect rect{
+                dimension.x * pos.x + dimension.x / 4.f,
+                dimension.y * pos.y + dimension.y / 4.f,
+                dimension.x / 2.f,
+                dimension.y / 2.f
+            };
+            SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+            SDL_RenderFillRectF(renderContext, &rect);
+        }
     }
-
     SDL_RenderPresent(renderContext);
 }

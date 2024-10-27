@@ -3,6 +3,10 @@ project(BoogieWoogie)
 
 set(CMAKE_CXX_STANDARD 17)
 
+#GOOGLE TEST VARS
+set(GTEST_LIB ${PROJECT_SOURCE_DIR}/lib/googletest/libgtest.a)
+set(GMOCK_LIB ${PROJECT_SOURCE_DIR}/lib/googletest/libgmock.a)
+
 # SDL2 VARS
 set(SDL2_ROOT "${CMAKE_SOURCE_DIR}/libs/SDL2")
 set(SDL2_INCLUDE_PATH "${SDL2_ROOT}/include/SDL2")

@@ -25,7 +25,7 @@ std::string WebReader::ExtractFileType() {
     //PosB checks for the las occurence of the ?, because we dont want the query alongside the file extension
     const size_t posA = source.find_last_of('.');
     const size_t posB = source.find_last_of('?');
-    auto string = source.substr(posA, posB - posA);
+    auto string = source.substr(posA+1, posB - posA-1);
     std::cout << string << std::endl;
     return string;
 }

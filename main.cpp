@@ -1,7 +1,7 @@
 #include "BoogieWoogieApp.hpp"
 
 int main(void) {
-    BoogieWoogieApp app{};
+    auto& app = BoogieWoogieApp::GetInstance();
     app.SetupSimulation();
     app.RunSimulation();
     return 0;

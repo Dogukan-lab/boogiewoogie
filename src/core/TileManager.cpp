@@ -8,11 +8,11 @@
 
 std::map<char, std::pair<SDL_Colour, int> > TileManager::types{};
 
-TileManager::TileManager(): TileManager(5) {
+TileManager::TileManager(BoogieRenderer& renderer): TileManager(5, renderer) {
     types.emplace('W', std::pair{SDL_Colour{255, 255, 255, 255}, 0});
 }
 
-TileManager::TileManager(int capacity) {
+TileManager::TileManager(int capacity, BoogieRenderer& renderer): _renderer(renderer) {
     _tiles.reserve(capacity);
 }
 

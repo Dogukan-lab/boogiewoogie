@@ -36,15 +36,15 @@ bool Dijkstra::calculatePath(const std::shared_ptr<Tile> &src, const std::shared
         shortestPathSet[tile] = true;
 
         // Update dist value of the neighboring tiles of the picked tile
-        for (const std::shared_ptr<Tile> &neighbour: tile->neighbours) {
-            int weight = neighbour->type->weight;
+        // for (const std::shared_ptr<Tile> &neighbour: tile->neighbours) {
+            // int weight = neighbour->type->weight;
             // if shorter path
-            if (!shortestPathSet[neighbour] && dist[tile] != INT_MAX && dist[tile] + weight < dist[neighbour]) {
-                dist[neighbour] = dist[tile] + weight;
-                reversePath[neighbour] = tile;
-                exploredPath.push_back(tile);
-            }
-        }
+            // if (!shortestPathSet[neighbour] && dist[tile] != INT_MAX && dist[tile] + weight < dist[neighbour]) {
+                // dist[neighbour] = dist[tile] + weight;
+                // reversePath[neighbour] = tile;
+                // exploredPath.push_back(tile);
+            // }
+        // }
     }
 
     if (!destFound) { return false; }

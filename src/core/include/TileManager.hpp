@@ -4,16 +4,20 @@
 
 #ifndef TILEMANAGER_HPP
 #define TILEMANAGER_HPP
+#include <BoogieRenderer.hpp>
 #include "Tile.hpp"
 #include <map>
 
 class TileManager {
 public:
-    TileManager();
+    explicit TileManager(BoogieRenderer& renderer);
 
-    explicit TileManager(int capacity);
+    explicit TileManager(int capacity, BoogieRenderer& renderer);
 
-    void AddTiles(std::vector<std::vector<std::unique_ptr<Tile> > > &&tileMap) { _tiles = std::move(tileMap); }
+    void AddTiles(std::vector<std::vector<std::unique_ptr<Tile> > > &&tileMap) {
+        _renderer.ClearTiles();
+        _tiles = std::move(tileMap);
+    }
 
     static std::pair<SDL_Colour, int>& GetType(const char c) {
         return types.at(c);
@@ -28,6 +32,7 @@ public:
     static std::map<char, std::pair<SDL_Colour, int> > types;
 private:
     std::vector<std::vector<std::unique_ptr<Tile> > > _tiles;
+    BoogieRenderer& _renderer;
 };
 
 
