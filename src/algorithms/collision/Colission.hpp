@@ -5,6 +5,7 @@
 #ifndef COLISSION_HPP
 #define COLISSION_HPP
 #include <iostream>
+#include <memory>
 
 class Colission {
 public:
