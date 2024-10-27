@@ -25,9 +25,9 @@ public:
 
     std::vector<std::vector<std::unique_ptr<Tile> > > &getTiles();
 
+    static std::map<char, std::pair<SDL_Colour, int> > types;
 private:
     std::vector<std::vector<std::unique_ptr<Tile> > > _tiles;
-    static std::map<char, std::pair<SDL_Colour, int> > types;
 };
 
 

@@ -3,6 +3,9 @@
 //
 
 #include "BoogieRenderer.hpp"
+#define GLM_ENABLE_EXPERIMENTAL
+#include <gtx/string_cast.hpp>
+#include <iostream>
 #include <SDL_render.h>
 
 BoogieRenderer::BoogieRenderer(SDL_Window *window): renderContext(
@@ -14,9 +17,11 @@ BoogieRenderer::~BoogieRenderer() {
     SDL_DestroyRenderer(renderContext);
 }
 
-void BoogieRenderer::RegisterTiles(const std::vector<std::unique_ptr<Tile> > &tiles) {
-    for (auto &tile: tiles) {
-        _tiles.emplace_back(tile.get());
+void BoogieRenderer::RegisterTiles(const std::vector<std::vector<std::unique_ptr<Tile> > > &tiles) {
+    for (auto &row: tiles) {
+        for (auto &tile: row) {
+            _tiles.emplace_back(tile.get());
+        }
     }
 }
 
@@ -29,31 +34,37 @@ void BoogieRenderer::RegisterArtists(const std::vector<std::unique_ptr<Artist> >
 void BoogieRenderer::Draw() const {
     SDL_SetRenderDrawColor(renderContext, 255, 255, 255, 255);
     SDL_RenderClear(renderContext);
+
     //Draw tiles
     for (const auto &tile: _tiles) {
-        // auto &shape = tile->shape;
-        // auto &colour = tile->type.colour;
+        const auto &pos = tile->position;
+        auto &shape = tile->shape;
+        const auto &colour = tile->type->colour;
         //TODO have shape always scaled
-        // SDL_Rect rect{
-            // shape.GetX() * shape.GetWidth(), shape.GetY() * shape.GetHeight(), shape.GetWidth(), shape.GetHeight()
-        // };
-        // SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
-        // SDL_RenderFillRect(renderContext, &rect);
+        SDL_FRect rect{
+            pos.x * shape.GetDimension().x,
+            pos.y * shape.GetDimension().y,
+            shape.GetDimension().x,
+            shape.GetDimension().y
+        };
+        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+        SDL_RenderFillRectF(renderContext, &rect);
     }
 
     //Draw Artists
     for (const auto &artist: _artists) {
-        // auto &shape = artist->GetShape();
-        // auto &colour = artist->GetColour();
+        auto &dimension = artist->GetShape().GetDimension();
+        auto &pos = artist->GetPosition();
+        auto &colour = artist->GetColour();
         //TODO have shape always scaled
-        // SDL_FRect rect{
-            // shape.GetWidth() * artist->GetPosition().x,
-            // shape.GetHeight() * artist->GetPosition().y,
-            // shape.GetWidth() / 2.f,
-            // shape.GetHeight() / 2.f
-        // };
-        // SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
-        // SDL_RenderFillRectF(renderContext, &rect);
+        SDL_FRect rect{
+            dimension.x * pos.x + dimension.x / 4.f,
+            dimension.y * pos.y + dimension.y / 4.f,
+            dimension.x / 2.f ,
+            dimension.y / 2.f
+        };
+        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+        SDL_RenderFillRectF(renderContext, &rect);
     }
 
     SDL_RenderPresent(renderContext);

@@ -13,16 +13,15 @@
 ArtistBuilder& ArtistBuilder::addArtist(DataEntry &artist) {
     glm::vec2 pos{std::stof(artist.entries["x"]), std::stof(artist.entries["y"])};
     glm::vec2 dir{std::stof(artist.entries["vx"]), std::stof(artist.entries["vy"])};
-    dir = glm::normalize(dir);
 
-    Artist autist{
+    Artist art {
         Shape(),
         SDL_Colour {0, 0, 0, 255},
         pos,
         dir
     };
 
-    _artists.emplace_back(std::make_unique<Artist>(autist));
+    _artists.emplace_back(std::make_unique<Artist>(art));
     return *this;
 }
 

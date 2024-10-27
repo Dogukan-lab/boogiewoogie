@@ -30,7 +30,7 @@ MapBuilder &MapBuilder::setMapSize(DataEntry &entry) {
 }
 
 MapBuilder &MapBuilder::addTile(DataEntry &entry) {
-    glm::ivec2 tilePos(std::stoi(entry["x"]), std::stoi(entry["y"]));
+    glm::vec2 tilePos(std::stof(entry["x"]), std::stof(entry["y"]));
     auto tile = std::make_unique<Tile>(tilePos, Shape());
     //Checking for type
     switch (entry["type"][0]) {
@@ -39,6 +39,7 @@ MapBuilder &MapBuilder::addTile(DataEntry &entry) {
             break;
         case 'Y':
             tile->SetType<YellowType>();
+            break;
         case 'R':
             tile->SetType<RedType>();
             break;
@@ -51,7 +52,7 @@ MapBuilder &MapBuilder::addTile(DataEntry &entry) {
         default: break;
     }
 
-    tileMap[tilePos.y][tilePos.x] = std::move(tile);
+    tileMap[static_cast<int>(tilePos.y)][static_cast<int>(tilePos.x)] = std::move(tile);
 
     return *this;
 }

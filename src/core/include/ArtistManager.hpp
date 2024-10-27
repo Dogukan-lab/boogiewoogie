@@ -18,16 +18,15 @@ public:
 
     void AddArtist(Artist&& artist);
     void SetArtists(std::vector<std::unique_ptr<Artist>>&& artists) {
-        //WHAT????? MOVE THE RVALUE TO A RVALUE???
         _artists = std::move(artists);
     }
 
     //TODO implement this eventually
-    void RemoveAritst(const Artist& artist);
+    void RemoveArtist(const Artist& artist);
 
     std::vector<std::unique_ptr<Artist>>& GetArtists();
 
-    void UpdateArtists() const;
+    void UpdateArtists(const float deltaTime) const;
 
 private:
     std::vector<std::unique_ptr<Artist>> _artists{};

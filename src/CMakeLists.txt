@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
 #Pull in sources
 #Die inside
-add_library(BoogieWoogieInternal)
+add_library(BoogieWoogieInternal
+        file_parsers/XmlParser.cpp
+        file_parsers/XmlParser.hpp)
 #target_link_libraries(BoogieWoogieInternal PUBLIC pugixml)
 
 if (TARGET BoogieWoogieInternal)

@@ -13,14 +13,14 @@ enum class ShapeType {
 
 //TODO Shape doesnt need a position, becuase the object owning it already has it.
 struct Shape {
-    Shape(): Shape(32,32, ShapeType::Rectangle){}
+    Shape(): Shape(11.32075471698113f,11.32075471698113f, ShapeType::Rectangle){}
 
-    Shape(int width, int height): Shape(width, height, ShapeType::Rectangle){}
+    Shape(const float width, const float height): Shape(width, height, ShapeType::Rectangle){}
 
-    Shape(int width, int height, ShapeType type): dimensions(width, height), shape(type){}
+    Shape(const float width, const float height, ShapeType type): dimensions(width, height), shape(type){}
 
-    glm::vec2 GetDimension() const { return dimensions;}
-    ShapeType GetShape() const{ return shape;}
+    [[nodiscard]] glm::vec2& GetDimension() { return dimensions;}
+    [[nodiscard]] ShapeType& GetShape() { return shape;}
 
 private:
     ShapeType shape;

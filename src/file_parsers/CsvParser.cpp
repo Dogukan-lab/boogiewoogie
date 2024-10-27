@@ -14,23 +14,25 @@ std::vector<DataEntry> CSVParser::ParseData(std::vector<std::string> &data) {
     const auto header = *(data.end() - 1);
     data.pop_back();
     //Split headers into their own qualifier.
-    const auto headers=  checkFormatting(header);
+    const auto headers = checkFormatting(header);
 
     //Read the actual data
     for (auto &line: data) {
         std::stringstream stream(line);
+        DataEntry entry;
         int index{0};
         std::string token{};
         while (std::getline(stream, token, ',')) {
             if (index < headers.size()) {
                 //Map data to token
-                csvMapping[headers[index]].emplace_back(token);
+                entry.AddEntry(headers[index], token);
                 index++;
             }
         }
+        _entries.emplace_back(entry);
     }
 
-    return {};
+    return _entries;
 }
 
 std::vector<std::string> CSVParser::checkFormatting(const std::string &format) {

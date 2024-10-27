@@ -13,12 +13,7 @@ public:
 
     std::vector<DataEntry> ParseData(std::vector<std::string> &data) override;
 
-    inline std::map<std::string, std::vector<std::string>>&
-    getMapping() { return csvMapping; }
-
 private:
-    std::map<std::string, std::vector<std::string>> csvMapping{};
-
     static std::vector<std::string> checkFormatting(const std::string &format);
 };
 

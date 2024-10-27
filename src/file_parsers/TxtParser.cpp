@@ -42,8 +42,6 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     });
     data.erase(data.begin(), ++it);
 
-
-
     //Data entry for a tile
     // tag
     // x
@@ -84,7 +82,7 @@ DataEntry &&TXTParser::ParseColour(DataEntry &entry, const std::string &data) {
 
 std::vector<DataEntry> TXTParser::ParseTiles(const int &row, const int &cols, const std::string &tileRow) {
     //TODO Do the funny thing to go through the string, and so on.
-    const size_t size = cols < tileRow.size() ? cols : tileRow.size();
+    const size_t size = cols > tileRow.size() ? tileRow.size() : cols;
     std::vector<DataEntry> tempEntries{};
     for (int i = 0; i < size; i++) {
         DataEntry tileEntry{DataEntry::Tile, {}};

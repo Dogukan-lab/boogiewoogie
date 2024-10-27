@@ -22,7 +22,7 @@ public:
     BoogieWoogieApp(BoogieWoogieApp&& other) = delete;
     BoogieWoogieApp operator=(BoogieWoogieApp&& other) = delete;
 
-    void SetupSimulation(const std::string& source);
+    void SetupSimulation();
     void RunSimulation();
 
 private:
@@ -31,6 +31,12 @@ private:
     std::unique_ptr<BoogieRenderer> _renderer;
     std::unique_ptr<TileManager> _tileManager;
     std::unique_ptr<ArtistManager> _artistManager;
+
+    void CreateMap(const std::string& source);
+
+    void CreateArtists(const std::string &source);
+
+    void CreateArtists(const std::string& source) const;
 
 };
 
