@@ -4,7 +4,7 @@
 
 #include "Dijkstra.hpp"
 
-bool Dijkstra::calculatePath(const Tile *src, const Tile *dest, const std::vector<const Tile> &tiles) {
+bool Dijkstra::calculatePath(const Tile *src, const Tile *dest, std::vector<Tile> &tiles) {
     bool destFound = false;
 
     std::unordered_map<const Tile *, int> dist;
@@ -18,7 +18,7 @@ bool Dijkstra::calculatePath(const Tile *src, const Tile *dest, const std::vecto
     destination = dest;
 
     // Initialize distances as INFINITE and shortestPathSet[] as false
-    for (const Tile tile: tiles) {
+    for (Tile &tile: tiles) {
         dist[&tile] = INT_MAX;
         shortestPathSet[&tile] = false;
     }
