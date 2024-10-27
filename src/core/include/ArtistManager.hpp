@@ -6,33 +6,36 @@
 #define ARTISTMANAGER_HPP
 
 #include <Artist.hpp>
+#include <BoogieRenderer.hpp>
+
+#include "Tile.hpp"
 #include <memory>
 #include <vector>
 
+class BoogieRenderer;
 
 class ArtistManager {
 public:
-    ArtistManager();
+    explicit ArtistManager(BoogieRenderer& renderer);
 
-    explicit ArtistManager(int capacity);
+    ArtistManager(int capacity, BoogieRenderer& renderer);
 
-    void AddArtist(Artist&& artist);
+    Artist* AddArtist(Artist&& artist);
     void SetArtists(std::vector<std::unique_ptr<Artist>>&& artists) {
         _artists = std::move(artists);
     }
 
     //TODO implement this eventually
-    void RemoveArtist(const Artist& artist);
+    void RemoveArtist(Artist& artist) const;
 
     std::vector<std::unique_ptr<Artist>>& GetArtists();
 
-    void UpdateArtists(const float deltaTime) const;
+    void UpdateArtists(const float deltaTime, const std::vector<std::vector<std::unique_ptr<Tile>>>& grid);
 
 private:
     std::vector<std::unique_ptr<Artist>> _artists{};
+    BoogieRenderer& _renderer;
 
 };
-
-
 
 #endif //ARTISTMANAGER_HPP

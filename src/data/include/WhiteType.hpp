@@ -10,7 +10,8 @@ class WhiteType: public TileType {
 public:
     WhiteType(): TileType('W') {}
 
-    void handleInteract() override {}
+    //This tile does not do any type of interaction
+    void handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) override {}
 };
 
 #endif //WHITETYPE_HPP

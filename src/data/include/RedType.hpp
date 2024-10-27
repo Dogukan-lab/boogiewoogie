@@ -12,7 +12,7 @@ public:
 
     ~RedType() override = default;
 
-    void handleInteract() override {}
+    void handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager& manager) override;
 };
 
 #endif //REDTYPE_HPP

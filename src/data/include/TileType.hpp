@@ -5,6 +5,11 @@
 #ifndef TILETYPE_HPP
 #define TILETYPE_HPP
 #include <SDL_pixels.h>
+#include <iostream>
+
+class ArtistManager;
+class Artist;
+class Tile;
 
 class TileType {
 public:
@@ -16,7 +21,7 @@ public:
     int weight;
     int interactions;
 
-    virtual void handleInteract() = 0;
+    virtual void handleInteract(Tile* currentTile, Artist* currentArtist, ArtistManager& manager) = 0;
 };
 
 #endif //TILETYPE_HPP

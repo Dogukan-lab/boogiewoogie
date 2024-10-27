@@ -12,9 +12,7 @@ public:
         : TileType('Y') {
     }
 
-    //Something something Artist.Create()
-    void handleInteract() override {
-    }
+    void handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) override;
 };
 
 #endif //YELLOWTYPE_HPP

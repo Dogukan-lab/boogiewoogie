@@ -27,7 +27,7 @@ void BoogieWoogieApp::SetupSimulation() {
     //Surfaces?
     //Or just deprecated....
     std::string mapSource = R"(../assets/graph.xml)";
-    std::string artistSource = R"(../assets/artists.csv)";
+    std::string artistSource = R"(../assets/artist.csv)";
     CreateMap(mapSource);
     CreateArtists(artistSource);
     _renderer->RegisterTiles(_tileManager->getTiles());
@@ -53,7 +53,7 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
     isRunning = true;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>();
-    _artistManager = std::make_unique<ArtistManager>();
+    _artistManager = std::make_unique<ArtistManager>(*_renderer);
 }
 
 void BoogieWoogieApp::RunSimulation() {
@@ -87,7 +87,7 @@ void BoogieWoogieApp::RunSimulation() {
             }
         }
         //Update tiles ofcourse
-        _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f);
+        _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
 
         //Render tiles
         _renderer->Draw();

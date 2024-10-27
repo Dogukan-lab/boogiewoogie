@@ -20,8 +20,12 @@ public:
 
     ~BoogieRenderer();
 
+    void RegisterArtist(Artist& artist);
+
     void RegisterTiles(const std::vector<std::vector<std::unique_ptr<Tile>>>& tile);
     void RegisterArtists(const std::vector<std::unique_ptr<Artist>>& artists);
+
+    void DeleteArtist(const Artist& artist);
 
     void Draw() const;
     void DrawInstance();

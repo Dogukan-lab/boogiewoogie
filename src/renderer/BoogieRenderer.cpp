@@ -4,6 +4,7 @@
 
 #include "BoogieRenderer.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
+#include <algorithm>
 #include <gtx/string_cast.hpp>
 #include <iostream>
 #include <SDL_render.h>
@@ -15,6 +16,13 @@ BoogieRenderer::BoogieRenderer(SDL_Window *window): renderContext(
 BoogieRenderer::~BoogieRenderer() {
     _tiles.clear();
     SDL_DestroyRenderer(renderContext);
+}
+
+void BoogieRenderer::RegisterArtist(Artist& artist) {
+    auto it = std::find_if(_artists.begin(), _artists.end(), [&artist=artist](const Artist* pArtist){return &artist ==
+     pArtist;});
+    if (it == _artists.end())
+        _artists.emplace_back(&artist);
 }
 
 void BoogieRenderer::RegisterTiles(const std::vector<std::vector<std::unique_ptr<Tile> > > &tiles) {
@@ -31,6 +39,14 @@ void BoogieRenderer::RegisterArtists(const std::vector<std::unique_ptr<Artist> >
     }
 }
 
+void BoogieRenderer::DeleteArtist(const Artist &artist) {
+    auto it = std::remove_if(_artists.begin(), _artists.end(), [&elemToDelete=artist](const Artist *artist) {
+        return &elemToDelete == artist;
+    });
+    if (it != _artists.end())
+        _artists.erase(it);
+}
+
 void BoogieRenderer::Draw() const {
     SDL_SetRenderDrawColor(renderContext, 255, 255, 255, 255);
     SDL_RenderClear(renderContext);
@@ -40,7 +56,6 @@ void BoogieRenderer::Draw() const {
         const auto &pos = tile->position;
         auto &shape = tile->shape;
         const auto &colour = tile->type->colour;
-        //TODO have shape always scaled
         SDL_FRect rect{
             pos.x * shape.GetDimension().x,
             pos.y * shape.GetDimension().y,
@@ -60,7 +75,7 @@ void BoogieRenderer::Draw() const {
         SDL_FRect rect{
             dimension.x * pos.x + dimension.x / 4.f,
             dimension.y * pos.y + dimension.y / 4.f,
-            dimension.x / 2.f ,
+            dimension.x / 2.f,
             dimension.y / 2.f
         };
         SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);

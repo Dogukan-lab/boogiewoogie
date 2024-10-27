@@ -24,7 +24,6 @@ std::vector<DataEntry> XMLParser::ParseData(std::vector<std::string> &data) {
     //Parse canvas size
     pugi::xml_node canvas = document.child("canvas");
 
-    //TODO Give the entries their enum types!
     DataEntry entry{DataEntry::GridSize};
     entry.AddEntry("rows", canvas.attribute("rows").as_string());
     entry.AddEntry("cols", canvas.attribute("rows").next_attribute().as_string());
