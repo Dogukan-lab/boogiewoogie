@@ -4,12 +4,12 @@
 
 #include "Dijkstra.hpp"
 
-bool Dijkstra::calculatePath(Tile *src, Tile *dest, std::vector<Tile *> tiles) {
+bool Dijkstra::calculatePath(const Tile *src, const Tile *dest, const std::vector<const Tile *> &tiles) {
     bool destFound = false;
 
-    std::unordered_map<Tile *, int> dist;
-    std::unordered_map<Tile *, bool> shortestPathSet;
-    std::unordered_map<Tile *, Tile *> reversePath;
+    std::unordered_map<const Tile *, int> dist;
+    std::unordered_map<const Tile *, bool> shortestPathSet;
+    std::unordered_map<const Tile *, const Tile *> reversePath;
 
     exploredPath.clear();
     solvedPaths.clear();
@@ -18,7 +18,7 @@ bool Dijkstra::calculatePath(Tile *src, Tile *dest, std::vector<Tile *> tiles) {
     destination = dest;
 
     // Initialize distances as INFINITE and shortestPathSet[] as false
-    for (Tile *tile: tiles) {
+    for (const Tile *tile: tiles) {
         dist[tile] = INT_MAX;
         shortestPathSet[tile] = false;
     }
@@ -26,7 +26,7 @@ bool Dijkstra::calculatePath(Tile *src, Tile *dest, std::vector<Tile *> tiles) {
 
     // Find shortest path
     for (size_t count = 0; count < tiles.size(); count++) {
-        Tile *tile = minDistance(dist, shortestPathSet);
+        const Tile *tile = minDistance(dist, shortestPathSet);
 
         if (tile->position == dest->position) {
             destFound = true;
@@ -57,7 +57,7 @@ bool Dijkstra::calculatePath(Tile *src, Tile *dest, std::vector<Tile *> tiles) {
 }
 
 
-void Dijkstra::printPath() {
+void Dijkstra::printPath() const {
     if (source == nullptr || destination == nullptr || solvedPaths.empty()) {
         std::cout << "Empty path" << std::endl;
         return;
@@ -76,10 +76,10 @@ void Dijkstra::printPath() {
     std::cout << std::endl;
 }
 
-Tile *Dijkstra::minDistance(const std::unordered_map<Tile *, int> &dist,
-                            std::unordered_map<Tile *, bool> &shortestPathSet) {
+const Tile *Dijkstra::minDistance(const std::unordered_map<const Tile *, int> &dist,
+                                  std::unordered_map<const Tile *, bool> &shortestPathSet) const {
     int min = INT_MAX;
-    Tile *minTile = nullptr;
+    const Tile *minTile = nullptr;
 
     for (const auto [tile, distance]: dist) {
         if (!shortestPathSet[tile] && distance <= min) {
@@ -90,9 +90,9 @@ Tile *Dijkstra::minDistance(const std::unordered_map<Tile *, int> &dist,
     return minTile;
 }
 
-void Dijkstra::solvePaths(std::unordered_map<Tile *, Tile *> &reversePath,
-                          Tile *dest,
-                          std::vector<std::vector<Tile *> > &solvedPaths) {
+void Dijkstra::solvePaths(std::unordered_map<const Tile *, const Tile *> &reversePath,
+                          const Tile *dest,
+                          std::vector<std::vector<const Tile *> > &solvedPaths) const {
     if (reversePath[dest] == nullptr) {
         return;
     }
@@ -100,10 +100,10 @@ void Dijkstra::solvePaths(std::unordered_map<Tile *, Tile *> &reversePath,
     solvedPaths[0].emplace_back(dest);
 }
 
-void Dijkstra::setsolvedPaths(std::unordered_map<Tile *, int> &dist,
-                              std::unordered_map<Tile *, Tile *> &reversePath,
-                              Tile *dest,
-                              std::vector<std::vector<Tile *> > &solvedPaths) {
+void Dijkstra::setsolvedPaths(std::unordered_map<const Tile *, int> &dist,
+                              std::unordered_map<const Tile *, const Tile *> &reversePath,
+                              const Tile *dest,
+                              std::vector<std::vector<const Tile *> > &solvedPaths) const {
     solvedPaths.emplace_back();
     solvePaths(reversePath, dest, solvedPaths);
 

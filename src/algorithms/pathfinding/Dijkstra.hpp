@@ -11,30 +11,30 @@
 
 class Dijkstra : Pathfinder {
 public:
-    bool calculatePath(Tile *src, Tile *dest, std::vector<Tile *> tiles);
+    bool calculatePath(const Tile *src, const Tile *dest, const std::vector<const Tile *> &tiles);
 
-    void printPath();
+    void printPath() const;
 
-    std::vector<Tile *> exploredPath;
-    std::vector<std::vector<Tile *> > solvedPaths;
+    std::vector<const Tile *> exploredPath;
+    std::vector<std::vector<const Tile *> > solvedPaths;
     static int shortestPathWeight;
     const Tile *source;
     const Tile *destination;
 
 private:
     // find Tile with the minimum dist value that is not set in shortestPathSet //todo: speed improvement? sorted list?
-    static Tile *minDistance(const std::unordered_map<Tile *, int> &dist,
-                             std::unordered_map<Tile *, bool> &shortestPathSet);
+    const Tile *minDistance(const std::unordered_map<const Tile *, int> &dist,
+                            std::unordered_map<const Tile *, bool> &shortestPathSet) const;
 
     //todo: Punten 5: Omgaan met meerdere goedkoopste paden
-    static void solvePaths(std::unordered_map<Tile *, Tile *> &reversePath,
-                           Tile *dest,
-                           std::vector<std::vector<Tile *> > &solvedPaths);
+    void solvePaths(std::unordered_map<const Tile *, const Tile *> &reversePath,
+                    const Tile *dest,
+                    std::vector<std::vector<const Tile *> > &solvedPaths) const;
 
-    static void setsolvedPaths(std::unordered_map<Tile *, int> &dist,
-                               std::unordered_map<Tile *, Tile *> &reversePath,
-                               Tile *dest,
-                               std::vector<std::vector<Tile *> > &solvedPaths);
+    void setsolvedPaths(std::unordered_map<const Tile *, int> &dist,
+                        std::unordered_map<const Tile *, const Tile *> &reversePath,
+                        const Tile *dest,
+                        std::vector<std::vector<const Tile *> > &solvedPaths) const;
 };
 
 
