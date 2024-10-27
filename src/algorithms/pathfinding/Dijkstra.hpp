@@ -11,7 +11,7 @@
 
 class Dijkstra : Pathfinder {
 public:
-    bool calculatePath(const Tile *src, const Tile *dest, const std::vector<const Tile *> &tiles);
+    bool calculatePath(const Tile *src, const Tile *dest, const std::vector<const Tile> &tiles);
 
     void printPath() const;
 
