@@ -1,10 +1,25 @@
-#include <iostream>
+//
+// Created by hmkam on 26/10/2024.
+//
+#include "src/input_handler/InputHandler.hpp"
+#include "src/input_handler/MouseAndKeyboard.hpp"
+#include "MapActionHandler.hpp"
+#include "src/input_handler/AdjustBoxAtMousePointer.hpp"
+#include "src/input_handler/MoveArtists.hpp"
 
-int returnSomething(int val1, int val2) {
-    return val1 + val2;
+
+void testInputHandler() {
+    auto inputHandler = InputHandler();
+
+    inputHandler.addKey('A', new MoveArtists);
+    inputHandler.addKey('B', new AdjustBoxAtMousePointer(new MouseAndKeyboard, new MapActionHandler)); {
+        inputHandler.executeKey('B');
+        inputHandler.executeKey('C');
+    }
 }
 
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    testInputHandler();
     return 0;
 }
