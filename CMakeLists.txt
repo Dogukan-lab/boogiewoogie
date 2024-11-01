@@ -4,8 +4,8 @@ project(BoogieWoogie)
 set(CMAKE_CXX_STANDARD 17)
 
 #GOOGLE TEST VARS
-set(GTEST_LIB ${PROJECT_SOURCE_DIR}/lib/googletest/libgtest.a)
-set(GMOCK_LIB ${PROJECT_SOURCE_DIR}/lib/googletest/libgmock.a)
+set(GTEST_LIB ${PROJECT_SOURCE_DIR}/libs/googletest/libgtest.a)
+set(GMOCK_LIB ${PROJECT_SOURCE_DIR}/libs/googletest/libgmock.a)
 
 # SDL2 VARS
 set(SDL2_ROOT "${CMAKE_SOURCE_DIR}/libs/SDL2")
@@ -40,6 +40,10 @@ include_directories(${PUGI_ROOT})
 #SDL2
 include_directories(${SDL2_INCLUDE_PATH})
 
+
+add_subdirectory(libs/googletest-main)
+include_directories(libs/googletest/include)
+
 # SRC plus pugiXML
 add_subdirectory(src)
 
@@ -52,6 +56,8 @@ add_executable(${PROJECT_NAME} main.cpp
 target_link_directories(${PROJECT_NAME} PUBLIC ${CURL_ROOT}/include)
 target_link_directories(${PROJECT_NAME} PUBLIC ${SDL2_INCLUDE_PATH})
 
+# Add Google logs
+target_link_libraries(${PROJECT_NAME} PUBLIC gtest gmock)
 # Link Pugi, Glm, Curl, SDL2
 target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
         pugixml
