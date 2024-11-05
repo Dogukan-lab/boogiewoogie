@@ -7,7 +7,7 @@
 
 class Window {
 public:
-    explicit Window(int width, int height, const char* name, size_t extras);
+    explicit Window(int width, int height, const char* name);
 
 
     ~Window() = default;
@@ -16,8 +16,8 @@ private:
     struct WindowProperties {
         int width{};
         int height{};
-        size_t extras{};
         const char* title{};
+        unsigned int extras{};
     };
 
     WindowProperties _properties;

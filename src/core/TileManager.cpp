@@ -16,6 +16,12 @@ TileManager::TileManager(int capacity, BoogieRenderer& renderer): _renderer(rend
     _tiles.reserve(capacity);
 }
 
+void TileManager::AddTiles(std::vector<std::vector<std::unique_ptr<Tile>>> &&tileMap) {
+    _renderer.ClearTiles();
+    _tiles = std::move(tileMap);
+    _renderer.RegisterTiles(_tiles);
+}
+
 std::vector<std::vector<std::unique_ptr<Tile> > > &TileManager::getTiles() {
     return _tiles;
 }

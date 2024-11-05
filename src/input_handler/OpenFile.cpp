@@ -19,12 +19,11 @@ void OpenFile::Execute() const {
     auto reader = FileReaderFactory::CreateFileReader(path);
     auto [type, data] = reader->ReadContent();
 
-    std::cout << path << std::endl;
-
+    auto& renderer = BoogieWoogieApp::GetInstance().GetRenderer();
     for (const auto &[key,val]: BoogieWoogieApp::GetInstance().mapActions) {
         if (key == type) {
             val(data);
-            BoogieWoogieApp::GetInstance().GetRenderer().RegisterTiles(
+            renderer.RegisterTiles(
                 BoogieWoogieApp::GetInstance().GetTileManager().getTiles()
             );
             BoogieWoogieApp::GetInstance().mapLoaded = true;
@@ -36,7 +35,7 @@ void OpenFile::Execute() const {
     for (const auto &[key,val]: BoogieWoogieApp::GetInstance().artistActions) {
         if (key == type) {
             val(data);
-            BoogieWoogieApp::GetInstance().GetRenderer().RegisterArtists(
+            renderer.RegisterArtists(
                 BoogieWoogieApp::GetInstance().GetArtistManager().GetArtists()
             );
             BoogieWoogieApp::GetInstance().artistsLoaded = true;

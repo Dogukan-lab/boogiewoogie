@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
-#Pull in sources
-#Die inside
+
 add_library(BoogieWoogieInternal
         core/Window.cpp
-        core/include/Window.hpp)
+        core/include/Window.hpp
+        testing/filereading/FileReadTest.hpp)
 
 
 if (TARGET BoogieWoogieInternal)

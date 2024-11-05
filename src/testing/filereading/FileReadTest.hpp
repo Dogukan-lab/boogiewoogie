@@ -10,17 +10,16 @@
 
 #include "gtest/gtest.h"
 
-class FileReadTest: public ::testing::Test {
-public:
-
+class FileReadTest : public ::testing::Test {
+protected:
     void SetUp() override {
-        std::string source = R"(../assets/artist.csv)";
-        reader = FileReaderFactory::CreateFileReader(source);
+        reader = std::unique_ptr<FileReader>();
     }
 
     void TearDown() override {
         reader.reset();
     }
+
     std::unique_ptr<FileReader> reader;
 };
 

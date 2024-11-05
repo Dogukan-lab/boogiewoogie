@@ -14,10 +14,7 @@ public:
 
     explicit TileManager(int capacity, BoogieRenderer& renderer);
 
-    void AddTiles(std::vector<std::vector<std::unique_ptr<Tile> > > &&tileMap) {
-        _renderer.ClearTiles();
-        _tiles = std::move(tileMap);
-    }
+    void AddTiles(std::vector<std::vector<std::unique_ptr<Tile> > > &&tileMap);
 
     static std::pair<SDL_Colour, int>& GetType(const char c) {
         return types.at(c);

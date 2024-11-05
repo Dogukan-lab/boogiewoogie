@@ -17,6 +17,7 @@ shouldRenderArtist(true){
 
 BoogieRenderer::~BoogieRenderer() {
     _tiles.clear();
+    _artists.clear();
     SDL_DestroyRenderer(renderContext);
 }
 

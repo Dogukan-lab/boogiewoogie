@@ -17,7 +17,10 @@
 class BoogieWoogieApp {
 public:
 
-    static BoogieWoogieApp& GetInstance();
+    static BoogieWoogieApp& GetInstance() {
+        static BoogieWoogieApp instance;
+        return instance;
+    }
 
     BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height);
 
@@ -44,7 +47,6 @@ public:
     std::unordered_map<std::string, std::function<void(std::vector<std::string>&)>> artistActions;
 private:
     BoogieWoogieApp();
-    static BoogieWoogieApp instance;
     std::string mapSource{};
     std::string artistSource{};
 
@@ -57,7 +59,7 @@ private:
     std::unique_ptr<BoogieRenderer> _renderer;
     std::unique_ptr<ArtistManager> _artistManager;
 
-    void CreateMap(const std::string &source) ;
+    void CreateMap(const std::string &source) const;
 
     void CreateArtists(const std::string &source);
 };

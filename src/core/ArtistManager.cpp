@@ -73,7 +73,7 @@ void ArtistManager::UpdateArtists(const float deltaTime,
             if (tilePos.x != lastTile.x || tilePos.y != lastTile.y) {
                 lastTile = tilePos;
                 auto &tile = grid[tilePos.y][tilePos.x];
-                tile->type->handleInteract(tile.get(), artist.get(), *this);
+                tile->handleTileInteraction(artist.get());
             }
         }
     }
