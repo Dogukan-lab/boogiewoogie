@@ -6,7 +6,7 @@
 
 #include <BoogieWoogieApp.hpp>
 #include <SDL_mouse.h>
-//Wat?
+
 void TileInteraction::Execute() const {
     int x,y;
     SDL_GetMouseState(&x, &y);
@@ -17,5 +17,6 @@ void TileInteraction::Execute() const {
     const int tileY = static_cast<int>(static_cast<float>(y)/tileSize.y);
 
     const auto& tile = BoogieWoogieApp::GetInstance().GetTileManager().getTiles()[tileY][tileX];
-    tile->type->handleInteract(tile.get(), nullptr, BoogieWoogieApp::GetInstance().GetArtistManager());
+    //Tile type function needs to be done by the Tile itself.
+    tile->handleTileInteraction(nullptr);
 }

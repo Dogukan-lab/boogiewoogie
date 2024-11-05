@@ -10,6 +10,6 @@ class BlueType: public TileType {
 public:
     BlueType(): TileType('B'){}
 
-    void handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) override;
+    void handleInteract(Tile *currentTile, Artist *currentArtist) override;
 };
 #endif //BLUETYPE_HPP

@@ -10,6 +10,6 @@ class GreyType: public TileType {
 public:
     GreyType(): TileType('G') {}
 
-    void handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) override;
+    void handleInteract(Tile *currentTile, Artist *currentArtist) override;
 };
 #endif //GREYTYPE_HPP

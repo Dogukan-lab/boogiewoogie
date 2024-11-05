@@ -6,7 +6,7 @@
 #include <RedType.hpp>
 #include <Tile.hpp>
 
-void GreyType::handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) {
+void GreyType::handleInteract(Tile *currentTile, Artist* currentArtist) {
     if(interactions == 3) {
         currentTile->SetType<RedType>();
     }

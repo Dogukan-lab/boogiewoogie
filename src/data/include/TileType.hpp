@@ -21,7 +21,7 @@ public:
     int weight;
     int interactions;
 
-    virtual void handleInteract(Tile* currentTile, Artist* currentArtist, ArtistManager& manager) = 0;
+    virtual void handleInteract(Tile* currentTile, Artist* currentArtist) = 0;
 };
 
 #endif //TILETYPE_HPP

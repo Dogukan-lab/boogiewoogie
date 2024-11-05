@@ -12,6 +12,14 @@
 #include <TileManager.hpp>
 #include <gtx/string_cast.hpp>
 
+// ArtistManager::ArtistManager(const BoogieRenderer& renderer): ArtistManager(10, renderer){
+// }
+
+// ArtistManager::ArtistManager(int capacity, const BoogieRenderer& renderer) {
+//     _artists.resize(capacity);
+//     _renderer = renderer;
+// }
+
 ArtistManager::ArtistManager(BoogieRenderer &renderer): ArtistManager(10, renderer) {
 }
 
@@ -71,10 +79,11 @@ void ArtistManager::UpdateArtists(const float deltaTime,
     }
 
     //Delete artist, if any are existing
-    if (const auto it = std::remove_if(_artists.begin(), _artists.end(), [](const std::unique_ptr<Artist> &
-                                   pArtist) {
-                                           return pArtist->shouldBeDeleted;
-                                       }); it != _artists.end()) {
+    const auto it = std::remove_if(_artists.begin(), _artists.end(), [](const std::unique_ptr<Artist> &
+                               pArtist) {
+                                       return pArtist->shouldBeDeleted;
+                                   });
+    if (it != _artists.end()) {
         _artists.erase(it, _artists.end());
     }
 }

@@ -10,7 +10,7 @@
 #include <YellowType.hpp>
 #include <random>
 
-void BlueType::handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) {
+void BlueType::handleInteract(Tile *currentTile, Artist *currentArtist) {
 
     //Templist neighbours
     std::random_device device;

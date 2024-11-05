@@ -24,6 +24,10 @@ public:
         type = std::make_unique<T>();
     }
 
+    inline void handleTileInteraction(Artist* currentArtist) {
+        type->handleInteract(this, currentArtist);
+    }
+
     Shape shape;
     glm::vec2 position;
     std::unique_ptr<TileType> type;

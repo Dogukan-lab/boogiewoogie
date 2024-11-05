@@ -8,8 +8,6 @@
 #include <iostream>
 
 void PauseArtist::Execute() const {
-    std::cout << "Move artists: todo: implement\n";
-    //todo: implement
     bool& running = BoogieWoogieApp::GetInstance().shouldUpdateArtists;
     running = !running;
 }

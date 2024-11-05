@@ -12,7 +12,7 @@ public:
         : TileType('Y') {
     }
 
-    void handleInteract(Tile *currentTile, Artist *currentArtist, ArtistManager &manager) override;
+    void handleInteract(Tile *currentTile, Artist *currentArtist) override;
 };
 
 #endif //YELLOWTYPE_HPP

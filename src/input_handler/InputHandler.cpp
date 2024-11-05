@@ -22,12 +22,8 @@ InputHandler::~InputHandler() {
     actionMap.clear();
 }
 
-void InputHandler::executeKey(int keycode) {
-    if (actionMap.find(keycode) != actionMap.end()) {
-        actionMap[keycode]->Execute();
-    } else {
-        std::cout << "No command bound to input: " << keycode << std::endl;
-    }
+Action& InputHandler::GetAction(int keycode) const {
+    return *actionMap.at(keycode);
 }
 
 void InputHandler::executeMouse() {

@@ -14,7 +14,7 @@
  */
 class DiskReader : public FileReader {
 public:
-    DiskReader(const std::string& sourceFile);
+    explicit DiskReader(const std::string& sourceFile);
 
     ~DiskReader() override;
 
