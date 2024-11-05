@@ -61,7 +61,7 @@ private:
 
     void CreateMap(const std::string &source) const;
 
-    void CreateArtists(const std::string &source);
+    void CreateArtists(const std::string &source) const;
 };
 
 
