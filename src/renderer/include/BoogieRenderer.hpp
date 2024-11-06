@@ -10,6 +10,7 @@
 
 #include "Tile.hpp"
 #include "Artist.hpp"
+#include "Memento.hpp"
 
 //TODO Figure out how this will function
 class BoogieRenderer {
@@ -29,6 +30,9 @@ public:
 
     void Draw() const;
     void DrawInstance();
+
+    Memento *Save();
+    void Restore(Memento *memento);
 
     bool shouldRenderArtist;
 private:

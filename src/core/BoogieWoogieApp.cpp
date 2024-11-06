@@ -22,6 +22,7 @@
 
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
+#include "Caretaker.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {
     //Setup tiles for now...
@@ -52,6 +53,7 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
                                        width, height, SDL_WINDOW_SHOWN));
     }
     isRunning = true;
+    isPaused = false;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>(*_renderer);
     _artistManager = std::make_unique<ArtistManager>(*_renderer);
@@ -64,6 +66,9 @@ void BoogieWoogieApp::RunSimulation() {
     Uint32 prevTick = SDL_GetTicks();
     Uint32 fpsInterval = 1000;
     Uint32 fps = 0, frameCount = 0;
+
+    Uint32 mementoUpdateCounter = 0;
+    Caretaker *caretaker = new Caretaker(&*_renderer, 200);
 
     while (isRunning) {
         Uint32 curTicks = SDL_GetTicks();
@@ -89,10 +94,24 @@ void BoogieWoogieApp::RunSimulation() {
             }
         }
         //Update tiles ofcourse
-        _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
-
+        if (!isPaused) {
+            _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
+        }
         //Render tiles
         _renderer->Draw();
+
+        mementoUpdateCounter++;
+        if (mementoUpdateCounter % 60 == 0) {
+            if (isPaused) {
+                caretaker->Undo();
+            } else {
+                caretaker->Backup();
+            }
+        }
+
+        if (mementoUpdateCounter % 480 == 0) {
+            isPaused = true;
+        }
 
         frameCount++;
         fps += delta;

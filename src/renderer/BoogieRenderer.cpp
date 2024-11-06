@@ -98,3 +98,13 @@ void BoogieRenderer::Draw() const {
     }
     SDL_RenderPresent(renderContext);
 }
+
+Memento * BoogieRenderer::Save() {
+    //todo: pointer type
+    return new Memento(_tiles, _artists);
+}
+
+void BoogieRenderer::Restore(Memento *memento) {
+    _tiles = memento->GetTiles();
+    _artists = memento->GetAritsts();
+}

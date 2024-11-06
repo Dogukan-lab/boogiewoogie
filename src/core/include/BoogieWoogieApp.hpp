@@ -41,6 +41,7 @@ public:
     void RunSimulation();
     bool shouldUpdateArtists;
     bool isRunning;
+    bool isPaused;
     bool artistsLoaded = false;
     bool mapLoaded = false;
     std::unordered_map<std::string, std::function<void(std::vector<std::string>&)>> mapActions;
