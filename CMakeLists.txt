@@ -46,7 +46,9 @@ include_directories(${SDL2_INCLUDE_PATH})
 # SRC plus pugiXML
 add_subdirectory(src)
 
-add_executable(${PROJECT_NAME} main.cpp testing/FileReadTest.cpp testing/TestSuite.cpp)
+add_executable(${PROJECT_NAME} main.cpp testing/FileReadTest.cpp testing/TestSuite.cpp
+        testing/ParserSuite.cpp
+        testing/ParserSuite.hpp)
 
 #Testing
 target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest_main)
