@@ -3,15 +3,17 @@ project(BoogieWoogie)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#GOOGLE TEST VARS
-set(GTEST_LIB ${PROJECT_SOURCE_DIR}/libs/googletest/libgtest.a)
-set(GMOCK_LIB ${PROJECT_SOURCE_DIR}/libs/googletest/libgmock.a)
+# GTest
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/googletest-main)
+include_directories(libs/googletest/include)
 
 # SDL2 VARS
 set(SDL2_ROOT "${CMAKE_SOURCE_DIR}/libs/SDL2")
 set(SDL2_INCLUDE_PATH "${SDL2_ROOT}/include/SDL2")
 set(SDL2_LIBRARIES_PATH "${SDL2_ROOT}/lib/libSDL2.dll.a")
 set(SDL2_RUNTIME_PATH "${SDL2_ROOT}/bin/SDL2.dll")
+
 # Check status of the SDL2 vars
 message(STATUS "SDL2 Root Directory: ${SDL2_ROOT}/include")
 message(STATUS "SDL2 Include Directory: ${SDL2_INCLUDE_PATH}")
@@ -22,13 +24,13 @@ message(STATUS "SDL2 Library Directory: ${SDL2_RUNTIME_PATH}")
 set(CURL_ROOT "${CMAKE_SOURCE_DIR}/libs/curl")
 set(CURL_RUNTIME_PATH "${CURL_ROOT}/bin/libcurl-x64.dll")
 set(CURL_LIB_PATH "${CURL_ROOT}/lib/libcurl.dll.a")
+
 #Check status of the CURL vars
 message(STATUS "CURL Include Directory: ${CURL_ROOT}/include")
 message(STATUS "CURL Library Directory: ${CURL_LIB_PATH}")
 
 # PUGI VARS
 set(PUGI_ROOT "${CMAKE_SOURCE_DIR}/libs/pugixml")
-
 
 # GLM
 add_subdirectory(libs/glm)
@@ -41,25 +43,20 @@ include_directories(${PUGI_ROOT})
 #SDL2
 include_directories(${SDL2_INCLUDE_PATH})
 
-
-add_subdirectory(libs/googletest-main)
-include_directories(libs/googletest/include)
-
 # SRC plus pugiXML
 add_subdirectory(src)
 
-add_executable(${PROJECT_NAME} main.cpp
-#    external/FileReadingTest.cpp # File reading Test
-#        external/FileReadingTest.hpp
-)
+add_executable(${PROJECT_NAME} main.cpp testing/FileReadTest.cpp testing/TestSuite.cpp)
+
+#Testing
+target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest_main)
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME})
 
 # Link CURL + SDL2
 target_link_directories(${PROJECT_NAME} PUBLIC ${CURL_ROOT}/include)
 target_link_directories(${PROJECT_NAME} PUBLIC ${SDL2_INCLUDE_PATH})
 
-# Add Google logs
-enable_testing()
-target_link_libraries(${PROJECT_NAME} PUBLIC gtest gtest_main gmock)
 # Link Pugi, Glm, Curl, SDL2
 target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
         pugixml

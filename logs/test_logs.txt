@@ -1,2 +1,4 @@
-[TEST SUITE START] 0 Test start Timestamp: 1730854543646
-[TEST SUITE END] 0 Amount of test succes: 0 Amount of test failures: 0
+[TEST SUITE START] 0 Test start Timestamp: 1730899660253
+[TEST START] FileReadTest.CreateFileReader
+[END OF TEST] PASSED: FileReadTest.CreateFileReader
+[TEST SUITE END] 0 Amount of test succes: 1 Amount of test failures: 0

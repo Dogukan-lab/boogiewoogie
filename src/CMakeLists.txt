@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 
 add_library(BoogieWoogieInternal
         core/Window.cpp
-        core/include/Window.hpp
-        testing/FileReadTest.cpp)
+        core/include/Window.hpp)
 
 
 if (TARGET BoogieWoogieInternal)
@@ -17,5 +16,5 @@ if (TARGET BoogieWoogieInternal)
     gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/algorithms/collision" BoogieWoogieInternal)
     gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/algorithms/pathfinding" BoogieWoogieInternal)
     gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/input_handler" BoogieWoogieInternal)
-    gather_sources_headers("${CMAKE_CURRENT_SOURCE_DIR}/testing" BoogieWoogieInternal)
+    gather_sources_headers("../testing" BoogieWoogieInternal)
 endif ()

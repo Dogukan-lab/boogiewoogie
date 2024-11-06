@@ -3,10 +3,10 @@
 
 #include "BoogieWoogieApp.hpp"
 
-#define TEST 1
+#define TEST_FRAMEWORK 1
 
 int main(void) {
-#ifdef TEST
+#if TEST_FRAMEWORK
     return TestSuite::StartTests();
 #endif
     // auto& app = BoogieWoogieApp::GetInstance();
