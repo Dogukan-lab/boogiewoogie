@@ -11,7 +11,7 @@ int TestSuite::StartTests() {
     auto& listeners = ::testing::UnitTest::GetInstance()->listeners();
 
     listeners.Append(new TestLogger);
-    const int result = RUN_ALL_TESTS();
+    int result = RUN_ALL_TESTS();
 
     return result;
 }

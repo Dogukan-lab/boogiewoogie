@@ -29,6 +29,7 @@ message(STATUS "CURL Library Directory: ${CURL_LIB_PATH}")
 # PUGI VARS
 set(PUGI_ROOT "${CMAKE_SOURCE_DIR}/libs/pugixml")
 
+
 # GLM
 add_subdirectory(libs/glm)
 include_directories(libs/glm)
@@ -57,7 +58,8 @@ target_link_directories(${PROJECT_NAME} PUBLIC ${CURL_ROOT}/include)
 target_link_directories(${PROJECT_NAME} PUBLIC ${SDL2_INCLUDE_PATH})
 
 # Add Google logs
-target_link_libraries(${PROJECT_NAME} PUBLIC gtest gmock)
+enable_testing()
+target_link_libraries(${PROJECT_NAME} PUBLIC gtest gtest_main gmock)
 # Link Pugi, Glm, Curl, SDL2
 target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
         pugixml
@@ -70,4 +72,3 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     BUILD_WITH_INSTALL_RPATH TRUE
     INSTALL_RPATH "${CURL_RUNTIME_PATH};${CURL_LIB_PATH};${SDL2_RUNTIME_PATH};${SDL2_LIBRARIES_PATH}"
 )
-

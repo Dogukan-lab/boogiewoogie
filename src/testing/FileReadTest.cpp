@@ -4,6 +4,9 @@
 
 #include "FileReadTest.hpp"
 
+#include <FileReaderFactory.hpp>
+#include <WebReader.hpp>
+
 static std::string _webSource{R"(https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/grid.txt?alt=media)"};
 static std::string _artistSource{R"(../assets/artists/artist.csv)"};
 static std::string _mapSource{R"(../assets/map/grid.txt)"};
@@ -39,5 +42,12 @@ TEST_F(FileReadTest, CheckFirstLineMap) {
     EXPECT_EQ("rows=53,cols=53", data[0]);
 }
 
-TEST_F(FileReadTest, InstantiateWebReader) {
+TEST_F(FileReadTest, FileFactoryInstances) {
+    EXPECT_EQ(FileReaderFactory::isWebUrl(_webSource), true);
+    EXPECT_EQ(FileReaderFactory::isWebUrl(_artistSource), false);
+}
+
+TEST_F(FileReadTest, FileReaderHandleIncorrectFile) {
+    reader = FileReaderFactory::CreateFileReader(R"(../assets/wrongfile.txt)");
+    ASSERT_THROW(reader->ReadContent(), std::runtime_error);
 }

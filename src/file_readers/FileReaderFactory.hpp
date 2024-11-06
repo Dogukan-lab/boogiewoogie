@@ -24,7 +24,6 @@ public:
      */
     static std::unique_ptr<FileReader> CreateFileReader(const std::string& source);
 
-private:
     /**
      * @brief Helper function to determine if a web reader is necessary.
      * @param sourceType The assumed web link that we want to verify.
