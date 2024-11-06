@@ -29,10 +29,12 @@ public:
     void ClearArtists();
 
     void Draw() const;
-    void DrawInstance();
 
     Memento *Save();
+
     void Restore(Memento *memento);
+
+    void DrawInstance();
 
     bool shouldRenderArtist;
 private:

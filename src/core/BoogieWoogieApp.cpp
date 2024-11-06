@@ -97,6 +97,7 @@ void BoogieWoogieApp::RunSimulation() {
         if (!isPaused) {
             _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
         }
+
         //Render tiles
         _renderer->Draw();
 
@@ -109,7 +110,9 @@ void BoogieWoogieApp::RunSimulation() {
             }
         }
 
-        if (mementoUpdateCounter % 480 == 0) {
+        // std::cout << "artist" << _artistManager->GetArtists().front()->GetPosition();
+
+        if (mementoUpdateCounter % 480 == 479) {
             isPaused = true;
         }
 

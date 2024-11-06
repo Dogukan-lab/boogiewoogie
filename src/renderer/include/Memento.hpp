@@ -10,24 +10,35 @@
 #include <utility>
 #include <vector>
 
+#include "Tile.hpp"
+#include "Artist.hpp"
 
-class Artist;
-class Tile;
+struct tileCopy {
+    const glm::vec2 pos;
+    const Shape shape;
+};
+
+struct artistCopy {
+    const Shape shape;
+    const SDL_Colour colour;
+    const glm::vec2 startPos;
+    const glm::vec2 direction;
+};
 
 class Memento {
 private:
     std::string date_;
-    std::vector<Tile *> tiles_;
-    std::vector<Artist *> artists_;
+    std::vector<Tile> tiles_{};
+    std::vector<artistCopy> artists_{};
 
 public:
-    Memento(std::vector<Tile *> tiles, std::vector<Artist *> artists) : tiles_(std::move(tiles)),
+    Memento(std::vector<Tile> tiles, std::vector<artistCopy> artists) : tiles_(std::move(tiles)),
                                                                         artists_(std::move(artists)) {
         std::time_t now = std::time(0);
         date_ = std::ctime(&now);
     }
 
-    virtual ~Memento() {};
+    virtual ~Memento() = default;
 
     /**
     * The rest of the methods are used by the Caretaker to display metadata.
@@ -37,11 +48,11 @@ public:
         return date_;
     }
 
-    const std::vector<Tile *> &GetTiles() const {
+    const std::vector<Tile> &GetTiles() const {
         return tiles_;
     }
 
-    const std::vector<Artist *> &GetAritsts() const {
+    const std::vector<artistCopy> &GetAritsts() const {
         return artists_;
     }
 };

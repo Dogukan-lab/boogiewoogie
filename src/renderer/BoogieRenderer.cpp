@@ -101,10 +101,33 @@ void BoogieRenderer::Draw() const {
 
 Memento * BoogieRenderer::Save() {
     //todo: pointer type
-    return new Memento(_tiles, _artists);
+    std::vector<Tile> tilesCopy;
+    std::vector<artistCopy> artistsCopy;
+
+    _tiles.at(0)->type->colour;
+
+    for (auto tile: _tiles) {
+        tilesCopy.push_back(*tile);
+    }
+    for (auto *&artist: _artists) {
+        artistsCopy.push_back(artistCopy{artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection()});
+    }
+    return new Memento(tilesCopy, artistsCopy);
 }
 
 void BoogieRenderer::Restore(Memento *memento) {
-    _tiles = memento->GetTiles();
-    _artists = memento->GetAritsts();
+    auto tiles = memento->GetTiles();
+    auto artists = memento->GetAritsts();
+
+    std::cout << "restore" << std::endl;
+    std::cout << "restore" << tiles.at(0).type->colour.r << " " << tiles.at(0).type->colour.g << tiles.at(0).type->colour.b << std::endl;
+
+    for (int index = 0; index < tiles.size() && index < _tiles.size(); index++) {
+        _tiles[index] = &tiles[index];
+    }
+
+    _artists.clear();
+    for (auto &artist: artists) {
+        _artists.push_back(new Artist(artist.shape,artist.colour,artist.startPos,artist.direction));
+    }
 }

@@ -13,8 +13,10 @@ Caretaker::~Caretaker() {
 
 void Caretaker::Backup() {
     mementos_.push_back(originator_->Save());
-    //todo:remove
-    std::cout << "Caretaker: Saving Originator's state... Date: " << mementos_.index_front(0)->GetDate() << std::endl;
+    // todo:remove
+    std::cout << "Caretaker: Saving Originator's state... Date: " << mementos_.index_front(0)->GetDate();
+    // std::cout << "Artist 0 Pos: x: " << mementos_.index_front(0)->GetAritsts().front()->GetPosition().x << " y: "
+    // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
 }
 
 void Caretaker::Pause() {
@@ -39,7 +41,14 @@ void Caretaker::Undo() {
     Memento *memento = mementos_.index_front(reverseMementoIndex);
 
     std::cout << "Caretaker: Restoring state to: " << memento->GetDate() << "\n";
+    // std::cout << "Artist 0 Pos: x: " << mementos_.index_front(0)->GetAritsts().front()->GetPosition().x << " y: "
+    // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
+
     originator_->Restore(memento);
+    for (auto artist : mementos_.index_front(reverseMementoIndex)->GetAritsts()) {
+        // std::cout << "Artist 0 Pos: x: " << artist.startPos.x << " y: "
+        // << artist.startPos.y << std::endl;
+    }
 }
 
 uint16_t Caretaker::Size() const {
