@@ -77,12 +77,13 @@ void BoogieWoogieApp::RunSimulation() {
                             isRunning = false;
                             break;
                         default:
+                            _inputHandler->GetAction(event.key.keysym.sym).Execute();
                             break;
                     }
-                    _inputHandler->GetAction(event.key.keysym.sym).Execute();
                     break;
                 case SDL_QUIT:
                     isRunning = false;
+                    break;
                 default:
                     break;
             }

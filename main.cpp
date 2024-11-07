@@ -12,8 +12,8 @@ int main(void) {
 #if TEST_FRAMEWORK
     return TestMain::StartTests();
 #endif
-//    auto& app = BoogieWoogieApp::GetInstance();
-//    app.SetupSimulation();
-//    app.RunSimulation();
+    auto& app = BoogieWoogieApp::GetInstance();
+    app.SetupSimulation();
+    app.RunSimulation();
     return 0;
 }

@@ -11,7 +11,7 @@ public:
     WhiteType(): TileType('W') {}
 
     //This tile does not do any type of interaction
-    void handleInteract(Tile *currentTile, Artist *currentArtist) override {}
+    void handleInteract(Tile *currentTile, Artist *currentArtist) override { return;}
 };
 
 #endif //WHITETYPE_HPP

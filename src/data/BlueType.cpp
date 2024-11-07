@@ -11,7 +11,7 @@
 #include <random>
 
 void BlueType::handleInteract(Tile *currentTile, Artist *currentArtist) {
-
+//    std::cout << "CURRENT TILE NEIGHBOURS SIZE: " << currentTile->neighbours.size() << std::endl;
     //Templist neighbours
     std::random_device device;
     std::vector<Tile*> tiles = currentTile->neighbours;

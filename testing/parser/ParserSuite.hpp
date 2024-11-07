@@ -34,7 +34,6 @@ protected:
     std::vector<std::string> emptyData{};
     std::vector<std::string> csvData{};
     std::vector<std::string> xmlData{};
-
 };
 
 

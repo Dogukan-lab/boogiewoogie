@@ -4,7 +4,9 @@
 
 #include "ArtistManager.hpp"
 #include "Artist.hpp"
+
 #define GLM_ENABLE_EXPERIMENTAL
+
 #include <algorithm>
 #include <BoogieRenderer.hpp>
 #include <glm.hpp>
@@ -20,15 +22,15 @@
 //     _renderer = renderer;
 // }
 
-ArtistManager::ArtistManager(BoogieRenderer &renderer): ArtistManager(10, renderer) {
+ArtistManager::ArtistManager(BoogieRenderer &renderer) : ArtistManager(10, renderer) {
 }
 
-ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer): _renderer(renderer) {
+ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer) : _renderer(renderer) {
     _artists.resize(capacity);
 }
 
-Artist* ArtistManager::AddArtist(Artist &&artist) {
-    if(_artists.size() >= 125)
+Artist *ArtistManager::AddArtist(Artist &&artist) {
+    if (_artists.size() >= 125)
         return nullptr;
 
     const auto &art = _artists.emplace_back(std::make_unique<Artist>(artist));
@@ -45,14 +47,12 @@ std::vector<std::unique_ptr<Artist> > &ArtistManager::GetArtists() {
     return _artists;
 }
 
-ArtistManager::RestoreMemento(ArtistMemento) {}
-
 
 //Update movement of artists
 void ArtistManager::UpdateArtists(const float deltaTime,
                                   const std::vector<std::vector<std::unique_ptr<Tile> > > &grid) {
     for (const auto &artist: _artists) {
-        if (!artist)
+        if (artist.get() == nullptr)
             continue;
         auto &position = artist->GetPosition();
         auto &lastTile = artist->GetLastTile();
@@ -75,17 +75,18 @@ void ArtistManager::UpdateArtists(const float deltaTime,
             tilePos.y >= 0 && tilePos.x >= 0) {
             if (tilePos.x != lastTile.x || tilePos.y != lastTile.y) {
                 lastTile = tilePos;
-                auto &tile = grid[tilePos.y][tilePos.x];
-                tile->handleTileInteraction(artist.get());
+                if (auto &tile = grid[tilePos.y][tilePos.x]) {
+                    tile->handleTileInteraction(artist.get());
+                }
             }
         }
     }
 
     //Delete artist, if any are existing
     const auto it = std::remove_if(_artists.begin(), _artists.end(), [](const std::unique_ptr<Artist> &
-                               pArtist) {
-                                       return pArtist->shouldBeDeleted;
-                                   });
+    pArtist) {
+        return pArtist->shouldBeDeleted;
+    });
     if (it != _artists.end()) {
         _artists.erase(it, _artists.end());
     }

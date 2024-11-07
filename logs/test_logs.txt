@@ -1,4 +1,4 @@
-[TEST SUITE START] 0 Test start Timestamp: 1730983344781
+[TEST SUITE START] 0 Test start Timestamp: 1730990715903
 [TEST START] ParserSuite.CSVCheckArtistData
 [END OF TEST] PASSED: ParserSuite.CSVCheckArtistData
 [TEST START] ParserSuite.CSVHandleEmptyEntries
@@ -23,4 +23,22 @@
 [END OF TEST] PASSED: ParserSuite.XMLTileTypeData
 [TEST START] ParserSuite.XMLTileData
 [END OF TEST] PASSED: ParserSuite.XMLTileData
-[TEST SUITE END] 0 Amount of test succes: 12 Amount of test failures: 0
+[TEST START] FileReadTest.CreateFileReader
+[END OF TEST] PASSED: FileReadTest.CreateFileReader
+[TEST START] FileReadTest.FileFactoryInstances
+[END OF TEST] PASSED: FileReadTest.FileFactoryInstances
+[TEST START] FileReadTest.CheckExtensionDisk
+[END OF TEST] PASSED: FileReadTest.CheckExtensionDisk
+[TEST START] FileReadTest.CheckExtensionWeb
+[END OF TEST] PASSED: FileReadTest.CheckExtensionWeb
+[TEST START] FileReadTest.CheckArtistFormat
+[END OF TEST] PASSED: FileReadTest.CheckArtistFormat
+[TEST START] FileReadTest.CheckFirstLineMap
+[END OF TEST] PASSED: FileReadTest.CheckFirstLineMap
+[TEST START] FileReadTest.FileReaderHandleIncorrectFile
+[END OF TEST] PASSED: FileReadTest.FileReaderHandleIncorrectFile
+[TEST START] FileReadTest.EmptyPairDisk
+[END OF TEST] PASSED: FileReadTest.EmptyPairDisk
+[TEST START] FileReadTest.EmptyPairWeb
+[END OF TEST] PASSED: FileReadTest.EmptyPairWeb
+[TEST SUITE END] 0 Amount of test succes: 21 Amount of test failures: 0
