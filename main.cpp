@@ -1,12 +1,12 @@
-#include <TestSuite.hpp>
+#include "testing/TestSuite.hpp"
 
 #include "BoogieWoogieApp.hpp"
 
-#define TEST_FRAMEWORK 0
+#define TEST_FRAMEWORK 1
 
 int main(void) {
 #if TEST_FRAMEWORK
-    return TestMain::StartTests();
+    return TestSuite::StartTests();
 #endif
     auto& app = BoogieWoogieApp::GetInstance();
     app.SetupSimulation();
