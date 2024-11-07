@@ -23,7 +23,7 @@
 
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
-#include "../memento/include/Caretaker.hpp"
+#include "Caretaker.hpp"
 #include "MementoManager.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {

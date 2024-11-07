@@ -13,6 +13,7 @@
 #include <iostream>
 #include <TileManager.hpp>
 #include <gtx/string_cast.hpp>
+#include "Memento.hpp"
 
 // ArtistManager::ArtistManager(const BoogieRenderer& renderer): ArtistManager(10, renderer){
 // }
@@ -90,11 +91,11 @@ void ArtistManager::UpdateArtists(const float deltaTime,
     }
 }
 
-std::vector<artistCopy> ArtistManager::Save() {
-    std::vector<artistCopy> artistsCopy;
+std::vector<ArtistCopy> ArtistManager::Save() {
+    std::vector<ArtistCopy> artistsCopy;
 
     for (auto& artist: _artists) {
-        artistsCopy.push_back(artistCopy{artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection(), artist->GetLastTile()});
+        artistsCopy.push_back({artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection(), artist->GetLastTile()});
     }
 
     return artistsCopy;

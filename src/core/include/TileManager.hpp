@@ -5,6 +5,7 @@
 #ifndef TILEMANAGER_HPP
 #define TILEMANAGER_HPP
 #include <BoogieRenderer.hpp>
+#include "Memento.hpp"
 #include "Tile.hpp"
 #include <map>
 

@@ -32,7 +32,7 @@ Memento *Caretaker::Undo() {
     // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
 
     // originator_->Restore(memento);
-    for (auto artist : mementos_.index_front(reverseMementoIndex)->GetAritsts()) {
+    for (auto artist : mementos_.index_front(reverseMementoIndex)->GetArtists()) {
         // std::cout << "Artist 0 Pos: x: " << artist.startPos.x << " y: "
         // << artist.startPos.y << std::endl;
     }
