@@ -14,7 +14,9 @@
 #include "InputHandler.hpp"
 #include "MementoManager.hpp"
 
-//Immovable object :)
+/**
+ * @brief singleton instance of the entire application, hence why it stores many systems
+ */
 class BoogieWoogieApp {
 public:
 

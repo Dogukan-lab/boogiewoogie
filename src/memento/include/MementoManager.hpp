@@ -4,17 +4,11 @@
 
 #ifndef MEMENTOMANAGER_HPP
 #define MEMENTOMANAGER_HPP
-
-#include "ArtistManager.hpp"
-#include "Caretaker.hpp"
-#include "TileManager.hpp"
+#include <Caretaker.hpp>
 
 class MementoManager {
 public:
-    MementoManager(ArtistManager &aManager, TileManager &tManager) : artistManager(aManager), tileManager(tManager) {
-        caretaker = std::make_unique<Caretaker>(aManager, tManager);
-    }
-
+    MementoManager(ArtistManager &aManager, TileManager &tManager);
     static void Save();
 
     static Memento *Undo();
@@ -22,8 +16,6 @@ public:
     static Memento *Redo();
 
 private:
-    ArtistManager &artistManager;
-    TileManager &tileManager;
     static std::unique_ptr<Caretaker> caretaker;
 };
 

@@ -3,35 +3,22 @@
 //
 
 #include "ArtistManager.hpp"
-#include "Artist.hpp"
-
-#define GLM_ENABLE_EXPERIMENTAL
-
-#include <algorithm>
-#include <BoogieRenderer.hpp>
 #include <glm.hpp>
-#include <iostream>
-#include <TileManager.hpp>
-#include <gtx/string_cast.hpp>
+#include <algorithm>
+#include "Artist.hpp"
+#include "BoogieWoogieApp.hpp"
+#include "BoogieRenderer.hpp"
 #include "Memento.hpp"
 
-// ArtistManager::ArtistManager(const BoogieRenderer& renderer): ArtistManager(10, renderer){
-// }
-
-// ArtistManager::ArtistManager(int capacity, const BoogieRenderer& renderer) {
-//     _artists.resize(capacity);
-//     _renderer = renderer;
-// }
-
-ArtistManager::ArtistManager(BoogieRenderer &renderer): ArtistManager(10, renderer) {
+ArtistManager::ArtistManager(BoogieRenderer &renderer) : ArtistManager(10, renderer) {
 }
 
-ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer): _renderer(renderer) {
+ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer) : _renderer(renderer) {
     _artists.resize(capacity);
 }
 
-Artist* ArtistManager::AddArtist(Artist &&artist) {
-    if(_artists.size() >= 125)
+Artist *ArtistManager::AddArtist(Artist &&artist) {
+    if (_artists.size() >= 125)
         return nullptr;
 
     const auto &art = _artists.emplace_back(std::make_unique<Artist>(artist));
@@ -75,17 +62,18 @@ void ArtistManager::UpdateArtists(const float deltaTime,
             tilePos.y >= 0 && tilePos.x >= 0) {
             if (tilePos.x != lastTile.x || tilePos.y != lastTile.y) {
                 lastTile = tilePos;
-                auto &tile = grid[tilePos.y][tilePos.x];
-                tile->handleTileInteraction(artist.get());
+                if (auto &tile = grid[tilePos.y][tilePos.x]) {
+                    tile->handleTileInteraction(artist.get());
+                }
             }
         }
     }
 
     //Delete artist, if any are existing
     const auto it = std::remove_if(_artists.begin(), _artists.end(), [](const std::unique_ptr<Artist> &
-                               pArtist) {
-                                       return pArtist->shouldBeDeleted;
-                                   });
+    pArtist) {
+        return pArtist->shouldBeDeleted;
+    });
     if (it != _artists.end()) {
         _artists.erase(it, _artists.end());
     }
@@ -99,4 +87,10 @@ std::vector<ArtistCopy> ArtistManager::Save() {
     }
 
     return artistsCopy;
+}
+
+void ArtistManager::SetArtists(std::vector<std::unique_ptr<Artist>> &&artists) {
+    _renderer.ClearArtists();
+    _artists = std::move(artists);
+    BoogieWoogieApp::GetInstance().artistsLoaded = true;
 }

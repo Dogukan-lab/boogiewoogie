@@ -5,6 +5,7 @@
 #include "TileManager.hpp"
 #include "Tile.hpp"
 #include "Memento.hpp"
+#include "BoogieWoogieApp.hpp"
 
 
 std::map<char, std::pair<SDL_Colour, int> > TileManager::types{};
@@ -21,6 +22,7 @@ void TileManager::AddTiles(std::vector<std::vector<std::unique_ptr<Tile>>> &&til
     _renderer.ClearTiles();
     _tiles = std::move(tileMap);
     _renderer.RegisterTiles(_tiles);
+    BoogieWoogieApp::GetInstance().mapLoaded = true;
 }
 
 // void TileManager::AddTile(std::unique_ptr<Tile> tile) {
