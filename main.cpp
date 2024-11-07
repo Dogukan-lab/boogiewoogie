@@ -6,7 +6,7 @@
 #include "BoogieWoogieApp.hpp"
 #include "TxtParser.hpp"
 
-#define TEST_FRAMEWORK 0
+#define TEST_FRAMEWORK 1
 
 int main(void) {
 #if TEST_FRAMEWORK

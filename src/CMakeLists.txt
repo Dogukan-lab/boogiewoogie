@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.28)
 
 add_library(BoogieWoogieInternal
         core/Window.cpp
-        core/include/Window.hpp)
+        core/include/Window.hpp
+        ../testing/builders/FixtureArtistBuilder.cpp
+        ../testing/builders/FixtureArtistBuilder.hpp)
 
 
 if (TARGET BoogieWoogieInternal)
