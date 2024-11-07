@@ -54,6 +54,7 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>(*_renderer);
     _artistManager = std::make_unique<ArtistManager>(*_renderer);
+    _inputHandler = std::make_unique<InputHandler>();
 }
 
 void BoogieWoogieApp::RunSimulation() {
@@ -72,12 +73,12 @@ void BoogieWoogieApp::RunSimulation() {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:
+                    switch (event.key.keysym.scancode) {
+                        case SDL_SCANCODE_ESCAPE:
                             isRunning = false;
                             break;
                         default:
-                            _inputHandler->GetAction(event.key.keysym.sym).Execute();
+                            _inputHandler->GetAction(event.key.keysym.scancode).Execute();
                             break;
                     }
                     break;
