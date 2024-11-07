@@ -20,21 +20,16 @@ public:
     ArtistManager(int capacity, BoogieRenderer& renderer);
 
     Artist* AddArtist(Artist&& artist);
-    void SetArtists(std::vector<std::unique_ptr<Artist>>&& artists) {
-        _renderer.ClearArtists();
-        _artists = std::move(artists);
-    }
+    void SetArtists(std::vector<std::unique_ptr<Artist>>&& artists);
 
-    //TODO implement this eventually
     void RemoveArtist(Artist& artist) const;
 
     std::vector<std::unique_ptr<Artist>>& GetArtists();
 
     void UpdateArtists(const float deltaTime, const std::vector<std::vector<std::unique_ptr<Tile>>>& grid);
 
-    void Restore(Memento *memento) ;
-
-    void ClearArtists();
+//    void Restore(Memento *memento) ;
+//    void ClearArtists();
 
     std::vector<ArtistCopy> Save();
 

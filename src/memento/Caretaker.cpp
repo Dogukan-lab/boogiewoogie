@@ -26,7 +26,10 @@ Memento *Caretaker::Redo() {
     if (mementos_.empty()) { return nullptr; }
 
 
-    if (reverseMementoIndex - 1 < 0) { return nullptr; }//return mementos_.index_front(reverseMementoIndex) } //of reverseMementoIndex
+    if (reverseMementoIndex - 1 < 0) {
+        reverseMementoIndex = mementos_.size();
+        return nullptr;
+    }//return mementos_.index_front(reverseMementoIndex) } //of reverseMementoIndex
 
     reverseMementoIndex--;
     Memento *memento = mementos_.index_front(reverseMementoIndex);
@@ -38,7 +41,10 @@ Memento *Caretaker::Redo() {
 Memento *Caretaker::Undo() {
     if (mementos_.empty()) { return nullptr; }
 
-    if (reverseMementoIndex + 1 >= mementos_.size()) { return nullptr; }
+    if (reverseMementoIndex + 1 >= mementos_.size()) {
+        reverseMementoIndex = 0;
+        return nullptr;
+    }
 
     reverseMementoIndex++;
     Memento *memento = mementos_.index_front(reverseMementoIndex);

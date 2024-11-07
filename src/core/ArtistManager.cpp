@@ -23,15 +23,15 @@
 //     _renderer = renderer;
 // }
 
-ArtistManager::ArtistManager(BoogieRenderer &renderer): ArtistManager(10, renderer) {
+ArtistManager::ArtistManager(BoogieRenderer &renderer) : ArtistManager(10, renderer) {
 }
 
-ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer): _renderer(renderer) {
+ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer) : _renderer(renderer) {
     _artists.resize(capacity);
 }
 
-Artist* ArtistManager::AddArtist(Artist &&artist) {
-    if(_artists.size() >= 125)
+Artist *ArtistManager::AddArtist(Artist &&artist) {
+    if (_artists.size() >= 125)
         return nullptr;
 
     const auto &art = _artists.emplace_back(std::make_unique<Artist>(artist));
@@ -83,9 +83,9 @@ void ArtistManager::UpdateArtists(const float deltaTime,
 
     //Delete artist, if any are existing
     const auto it = std::remove_if(_artists.begin(), _artists.end(), [](const std::unique_ptr<Artist> &
-                               pArtist) {
-                                       return pArtist->shouldBeDeleted;
-                                   });
+    pArtist) {
+        return pArtist->shouldBeDeleted;
+    });
     if (it != _artists.end()) {
         _artists.erase(it, _artists.end());
     }
@@ -94,9 +94,14 @@ void ArtistManager::UpdateArtists(const float deltaTime,
 std::vector<ArtistCopy> ArtistManager::Save() {
     std::vector<ArtistCopy> artistsCopy;
 
-    for (auto& artist: _artists) {
-        artistsCopy.push_back({artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection(), artist->GetLastTile()});
+    for (auto &artist: _artists) {
+        artistsCopy.push_back({artist->GetShape(), artist->GetColour(), artist->GetPosition(), artist->GetDirection(), artist->GetLastTile()});
     }
 
     return artistsCopy;
+}
+
+void ArtistManager::SetArtists(std::vector<std::unique_ptr<Artist>> &&artists) {
+    _renderer.ClearArtists();
+    _artists = std::move(artists);
 }
