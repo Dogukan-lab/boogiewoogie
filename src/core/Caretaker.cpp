@@ -4,39 +4,26 @@
 
 #include "Caretaker.hpp"
 
+#include <TileManager.hpp>
 
-Caretaker::Caretaker(BoogieRenderer *originator, int mementoSize) : originator_(originator), mementos_(mementoSize) {}
+
+
+Caretaker::Caretaker(ArtistManager &artist_manager,TileManager &tileManager, int mementoSize)
+    : mementos_(mementoSize),artistManager(artist_manager),tileManager(tileManager)  {  }
 
 Caretaker::~Caretaker() {
     for (auto m: mementos_) delete m;
 }
 
 void Caretaker::Backup() {
-    mementos_.push_back(originator_->Save());
-    // todo:remove
-    std::cout << "Caretaker: Saving Originator's state... Date: " << mementos_.index_front(0)->GetDate();
-    // std::cout << "Artist 0 Pos: x: " << mementos_.index_front(0)->GetAritsts().front()->GetPosition().x << " y: "
-    // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
+    mementos_.push_back(new Memento(artistManager.Save(),tileManager.Save()));
 }
 
-void Caretaker::Pause() {
-    // if (isPaused()) { return; }
-    //
-    // pause();
-}
+Memento *Caretaker::Undo() {
+    if (mementos_.empty()) { return nullptr; }
 
-void Caretaker::Resume() {
-    // if (!isPaused()) { return; }
-    //
-    // resume();
-}
+    if (reverseMementoIndex + 1 >= mementos_.size()) { return nullptr; }
 
-void Caretaker::Undo() {
-    if (mementos_.empty()) { return; }
-
-    if (reverseMementoIndex + 1 >= mementos_.size()) { return; }
-
-    Pause();
     reverseMementoIndex++;
     Memento *memento = mementos_.index_front(reverseMementoIndex);
 
@@ -44,12 +31,15 @@ void Caretaker::Undo() {
     // std::cout << "Artist 0 Pos: x: " << mementos_.index_front(0)->GetAritsts().front()->GetPosition().x << " y: "
     // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
 
-    originator_->Restore(memento);
+    // originator_->Restore(memento);
     for (auto artist : mementos_.index_front(reverseMementoIndex)->GetAritsts()) {
         // std::cout << "Artist 0 Pos: x: " << artist.startPos.x << " y: "
         // << artist.startPos.y << std::endl;
     }
+
+    return memento;
 }
+
 
 uint16_t Caretaker::Size() const {
     return mementos_.size();

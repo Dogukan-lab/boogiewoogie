@@ -9,6 +9,7 @@
 #include <QuitWindow.hpp>
 #include <RenderArtists.hpp>
 #include <TileInteraction.hpp>
+#include "UndoSnapshot.hpp"
 
 InputHandler::InputHandler() {
     actionMap[SDL_SCANCODE_SPACE] = std::make_unique<PauseArtist>();
@@ -16,6 +17,7 @@ InputHandler::InputHandler() {
     actionMap[SDL_SCANCODE_O] = std::make_unique<OpenFile>();
     actionMap[SDL_SCANCODE_A] = std::make_unique<RenderArtists>();
     actionMap[SDL_SCANCODE_ESCAPE] = std::make_unique<QuitWindow>();
+    actionMap[SDL_SCANCODE_COMMA] = std::make_unique<UndoSnapshot>();
 }
 
 InputHandler::~InputHandler() {

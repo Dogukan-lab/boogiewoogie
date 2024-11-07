@@ -3,7 +3,11 @@ cmake_minimum_required(VERSION 3.28)
 add_library(BoogieWoogieInternal
         core/Window.cpp
         core/include/Window.hpp
-        testing/filereading/FileReadTest.hpp)
+        testing/filereading/FileReadTest.hpp
+        core/MementoManager.cpp
+        core/MementoManager.hpp
+        input_handler/UndoSnapshot.cpp
+        input_handler/UndoSnapshot.hpp)
 
 
 if (TARGET BoogieWoogieInternal)

@@ -57,6 +57,7 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>(*_renderer);
     _artistManager = std::make_unique<ArtistManager>(*_renderer);
+    _mementoManager = std::make_unique<MementoManager>(*_artistManager,*_tileManager);
 }
 
 void BoogieWoogieApp::RunSimulation() {
@@ -68,7 +69,7 @@ void BoogieWoogieApp::RunSimulation() {
     Uint32 fps = 0, frameCount = 0;
 
     Uint32 mementoUpdateCounter = 0;
-    Caretaker *caretaker = new Caretaker(&*_renderer, 200);
+    // Caretaker *caretaker = new Caretaker(&*_renderer, 200);
 
     while (isRunning) {
         Uint32 curTicks = SDL_GetTicks();
@@ -101,14 +102,14 @@ void BoogieWoogieApp::RunSimulation() {
         //Render tiles
         _renderer->Draw();
 
-        mementoUpdateCounter++;
-        if (mementoUpdateCounter % 60 == 0) {
-            if (isPaused) {
-                caretaker->Undo();
-            } else {
-                caretaker->Backup();
-            }
-        }
+        // mementoUpdateCounter++;
+        // if (mementoUpdateCounter % 60 == 0) {
+        //     if (isPaused) {
+        //         caretaker->Undo();
+        //     } else {
+        //         caretaker->Backup();
+        //     }
+        // }
 
         // std::cout << "artist" << _artistManager->GetArtists().front()->GetPosition();
 

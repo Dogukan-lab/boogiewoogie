@@ -12,6 +12,7 @@
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
 #include "InputHandler.hpp"
+#include "../MementoManager.hpp"
 
 //Immovable object :)
 class BoogieWoogieApp {
@@ -44,6 +45,9 @@ public:
     bool isPaused;
     bool artistsLoaded = false;
     bool mapLoaded = false;
+
+    Memento currentMemento{};
+
     std::unordered_map<std::string, std::function<void(std::vector<std::string>&)>> mapActions;
     std::unordered_map<std::string, std::function<void(std::vector<std::string>&)>> artistActions;
 private:
@@ -59,6 +63,7 @@ private:
     std::unique_ptr<TileManager> _tileManager;
     std::unique_ptr<BoogieRenderer> _renderer;
     std::unique_ptr<ArtistManager> _artistManager;
+    std::unique_ptr<MementoManager> _mementoManager;
 
     void CreateMap(const std::string &source) const;
 

@@ -87,3 +87,13 @@ void ArtistManager::UpdateArtists(const float deltaTime,
         _artists.erase(it, _artists.end());
     }
 }
+
+std::vector<artistCopy> ArtistManager::Save() {
+    std::vector<artistCopy> artistsCopy;
+
+    for (auto& artist: _artists) {
+        artistsCopy.push_back(artistCopy{artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection(), artist->GetLastTile()});
+    }
+
+    return artistsCopy;
+}

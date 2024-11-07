@@ -31,6 +31,12 @@ public:
 
     void UpdateArtists(const float deltaTime, const std::vector<std::vector<std::unique_ptr<Tile>>>& grid);
 
+    void Restore(Memento *memento) ;
+
+    void ClearArtists();
+
+    std::vector<artistCopy> Save();
+
 private:
     std::vector<std::unique_ptr<Artist>> _artists{};
     BoogieRenderer& _renderer;
