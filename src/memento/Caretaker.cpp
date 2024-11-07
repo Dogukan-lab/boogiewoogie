@@ -16,6 +16,9 @@ Caretaker::~Caretaker() {
 }
 
 void Caretaker::Backup() {
+    if (reverseMementoIndex > 0) {
+        reverseMementoIndex++;
+    }
     mementos_.push_back(new Memento(artistManager.Save(),tileManager.Save()));
 }
 
