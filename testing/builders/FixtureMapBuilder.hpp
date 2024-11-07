@@ -1,0 +1,14 @@
+//
+// Created by doguk on 11/7/2024.
+//
+
+#ifndef BOOGIEWOOGIE_FIXTUREMAPBUILDER_HPP
+#define BOOGIEWOOGIE_FIXTUREMAPBUILDER_HPP
+
+
+class FixtureMapBuilder {
+
+};
+
+
+#endif //BOOGIEWOOGIE_FIXTUREMAPBUILDER_HPP

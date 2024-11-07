@@ -48,11 +48,12 @@ std::vector<std::unique_ptr<Artist> > &ArtistManager::GetArtists() {
     return _artists;
 }
 
+
 //Update movement of artists
 void ArtistManager::UpdateArtists(const float deltaTime,
                                   const std::vector<std::vector<std::unique_ptr<Tile> > > &grid) {
     for (const auto &artist: _artists) {
-        if (!artist)
+        if (artist.get() == nullptr)
             continue;
         auto &position = artist->GetPosition();
         auto &lastTile = artist->GetLastTile();
@@ -75,8 +76,9 @@ void ArtistManager::UpdateArtists(const float deltaTime,
             tilePos.y >= 0 && tilePos.x >= 0) {
             if (tilePos.x != lastTile.x || tilePos.y != lastTile.y) {
                 lastTile = tilePos;
-                auto &tile = grid[tilePos.y][tilePos.x];
-                tile->handleTileInteraction(artist.get());
+                if (auto &tile = grid[tilePos.y][tilePos.x]) {
+                    tile->handleTileInteraction(artist.get());
+                }
             }
         }
     }

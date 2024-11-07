@@ -38,7 +38,7 @@ void BoogieWoogieApp::SetupSimulation() {
     _renderer->RegisterArtists(_artistManager->GetArtists());
 }
 
-BoogieWoogieApp::BoogieWoogieApp() : BoogieWoogieApp("Boogie woogie Sim", true, 600, 600) {
+BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 600, 600) {
 }
 
 BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height) : _window(nullptr, SDL_DestroyWindow),
@@ -64,7 +64,6 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
 
 void BoogieWoogieApp::RunSimulation() {
     //Main loop van SDL2 applicatie
-    //Wait on thread finishing its reading job.
     SDL_Event event;
     Uint32 prevTick = SDL_GetTicks();
     Uint32 fpsInterval = 1000;
@@ -181,7 +180,7 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
     actions[type]();
 }
 
-void BoogieWoogieApp::CreateArtists(const std::string &source) {
+void BoogieWoogieApp::CreateArtists(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, data] = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{

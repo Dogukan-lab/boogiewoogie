@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<canvas rows="53" cols="53">
+    <nodeTypes>
+        <nodeType tag="Y" red="250" green="201" blue="1" weight="1"/>
+        <nodeType tag="B" red="34" green="80" blue="149" weight="4"/>
+        <nodeType tag="R" red="221" green="1" blue="0" weight="10"/>
+        <nodeType tag="G" red="245" green="245" blue="245" weight="2"/>
+    </nodeTypes>
+    <nodes>
+        <Y x="1" y="0">
+        </Y>
+        <R x="2" y="0">
+        </R>
+        <B x="2" y="1">
+        </B>
+        <G x="1" y="1">
+        </G>
+        <G x="1" y="2">
+        </G>
+        <B x="0" y="2">
+        </B>
+        <R x="1" y="3">
+        </R>
+        <Y x="2" y="2">
+        </Y>
+    </nodes>
+</canvas>

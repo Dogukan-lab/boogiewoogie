@@ -28,7 +28,7 @@ FileDialogModule::DialogResult FileDialogModule::showDialog() {
 			//Get the result of the Dialog
 			IShellItem* shellItem;
 			dialogResult = fileDialog->GetResult(&shellItem);
-			
+
 			//Check if the result was successful
 			if (SUCCEEDED(dialogResult)) {
 				//Get filePath from the completed dialog

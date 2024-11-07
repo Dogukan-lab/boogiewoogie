@@ -22,11 +22,9 @@ public:
      * 2. Open its stream, file stream or web stream;
      * 3. Read the data that is inside of the file stream;
      * 4. Close the stream and cleanup properly.
-     * @param sourceFile The initial file that we want to read (disk or web)
      * @return a list of lines to be parsed into a standard format, of whatever fileType we read.
      */
     std::pair<std::string, std::vector<std::string> > ReadContent() {
-        //Find last occurence of a '.' and
         try {
             std::string fileType = ExtractFileType();
             OpenStream();
@@ -42,14 +40,12 @@ public:
 protected:
     /**
      * @brief Extracts the file type from 
-     * @param sourceFile The path or url to extract the type from
      * @return the file type found within the url or path
      */
     virtual std::string ExtractFileType() = 0;
 
     /**
      * @brief Opens the corresponding stream to read data from.
-     * @param sourceFile The path or url to initiate the stream with.
      */
     virtual void OpenStream() = 0;
 

@@ -4,8 +4,6 @@
 
 #include "AritistBuilder.hpp"
 
-#include <ext/quaternion_geometric.hpp>
-
 #include "Artist.hpp"
 #include "DataEntry.hpp"
 
@@ -21,6 +19,7 @@ ArtistBuilder& ArtistBuilder::addArtist(DataEntry &artist) {
         dir
     };
 
+
     _artists.emplace_back(std::make_unique<Artist>(art));
     return *this;
 }
@@ -35,4 +34,3 @@ ArtistBuilder& ArtistBuilder::addArtists(std::vector<DataEntry> &artists) {
 std::vector<std::unique_ptr<Artist>>&& ArtistBuilder::build() {
     return std::move(_artists);
 }
-
