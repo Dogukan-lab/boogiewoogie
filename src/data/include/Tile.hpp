@@ -4,15 +4,22 @@
 
 #ifndef DUMMYTILE_HPP
 #define DUMMYTILE_HPP
+
 #include <memory>
 #include <vector>
-#include "Shape.hpp"
+
 #include "TileType.hpp"
+#include "Artist.hpp"
+#include "Shape.hpp"
 
 class Tile {
 public:
     Tile(const glm::vec2 pos, const Shape shape): shape(shape), position(pos),
     type(nullptr) {
+    }
+
+    Tile(const glm::vec2 pos, const Shape shape, std::unique_ptr<TileType> type, std::vector<Tile*> neighbours)
+        : shape(shape), position(pos), type(std::move(type)), neighbours(std::move(neighbours)) {
     }
 
     ~Tile() {

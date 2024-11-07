@@ -4,13 +4,16 @@
 
 #include "ArtistManager.hpp"
 #include "Artist.hpp"
+
 #define GLM_ENABLE_EXPERIMENTAL
+
 #include <algorithm>
 #include <BoogieRenderer.hpp>
 #include <glm.hpp>
 #include <iostream>
 #include <TileManager.hpp>
 #include <gtx/string_cast.hpp>
+#include "Memento.hpp"
 
 // ArtistManager::ArtistManager(const BoogieRenderer& renderer): ArtistManager(10, renderer){
 // }
@@ -86,4 +89,14 @@ void ArtistManager::UpdateArtists(const float deltaTime,
     if (it != _artists.end()) {
         _artists.erase(it, _artists.end());
     }
+}
+
+std::vector<ArtistCopy> ArtistManager::Save() {
+    std::vector<ArtistCopy> artistsCopy;
+
+    for (auto& artist: _artists) {
+        artistsCopy.push_back({artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection(), artist->GetLastTile()});
+    }
+
+    return artistsCopy;
 }

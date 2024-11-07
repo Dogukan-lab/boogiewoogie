@@ -5,6 +5,7 @@
 #ifndef TILEMANAGER_HPP
 #define TILEMANAGER_HPP
 #include <BoogieRenderer.hpp>
+#include "Memento.hpp"
 #include "Tile.hpp"
 #include <map>
 
@@ -27,6 +28,9 @@ public:
     std::vector<std::vector<std::unique_ptr<Tile> > > &getTiles();
 
     static std::map<char, std::pair<SDL_Colour, int> > types;
+
+
+    std::vector<TileCopy> Save() ;
 private:
     std::vector<std::vector<std::unique_ptr<Tile> > > _tiles;
     BoogieRenderer& _renderer;

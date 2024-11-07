@@ -9,6 +9,7 @@
 #include <BoogieRenderer.hpp>
 
 #include "Tile.hpp"
+#include "Memento.hpp"
 #include <memory>
 #include <vector>
 
@@ -30,6 +31,12 @@ public:
     std::vector<std::unique_ptr<Artist>>& GetArtists();
 
     void UpdateArtists(const float deltaTime, const std::vector<std::vector<std::unique_ptr<Tile>>>& grid);
+
+    void Restore(Memento *memento) ;
+
+    void ClearArtists();
+
+    std::vector<ArtistCopy> Save();
 
 private:
     std::vector<std::unique_ptr<Artist>> _artists{};

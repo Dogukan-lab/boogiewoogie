@@ -98,3 +98,41 @@ void BoogieRenderer::Draw() const {
     }
     SDL_RenderPresent(renderContext);
 }
+
+
+void BoogieRenderer::DrawInstance(Memento &memento) {
+    SDL_SetRenderDrawColor(renderContext, 255, 255, 255, 255);
+    SDL_RenderClear(renderContext);
+
+    //Draw tiles
+    for (auto &tile: memento.GetTiles()) {
+        auto &pos = tile.pos;
+        auto &shape = tile.shape;
+        auto &colour = tile.colour;
+        SDL_FRect rect{
+            pos.x * shape.GetDimension().x,
+            pos.y * shape.GetDimension().y,
+            shape.GetDimension().x,
+            shape.GetDimension().y
+        };
+        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+        SDL_RenderFillRectF(renderContext, &rect);
+    }
+
+    //Draw Artists
+    for (auto &artist: memento.GetArtists()) {
+        auto &dimension = artist.shape.GetDimension();
+        auto &pos = artist.position;
+        auto &colour = artist.colour;
+        SDL_FRect rect{
+            dimension.x * pos.x + dimension.x / 4.f,
+            dimension.y * pos.y + dimension.y / 4.f,
+            dimension.x / 2.f,
+            dimension.y / 2.f
+        };
+        SDL_SetRenderDrawColor(renderContext, colour.r, colour.g, colour.b, colour.a);
+        SDL_RenderFillRectF(renderContext, &rect);
+    }
+
+    SDL_RenderPresent(renderContext);
+}
