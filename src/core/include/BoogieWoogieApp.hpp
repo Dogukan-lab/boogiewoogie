@@ -43,6 +43,8 @@ public:
 
     void RunSimulation();
     bool shouldUpdateArtists;
+    bool mapLoaded = true;
+    bool artistsLoaded = true;
     bool isRunning = true;
     bool drawInstance = false;
 

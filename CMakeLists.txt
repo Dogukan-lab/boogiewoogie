@@ -47,10 +47,10 @@ include_directories(${SDL2_INCLUDE_PATH})
 add_subdirectory(src)
 
 add_executable(${PROJECT_NAME} main.cpp
+        testing/TestMain.cpp
         testing/builders/FixtureMapBuilder.cpp
         testing/builders/FixtureMapBuilder.hpp
-        #        testing/filereading/FileReadTest.cpp
-#        testing/TestMain.cpp
+#                testing/filereading/FileReadTest.cpp
 #        testing/parser/ParserSuite.hpp
 #        testing/parser/TXTFixture.cpp
 #        testing/parser/XMLFixture.cpp

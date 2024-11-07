@@ -78,3 +78,12 @@ void ArtistManager::UpdateArtists(const float deltaTime,
         _artists.erase(it, _artists.end());
     }
 }
+
+void ArtistManager::SetArtists(std::vector<std::unique_ptr<Artist>> &&artists) {
+    _renderer.RegisterArtists(artists);
+    _artists = std::move(artists);
+}
+
+std::vector<ArtistCopy> ArtistManager::Save() {
+    return std::vector<ArtistCopy>();
+}

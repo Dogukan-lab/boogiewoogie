@@ -1,16 +1,15 @@
-//
 // Created by doguk on 10/9/2024.
 //
 
 #include "BoogieWoogieApp.hpp"
 #include <SDL.h>
-#include "include/FileReader.hpp"
+#include "FileReader.hpp"
 #include "Action.hpp"
-#include "include/FileReaderFactory.hpp"
-#include "include/TxtParser.hpp"
+#include "FileReaderFactory.hpp"
+#include "TxtParser.hpp"
 #include "MapBuilder.hpp"
-#include "include/XmlParser.hpp"
-#include "include/CsvParser.hpp"
+#include "XmlParser.hpp"
+#include "CsvParser.hpp"
 #include "AritistBuilder.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {

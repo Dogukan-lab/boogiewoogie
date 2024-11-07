@@ -6,8 +6,8 @@
 #include <BoogieWoogieApp.hpp>
 #include <iostream>
 #include <FileDialogModule.hpp>
-#include "include/FileReaderFactory.hpp"
-#include "include/FileReader.hpp"
+#include "FileReaderFactory.hpp"
+#include "FileReader.hpp"
 
 void OpenFile::Execute() const {
     BoogieWoogieApp::GetInstance().shouldUpdateArtists = false;
