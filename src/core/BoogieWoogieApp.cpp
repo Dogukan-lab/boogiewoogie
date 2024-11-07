@@ -109,7 +109,7 @@ void BoogieWoogieApp::RunSimulation() {
         else
             _renderer->Draw();
 
-        if (curTicks - lastEvent >= 5000) {
+        if (curTicks - lastEvent >= 500) {
             std::cout << "SAVING CURRENT SNAPSHOT" << std::endl;
             MementoManager::Save();
             lastEvent = curTicks;
@@ -119,7 +119,6 @@ void BoogieWoogieApp::RunSimulation() {
         fps += delta;
         if (fps >= fpsInterval) {
             //     std::cout << "FPS: " << frameCount << std::endl;
-//            MementoManager::Save();
             fps = 0;
             frameCount = 0;
         }

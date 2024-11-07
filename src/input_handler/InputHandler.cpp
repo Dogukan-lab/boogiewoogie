@@ -10,6 +10,7 @@
 #include <RenderArtists.hpp>
 #include <TileInteraction.hpp>
 #include "UndoSnapshot.hpp"
+#include "RedoSnapshot.hpp"
 
 InputHandler::InputHandler() {
     actionMap[SDL_SCANCODE_SPACE] = std::make_unique<PauseArtist>();
@@ -18,7 +19,7 @@ InputHandler::InputHandler() {
     actionMap[SDL_SCANCODE_A] = std::make_unique<RenderArtists>();
     actionMap[SDL_SCANCODE_ESCAPE] = std::make_unique<QuitWindow>();
     actionMap[SDL_SCANCODE_LEFT] = std::make_unique<UndoSnapshot>();
-//    actionMap[SDL_SCANCODE_PERIOD] = std::make_unique<UndoSnapshot>();
+    actionMap[SDL_SCANCODE_RIGHT] = std::make_unique<RedoSnapshot>();
 }
 
 InputHandler::~InputHandler() {

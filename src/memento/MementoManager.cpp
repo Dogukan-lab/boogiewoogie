@@ -17,5 +17,5 @@ Memento *MementoManager::Undo() {
 }
 
 Memento *MementoManager::Redo() {
-    return nullptr; //->Redo();
+    return caretaker->Redo();
 }
