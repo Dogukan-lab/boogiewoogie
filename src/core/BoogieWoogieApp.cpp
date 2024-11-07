@@ -38,6 +38,8 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
                                        width, height, SDL_WINDOW_SHOWN));
     }
     isRunning = true;
+    shouldUpdateArtists = true;
+    drawInstance = false;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>(*_renderer);
     _artistManager = std::make_unique<ArtistManager>(*_renderer);
@@ -81,7 +83,7 @@ void BoogieWoogieApp::RunSimulation() {
         }
 
         //Update tiles
-        if (!shouldUpdateArtists) {
+        if (!shouldUpdateArtists && mapLoaded) {
             _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
         }
 

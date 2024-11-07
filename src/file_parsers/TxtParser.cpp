@@ -13,9 +13,6 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     if(data.empty()) {
         return {};
     }
-    //tile = index, data: type, x, y
-    //type: letter, rgb, weight
-    //Header part: rows, cols, letter, rgb, weight
     //Read header
     DataEntry entry{DataEntry::GridSize, {}};
     auto posA = data[0].find_first_of('=');

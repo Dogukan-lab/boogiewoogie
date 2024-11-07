@@ -9,6 +9,14 @@
 
 class FileReadTest : public ::testing::Test {
 protected:
+    void SetUp() override {
+        reader = std::unique_ptr<FileReader>();
+    }
+
+    void TearDown() override {
+        reader.reset();
+    }
+
     std::unique_ptr<FileReader> reader;
 };
 
