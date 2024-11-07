@@ -49,6 +49,8 @@ add_subdirectory(src)
 add_executable(${PROJECT_NAME} main.cpp
         testing/builders/FixtureMapBuilder.cpp
         testing/builders/FixtureMapBuilder.hpp
+        testing/builders/FixtureArtistBuilder.cpp
+        testing/builders/FixtureArtistBuilder.hpp
         testing/filereading/FileReadTest.cpp
         testing/TestMain.cpp
         testing/parser/ParserSuite.hpp
@@ -58,10 +60,10 @@ add_executable(${PROJECT_NAME} main.cpp
 )
 
 #Testing
-enable_testing()
+#enable_testing()
 target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest_main)
 include(GoogleTest)
-#gtest_discover_tests(${PROJECT_NAME})
+gtest_discover_tests(${PROJECT_NAME})
 
 # Link CURL + SDL2
 target_link_directories(${PROJECT_NAME} PUBLIC ${CURL_ROOT}/include)

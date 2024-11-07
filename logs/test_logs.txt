@@ -1,4 +1,4 @@
-[TEST SUITE START] 0 Test start Timestamp: 1731016506980
+[TEST SUITE START] 0 Test start Timestamp: 1731016722022
 [TEST START] ParserSuite.CSVCheckArtistData
 [END OF TEST] PASSED: ParserSuite.CSVCheckArtistData
 [TEST START] ParserSuite.CSVHandleEmptyEntries
@@ -41,4 +41,8 @@
 [END OF TEST] PASSED: FileReadTest.EmptyPairDisk
 [TEST START] FileReadTest.EmptyPairWeb
 [END OF TEST] PASSED: FileReadTest.EmptyPairWeb
-[TEST SUITE END] 0 Amount of test succes: 21 Amount of test failures: 0
+[TEST START] FixtureArtistBuilder.BuildSingleArtist
+[END OF TEST] PASSED: FixtureArtistBuilder.BuildSingleArtist
+[TEST START] FixtureArtistBuilder.CheckEmptyEntries
+[END OF TEST] PASSED: FixtureArtistBuilder.CheckEmptyEntries
+[TEST SUITE END] 0 Amount of test succes: 23 Amount of test failures: 0
