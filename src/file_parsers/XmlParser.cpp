@@ -8,6 +8,9 @@
 #include <pugixml.hpp>
 
 std::vector<DataEntry> XMLParser::ParseData(std::vector<std::string> &data) {
+    if(data.empty()) {
+        return {};
+    }
     //Setup pugixml
     pugi::xml_document document;
 

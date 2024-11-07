@@ -38,7 +38,6 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
                                        width, height, SDL_WINDOW_SHOWN));
     }
     isRunning = true;
-    shouldUpdateArtists = false;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>(*_renderer);
     _artistManager = std::make_unique<ArtistManager>(*_renderer);
@@ -62,8 +61,8 @@ void BoogieWoogieApp::RunSimulation() {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:
+                    switch (event.key.keysym.scancode) {
+                        case SDL_SCANCODE_ESCAPE:
                             isRunning = false;
                             break;
                         default:
@@ -101,6 +100,7 @@ void BoogieWoogieApp::RunSimulation() {
         frameCount++;
         fps += delta;
         if (fps >= fpsInterval) {
+            //     std::cout << "FPS: " << frameCount << std::endl;
             fps = 0;
             frameCount = 0;
         }

@@ -6,12 +6,12 @@
 #include "TestLogger.hpp"
 #include "gtest/gtest.h"
 
-int TestSuite::StartTests() {
+int TestMain::StartTests() {
     ::testing::InitGoogleTest();
-    auto& listeners = ::testing::UnitTest::GetInstance()->listeners();
+    ::testing::TestEventListeners& listeners = ::testing::UnitTest::GetInstance()->listeners();
 
     listeners.Append(new TestLogger);
-    const int result = RUN_ALL_TESTS();
+    int result = RUN_ALL_TESTS();
 
     return result;
 }

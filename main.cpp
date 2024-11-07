@@ -1,12 +1,16 @@
+#include <FileReader.hpp>
+#include <FileReaderFactory.hpp>
 #include <TestSuite.hpp>
+#include <gtest/gtest.h>
 
 #include "BoogieWoogieApp.hpp"
+#include "TxtParser.hpp"
 
-#define TEST 0
+#define TEST_FRAMEWORK 1
 
 int main(void) {
-#if TEST
-    return TestSuite::StartTests();
+#if TEST_FRAMEWORK
+    return TestMain::StartTests();
 #endif
     auto& app = BoogieWoogieApp::GetInstance();
     app.SetupSimulation();

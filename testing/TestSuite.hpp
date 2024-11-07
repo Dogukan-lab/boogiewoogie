@@ -4,7 +4,7 @@
 
 #ifndef TESTSUITE_HPP
 #define TESTSUITE_HPP
-struct TestSuite {
+struct TestMain {
     static int StartTests();
 };
 

@@ -9,15 +9,15 @@
 #include "BoogieRenderer.hpp"
 #include "Memento.hpp"
 
-ArtistManager::ArtistManager(BoogieRenderer &renderer): ArtistManager(10, renderer) {
+ArtistManager::ArtistManager(BoogieRenderer &renderer) : ArtistManager(10, renderer) {
 }
 
-ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer): _renderer(renderer) {
+ArtistManager::ArtistManager(int capacity, BoogieRenderer &renderer) : _renderer(renderer) {
     _artists.resize(capacity);
 }
 
-Artist* ArtistManager::AddArtist(Artist &&artist) {
-    if(_artists.size() >= 125)
+Artist *ArtistManager::AddArtist(Artist &&artist) {
+    if (_artists.size() >= 125)
         return nullptr;
 
     const auto &art = _artists.emplace_back(std::make_unique<Artist>(artist));
@@ -33,6 +33,7 @@ void ArtistManager::RemoveArtist(Artist &artist) const {
 std::vector<std::unique_ptr<Artist> > &ArtistManager::GetArtists() {
     return _artists;
 }
+
 
 //Update movement of artists
 void ArtistManager::UpdateArtists(const float deltaTime,
@@ -61,28 +62,19 @@ void ArtistManager::UpdateArtists(const float deltaTime,
             tilePos.y >= 0 && tilePos.x >= 0) {
             if (tilePos.x != lastTile.x || tilePos.y != lastTile.y) {
                 lastTile = tilePos;
-                auto &tile = grid[tilePos.y][tilePos.x];
-                tile->handleTileInteraction(artist.get());
+                if (auto &tile = grid[tilePos.y][tilePos.x]) {
+                    tile->handleTileInteraction(artist.get());
+                }
             }
         }
     }
 
     //Delete artist, if any are existing
     const auto it = std::remove_if(_artists.begin(), _artists.end(), [](const std::unique_ptr<Artist> &
-                               pArtist) {
-                                       return pArtist->shouldBeDeleted;
-                                   });
+    pArtist) {
+        return pArtist->shouldBeDeleted;
+    });
     if (it != _artists.end()) {
         _artists.erase(it, _artists.end());
     }
-}
-
-std::vector<ArtistCopy> ArtistManager::Save() {
-    std::vector<ArtistCopy> artistsCopy;
-
-    for (auto& artist: _artists) {
-        artistsCopy.push_back({artist->GetShape(),artist->GetColour(),artist->GetPosition(),artist->GetDirection(), artist->GetLastTile()});
-    }
-
-    return artistsCopy;
 }
