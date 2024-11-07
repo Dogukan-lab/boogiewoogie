@@ -4,24 +4,10 @@
 
 #include "ArtistManager.hpp"
 #include "Artist.hpp"
-
-#define GLM_ENABLE_EXPERIMENTAL
-
 #include <algorithm>
 #include <BoogieRenderer.hpp>
 #include <glm.hpp>
-#include <iostream>
-#include <TileManager.hpp>
-#include <gtx/string_cast.hpp>
 #include "Memento.hpp"
-
-// ArtistManager::ArtistManager(const BoogieRenderer& renderer): ArtistManager(10, renderer){
-// }
-
-// ArtistManager::ArtistManager(int capacity, const BoogieRenderer& renderer) {
-//     _artists.resize(capacity);
-//     _renderer = renderer;
-// }
 
 ArtistManager::ArtistManager(BoogieRenderer &renderer) : ArtistManager(10, renderer) {
 }
@@ -53,7 +39,7 @@ std::vector<std::unique_ptr<Artist> > &ArtistManager::GetArtists() {
 void ArtistManager::UpdateArtists(const float deltaTime,
                                   const std::vector<std::vector<std::unique_ptr<Tile> > > &grid) {
     for (const auto &artist: _artists) {
-        if (artist.get() == nullptr)
+        if (!artist)
             continue;
         auto &position = artist->GetPosition();
         auto &lastTile = artist->GetLastTile();

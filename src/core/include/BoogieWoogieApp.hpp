@@ -14,7 +14,6 @@
 #include "InputHandler.hpp"
 #include "MementoManager.hpp"
 
-//Immovable object :)
 class BoogieWoogieApp {
 public:
 
@@ -42,7 +41,6 @@ public:
     void RunSimulation();
     bool shouldUpdateArtists;
     bool isRunning;
-    bool isPaused;
     bool artistsLoaded = false;
     bool mapLoaded = false;
     bool drawInstance = false;

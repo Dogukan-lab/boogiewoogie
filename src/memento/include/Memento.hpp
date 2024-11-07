@@ -4,8 +4,6 @@
 
 #ifndef MOMENTO_HPP
 #define MOMENTO_HPP
-#define GLM_ENABLE_EXPERIMENTAL
-#include <gtx/string_cast.hpp>
 #include <string>
 #include <ctime>
 #include "SDL_pixels.h"
@@ -13,7 +11,6 @@
 #include <utility>
 #include "vec2.hpp"
 #include <vector>
-#include <iostream>
 
 struct TileCopy {
     glm::vec2 pos;
@@ -28,13 +25,6 @@ struct ArtistCopy {
     glm::vec2 direction;
     glm::ivec2 lastTile{};
 
-    void PrintArtist() {
-        std::cout << "SHAPE DIMENSIONS: " << glm::to_string(shape.GetDimension()) << "\n"
-                << "CURRENT COLOUR: " << colour.r <<"," << colour.g << "," << colour.b << "\n"
-                << "CURRENT POS: " << glm::to_string(position) << "\n"
-                << "CURRENT DIRECTION: " << glm::to_string(direction) << "\n"
-                << "LAST TILE: " << glm::to_string(lastTile) << "\n";
-    }
 };
 
 class Memento {

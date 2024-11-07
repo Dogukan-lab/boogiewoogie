@@ -3,28 +3,15 @@
 //
 
 #include "BoogieWoogieApp.hpp"
-
-#include <Action.hpp>
-#include <AritistBuilder.hpp>
-#include <CsvParser.hpp>
-#include <functional>
-
+#include <SDL.h>
+#include "Action.hpp"
 #include "FileReader.hpp"
 #include "FileReaderFactory.hpp"
-#include <iostream>
-#include <SDL.h>
-#include <iostream>
-#include <MapBuilder.hpp>
-#include <SDL_video.h>
-#include <thread>
-#include <TxtParser.hpp>
-#include <XmlParser.hpp>
-#include <cstdlib>
-
-#include "TileManager.hpp"
-#include "BoogieRenderer.hpp"
-#include "Caretaker.hpp"
-#include "MementoManager.hpp"
+#include "MapBuilder.hpp"
+#include "TxtParser.hpp"
+#include "XmlParser.hpp"
+#include "CsvParser.hpp"
+#include "AritistBuilder.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {
     //Setup tiles for now...
@@ -126,13 +113,13 @@ void BoogieWoogieApp::RunSimulation() {
 
 void BoogieWoogieApp::CreateMap(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
-    auto [type, list] = reader->ReadContent();
+    auto pair = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
             {
                     "txt", [&] {
                 TXTParser parser;
                 MapBuilder builder;
-                auto entries = parser.ParseData(list);
+                auto entries = parser.ParseData(pair.second);
 
                 for (auto &entry: entries) {
                     switch (entry.tag) {
@@ -156,7 +143,7 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
                     "xml", [&] {
                 XMLParser parser;
                 MapBuilder builder;
-                auto entries = parser.ParseData(list);
+                auto entries = parser.ParseData(pair.second);
 
                 for (auto &entry: entries) {
                     switch (entry.tag) {
@@ -177,18 +164,18 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
             }
             },
     };
-    actions[type]();
+    actions[pair.first]();
 }
 
 void BoogieWoogieApp::CreateArtists(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
-    auto [type, data] = reader->ReadContent();
+    auto pair = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
             {
                     "csv", [&] {
                 CSVParser parser;
                 ArtistBuilder builder;
-                auto entries = parser.ParseData(data);
+                auto entries = parser.ParseData(pair.second);
 
                 for (auto &entry: entries) {
                     builder.addArtist(entry);
@@ -197,5 +184,5 @@ void BoogieWoogieApp::CreateArtists(const std::string &source) const {
             }
             },
     };
-    actions[type]();
+    actions[pair.first]();
 }

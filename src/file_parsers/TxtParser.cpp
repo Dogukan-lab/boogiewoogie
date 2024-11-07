@@ -13,9 +13,6 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     if(data.empty()) {
         return {};
     }
-    //tile = index, data: type, x, y
-    //type: letter, rgb, weight
-    //Header part: rows, cols, letter, rgb, weight
     //Read header
     DataEntry entry{DataEntry::GridSize, {}};
     auto posA = data[0].find_first_of('=');
@@ -32,12 +29,6 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     std::rotate(data.begin(), data.begin() + 1, data.end());
     data.pop_back();
 
-    //Data entry for a type
-    //  tag
-    //  r
-    //  g
-    //  b
-    // weight
     //Read tile map structure, each character is a tile
     auto it = std::find_if(data.begin(), data.end(), [&entries=_entries](std::string &l) {
         if (l.empty()) return true;
@@ -46,10 +37,6 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     });
     data.erase(data.begin(), ++it);
 
-    //Data entry for a tile
-    // tag
-    // x
-    // y
     //Read tiles
     int currentRow{0};
     int rows = std::stoi(entry["rows"]), cols = std::stoi(entry["cols"]);
@@ -68,7 +55,6 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
 }
 
 DataEntry &&TXTParser::ParseColour(DataEntry &entry, const std::string &data) {
-    //[255,255,255]
     //Trim the [] off
     const std::string rgb[] = {"r", "g", "b"};
     std::string trimmedData = data.substr(1, data.size() - 2);

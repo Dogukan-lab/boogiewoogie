@@ -3,11 +3,8 @@
 //
 
 #include "BoogieRenderer.hpp"
-#define GLM_ENABLE_EXPERIMENTAL
 #include <algorithm>
 #include <BoogieWoogieApp.hpp>
-#include <gtx/string_cast.hpp>
-#include <iostream>
 #include <SDL_render.h>
 
 BoogieRenderer::BoogieRenderer(SDL_Window *window): renderContext(

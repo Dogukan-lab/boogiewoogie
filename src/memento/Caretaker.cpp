@@ -50,14 +50,8 @@ Memento *Caretaker::Undo() {
     Memento *memento = mementos_.index_front(reverseMementoIndex);
 
     std::cout << "Caretaker: Restoring state to: " << memento->GetDate() << "\n";
-    // std::cout << "Artist 0 Pos: x: " << mementos_.index_front(0)->GetAritsts().front()->GetPosition().x << " y: "
-    // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
 
     // originator_->Restore(memento);
-    for (auto artist : mementos_.index_front(reverseMementoIndex)->GetArtists()) {
-        // std::cout << "Artist 0 Pos: x: " << artist.startPos.x << " y: "
-        // << artist.startPos.y << std::endl;
-    }
 
     return memento;
 }

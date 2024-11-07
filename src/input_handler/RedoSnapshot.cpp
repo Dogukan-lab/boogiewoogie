@@ -6,7 +6,6 @@
 #include "BoogieWoogieApp.hpp"
 
 void RedoSnapshot::Execute() const {
-    std::cout << "REACHED REDO COMMAND!" << std::endl;
     BoogieWoogieApp::GetInstance().drawInstance = true;
 
     auto memento = MementoManager::Redo();

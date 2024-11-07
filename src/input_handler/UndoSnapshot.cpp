@@ -9,7 +9,6 @@
 #include "MementoManager.hpp"
 
 void UndoSnapshot::Execute() const {
-    std::cout << "REACHED UNDO COMMAND!" << std::endl;
     BoogieWoogieApp::GetInstance().drawInstance = true;
 //    BoogieWoogieApp::GetInstance().shouldUpdateArtists = false;
 
