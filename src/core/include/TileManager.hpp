@@ -29,7 +29,7 @@ public:
     static std::map<char, std::pair<SDL_Colour, int> > types;
 
 
-    std::vector<tileCopy> Save() ;
+    std::vector<TileCopy> Save() ;
 private:
     std::vector<std::vector<std::unique_ptr<Tile> > > _tiles;
     BoogieRenderer& _renderer;

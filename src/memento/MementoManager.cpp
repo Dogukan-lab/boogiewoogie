@@ -2,7 +2,7 @@
 // Created by hmkam on 07/11/2024.
 //
 
-#include "MementoManager.hpp"
+#include "include/MementoManager.hpp"
 
 #include <stdexcept>
 
@@ -18,11 +18,4 @@ Memento *MementoManager::Undo() {
 
 Memento *MementoManager::Redo() {
     return nullptr; //->Redo();
-}
-
-void MementoManager::Pause() {
-    throw std::runtime_error("MementoManager::Pause not implemented yet.");
-}
-void MementoManager::Resume() {
-    throw std::runtime_error("MementoManager::Resume not implemented yet.");
 }

@@ -4,7 +4,9 @@
 
 #include "ArtistManager.hpp"
 #include "Artist.hpp"
+
 #define GLM_ENABLE_EXPERIMENTAL
+
 #include <algorithm>
 #include <BoogieRenderer.hpp>
 #include <glm.hpp>

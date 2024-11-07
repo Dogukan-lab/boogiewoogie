@@ -9,6 +9,7 @@
 #include <BoogieRenderer.hpp>
 
 #include "Tile.hpp"
+#include "Memento.hpp"
 #include <memory>
 #include <vector>
 
@@ -35,7 +36,7 @@ public:
 
     void ClearArtists();
 
-    std::vector<artistCopy> Save();
+    std::vector<ArtistCopy> Save();
 
 private:
     std::vector<std::unique_ptr<Artist>> _artists{};

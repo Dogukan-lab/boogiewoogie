@@ -19,10 +19,12 @@
 #include <thread>
 #include <TxtParser.hpp>
 #include <XmlParser.hpp>
+#include <cstdlib>
 
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
-#include "Caretaker.hpp"
+#include "../memento/include/Caretaker.hpp"
+#include "MementoManager.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {
     //Setup tiles for now...
@@ -36,12 +38,11 @@ void BoogieWoogieApp::SetupSimulation() {
     _renderer->RegisterArtists(_artistManager->GetArtists());
 }
 
-BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 600, 600) {
+BoogieWoogieApp::BoogieWoogieApp() : BoogieWoogieApp("Boogie woogie Sim", true, 600, 600) {
 }
 
-//TODO Maybe make a window class instead??? <-- I should...
-BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height): _window(
-    nullptr, SDL_DestroyWindow) {
+BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height) : _window(nullptr, SDL_DestroyWindow),
+                                                                                                   currentMemento() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << SDL_GetError() << std::endl;
     }
@@ -53,11 +54,12 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
                                        width, height, SDL_WINDOW_SHOWN));
     }
     isRunning = true;
-    isPaused = false;
+    shouldUpdateArtists = false;
     _renderer = std::make_unique<BoogieRenderer>(_window.get());
     _tileManager = std::make_unique<TileManager>(*_renderer);
     _artistManager = std::make_unique<ArtistManager>(*_renderer);
-    _mementoManager = std::make_unique<MementoManager>(*_artistManager,*_tileManager);
+    _inputHandler = std::make_unique<InputHandler>();
+    _mementoManager = std::make_unique<MementoManager>(*_artistManager, *_tileManager);
 }
 
 void BoogieWoogieApp::RunSimulation() {
@@ -66,10 +68,8 @@ void BoogieWoogieApp::RunSimulation() {
     SDL_Event event;
     Uint32 prevTick = SDL_GetTicks();
     Uint32 fpsInterval = 1000;
+    Uint32 lastEvent = prevTick;
     Uint32 fps = 0, frameCount = 0;
-
-    Uint32 mementoUpdateCounter = 0;
-    // Caretaker *caretaker = new Caretaker(&*_renderer, 200);
 
     while (isRunning) {
         Uint32 curTicks = SDL_GetTicks();
@@ -84,43 +84,42 @@ void BoogieWoogieApp::RunSimulation() {
                         case SDLK_ESCAPE:
                             isRunning = false;
                             break;
-                        default: break;
+                        default:
+                            const auto command = _inputHandler->GetAction(event.key.keysym.scancode);
+                            if (command)
+                                command->Execute();
+                            break;
                     }
-                    _inputHandler->GetAction(event.key.keysym.sym).Execute();
                     break;
                 case SDL_QUIT:
                     isRunning = false;
+                    break;
                 default:
                     break;
             }
         }
-        //Update tiles ofcourse
-        if (!isPaused) {
+        //Update tiles
+        if (!shouldUpdateArtists) {
             _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
         }
 
         //Render tiles
-        _renderer->Draw();
+        if (drawInstance)
+            _renderer->DrawInstance(currentMemento);
+        else
+            _renderer->Draw();
 
-        // mementoUpdateCounter++;
-        // if (mementoUpdateCounter % 60 == 0) {
-        //     if (isPaused) {
-        //         caretaker->Undo();
-        //     } else {
-        //         caretaker->Backup();
-        //     }
-        // }
-
-        // std::cout << "artist" << _artistManager->GetArtists().front()->GetPosition();
-
-        if (mementoUpdateCounter % 480 == 479) {
-            isPaused = true;
+        if (curTicks - lastEvent >= 5000) {
+            std::cout << "SAVING CURRENT SNAPSHOT" << std::endl;
+            MementoManager::Save();
+            lastEvent = curTicks;
         }
 
         frameCount++;
         fps += delta;
         if (fps >= fpsInterval) {
             //     std::cout << "FPS: " << frameCount << std::endl;
+//            MementoManager::Save();
             fps = 0;
             frameCount = 0;
         }
@@ -131,8 +130,8 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, list] = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
-        {
-            "txt", [&] {
+            {
+                    "txt", [&] {
                 TXTParser parser;
                 MapBuilder builder;
                 auto entries = parser.ParseData(list);
@@ -148,14 +147,15 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
                         case DataEntry::Tile:
                             builder.addTile(entry);
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                 }
                 _tileManager->AddTiles(std::move(builder.build()));
             }
-        },
-        {
-            "xml", [&] {
+            },
+            {
+                    "xml", [&] {
                 XMLParser parser;
                 MapBuilder builder;
                 auto entries = parser.ParseData(list);
@@ -171,12 +171,13 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
                         case DataEntry::Tile:
                             builder.addTile(entry);
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                 }
                 _tileManager->AddTiles(std::move(builder.build()));
             }
-        },
+            },
     };
     actions[type]();
 }
@@ -185,8 +186,8 @@ void BoogieWoogieApp::CreateArtists(const std::string &source) {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, data] = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
-        {
-            "csv", [&] {
+            {
+                    "csv", [&] {
                 CSVParser parser;
                 ArtistBuilder builder;
                 auto entries = parser.ParseData(data);
@@ -196,7 +197,7 @@ void BoogieWoogieApp::CreateArtists(const std::string &source) {
                 }
                 _artistManager->SetArtists(std::move(builder.build()));
             }
-        },
+            },
     };
     actions[type]();
 }

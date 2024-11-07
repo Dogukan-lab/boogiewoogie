@@ -4,6 +4,7 @@
 
 #include "TileManager.hpp"
 #include "Tile.hpp"
+#include "Memento.hpp"
 
 
 std::map<char, std::pair<SDL_Colour, int> > TileManager::types{};
@@ -51,13 +52,13 @@ std::vector<std::vector<std::unique_ptr<Tile> > > &TileManager::getTiles() {
 //     _tiles.clear();
 // }
 
-std::vector<tileCopy> TileManager::Save() {
-    std::vector<tileCopy> tiles_result;
+std::vector<TileCopy> TileManager::Save() {
+    std::vector<TileCopy> tiles_result;
 
     for (int y =0; y< _tiles.size(); y++){
         for (int x =0; x< _tiles[0].size(); x++) {
             auto& tile = _tiles[y][x];
-            tiles_result.emplace_back(tileCopy{.pos = tile->position, .shape = tile->shape, .colour = tile->type->colour});
+            tiles_result.emplace_back(TileCopy{.pos = tile->position, .shape = tile->shape, .colour = tile->type->colour});
         }
     }
 

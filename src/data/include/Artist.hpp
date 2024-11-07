@@ -5,8 +5,7 @@
 #ifndef DUMMYARTIST_HPP
 #define DUMMYARTIST_HPP
 #include <cstdio>
-#include <Memento.hpp>
-#include <SDL_Rect.h>
+#include <SDL_rect.h>
 #include <Shape.hpp>
 #include <vec2.hpp>
 

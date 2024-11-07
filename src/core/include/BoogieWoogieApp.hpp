@@ -12,7 +12,7 @@
 #include "TileManager.hpp"
 #include "BoogieRenderer.hpp"
 #include "InputHandler.hpp"
-#include "../MementoManager.hpp"
+#include "MementoManager.hpp"
 
 //Immovable object :)
 class BoogieWoogieApp {
@@ -45,8 +45,9 @@ public:
     bool isPaused;
     bool artistsLoaded = false;
     bool mapLoaded = false;
+    bool drawInstance = false;
 
-    Memento currentMemento{};
+    Memento currentMemento;
 
     std::unordered_map<std::string, std::function<void(std::vector<std::string>&)>> mapActions;
     std::unordered_map<std::string, std::function<void(std::vector<std::string>&)>> artistActions;
@@ -54,9 +55,6 @@ private:
     BoogieWoogieApp();
     std::string mapSource{};
     std::string artistSource{};
-
-
-
 
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> _window;
     std::unique_ptr<InputHandler> _inputHandler;

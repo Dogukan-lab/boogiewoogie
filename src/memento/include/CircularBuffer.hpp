@@ -19,7 +19,7 @@ private:
     uint16_t capacity;
 
 public:
-    // Constructor to intialize circular buffer's data members
+    // Constructor to initialize circular buffer's data members
     explicit CircularBuffer(uint16_t capacity_) {
         capacity = capacity_;
         head = 0;

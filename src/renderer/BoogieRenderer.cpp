@@ -120,11 +120,10 @@ void BoogieRenderer::DrawInstance(Memento &memento) {
     }
 
     //Draw Artists
-    for (auto &artist: memento.GetAritsts()) {
+    for (auto &artist: memento.GetArtists()) {
         auto &dimension = artist.shape.GetDimension();
-        auto &pos = artist.startPos;
+        auto &pos = artist.position;
         auto &colour = artist.colour;
-        //TODO have shape always scaled
         SDL_FRect rect{
             dimension.x * pos.x + dimension.x / 4.f,
             dimension.y * pos.y + dimension.y / 4.f,

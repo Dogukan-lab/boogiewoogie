@@ -6,11 +6,16 @@
 
 #include <BoogieWoogieApp.hpp>
 
-#include "../core/MementoManager.hpp"
+#include "MementoManager.hpp"
 
 void UndoSnapshot::Execute() const {
-    BoogieWoogieApp::GetInstance().shouldUpdateArtists = true;
+    std::cout << "REACHED UNDO COMMAND!" << std::endl;
+    BoogieWoogieApp::GetInstance().drawInstance = true;
+//    BoogieWoogieApp::GetInstance().shouldUpdateArtists = false;
 
-    auto & snapshot = BoogieWoogieApp::GetInstance().currentMemento;
-    snapshot=*MementoManager::Undo();
+    auto memento = MementoManager::Undo();
+    if(memento)
+        BoogieWoogieApp::GetInstance().currentMemento = *memento;
+    else
+        std::cout << "UNABLE TO FIND MEMENTO!" << std::endl;
 }

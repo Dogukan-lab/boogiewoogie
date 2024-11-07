@@ -12,7 +12,6 @@
 #include "Artist.hpp"
 #include "Memento.hpp"
 
-//TODO Figure out how this will function
 class BoogieRenderer {
 public:
     explicit BoogieRenderer(SDL_Window* window);
