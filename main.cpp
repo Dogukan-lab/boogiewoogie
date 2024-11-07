@@ -2,7 +2,7 @@
 
 #include "BoogieWoogieApp.hpp"
 
-#define TEST_FRAMEWORK 1
+#define TEST_FRAMEWORK 0
 
 int main(void) {
 #if TEST_FRAMEWORK

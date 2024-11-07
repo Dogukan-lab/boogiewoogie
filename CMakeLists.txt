@@ -60,7 +60,7 @@ add_executable(${PROJECT_NAME} main.cpp
 #Testing
 target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest_main GTest::gmock)
 include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME})
+#gtest_discover_tests(${PROJECT_NAME})
 
 # Link CURL + SDL2
 target_link_directories(${PROJECT_NAME} PUBLIC ${CURL_ROOT}/include)
