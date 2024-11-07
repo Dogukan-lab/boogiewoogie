@@ -22,6 +22,19 @@ void Caretaker::Backup() {
     mementos_.push_back(new Memento(artistManager.Save(),tileManager.Save()));
 }
 
+Memento *Caretaker::Redo() {
+    if (mementos_.empty()) { return nullptr; }
+
+
+    if (reverseMementoIndex - 1 < 0) { return nullptr; }//return mementos_.index_front(reverseMementoIndex) } //of reverseMementoIndex
+
+    reverseMementoIndex--;
+    Memento *memento = mementos_.index_front(reverseMementoIndex);
+
+    return memento;
+}
+
+
 Memento *Caretaker::Undo() {
     if (mementos_.empty()) { return nullptr; }
 
