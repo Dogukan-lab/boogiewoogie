@@ -3,25 +3,11 @@
 //
 
 #include "ArtistManager.hpp"
-#include "Artist.hpp"
-
-#define GLM_ENABLE_EXPERIMENTAL
-
-#include <algorithm>
-#include <BoogieRenderer.hpp>
 #include <glm.hpp>
-#include <iostream>
-#include <TileManager.hpp>
-#include <gtx/string_cast.hpp>
+#include <algorithm>
+#include "Artist.hpp"
+#include "BoogieRenderer.hpp"
 #include "Memento.hpp"
-
-// ArtistManager::ArtistManager(const BoogieRenderer& renderer): ArtistManager(10, renderer){
-// }
-
-// ArtistManager::ArtistManager(int capacity, const BoogieRenderer& renderer) {
-//     _artists.resize(capacity);
-//     _renderer = renderer;
-// }
 
 ArtistManager::ArtistManager(BoogieRenderer &renderer): ArtistManager(10, renderer) {
 }
