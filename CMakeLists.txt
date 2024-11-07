@@ -49,15 +49,16 @@ add_subdirectory(src)
 add_executable(${PROJECT_NAME} main.cpp
         testing/builders/FixtureMapBuilder.cpp
         testing/builders/FixtureMapBuilder.hpp
-        #        testing/filereading/FileReadTest.cpp
-#        testing/TestMain.cpp
-#        testing/parser/ParserSuite.hpp
-#        testing/parser/TXTFixture.cpp
-#        testing/parser/XMLFixture.cpp
-#        testing/parser/CSVParser.cpp
+        testing/filereading/FileReadTest.cpp
+        testing/TestMain.cpp
+        testing/parser/ParserSuite.hpp
+        testing/parser/TXTFixture.cpp
+        testing/parser/XMLFixture.cpp
+        testing/parser/CSVParser.cpp
 )
 
 #Testing
+enable_testing()
 target_link_libraries(${PROJECT_NAME} PUBLIC GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME})
@@ -75,6 +76,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE BoogieWoogieInternal
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    BUILD_WITH_INSTALL_RPATH TRUE
-    INSTALL_RPATH "${CURL_RUNTIME_PATH};${CURL_LIB_PATH};${SDL2_RUNTIME_PATH};${SDL2_LIBRARIES_PATH}"
+        BUILD_WITH_INSTALL_RPATH TRUE
+        INSTALL_RPATH "${CURL_RUNTIME_PATH};${CURL_LIB_PATH};${SDL2_RUNTIME_PATH};${SDL2_LIBRARIES_PATH}"
 )
