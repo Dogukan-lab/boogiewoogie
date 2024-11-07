@@ -9,6 +9,9 @@
 #include <algorithm>
 
 std::vector<DataEntry> CSVParser::ParseData(std::vector<std::string> &data) {
+    if(data.empty()) {
+        return {};
+    }
     //Read the header.
     std::rotate(data.begin(), data.begin() + 1, data.end());
     const auto header = *(data.end() - 1);
@@ -19,7 +22,7 @@ std::vector<DataEntry> CSVParser::ParseData(std::vector<std::string> &data) {
     //Read the actual data
     for (auto &line: data) {
         std::stringstream stream(line);
-        DataEntry entry;
+        DataEntry entry {DataEntry::Artist, {}};
         int index{0};
         std::string token{};
         while (std::getline(stream, token, ',')) {

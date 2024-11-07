@@ -21,7 +21,7 @@ private:
      */
     static DataEntry&& ParseColour(DataEntry& entry, const std::string& data);
     /**
-     * @brief Helper function to parse a Tile in the
+     * @brief Helper function to parse a Tile
      * @param row the current row of the tilemap
      * @param tileRow The line of data to parse into tile xy coordinates
      */

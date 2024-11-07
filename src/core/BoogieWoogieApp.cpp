@@ -35,11 +35,11 @@ void BoogieWoogieApp::SetupSimulation() {
     _renderer->RegisterArtists(_artistManager->GetArtists());
 }
 
-BoogieWoogieApp::BoogieWoogieApp(): BoogieWoogieApp("Boogie woogie Sim", true, 600, 600) {
+BoogieWoogieApp::BoogieWoogieApp() : BoogieWoogieApp("Boogie woogie Sim", true, 600, 600) {
 }
 
-BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height): _window(
-    nullptr, SDL_DestroyWindow) {
+BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int width, int height) : _window(
+        nullptr, SDL_DestroyWindow) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << SDL_GetError() << std::endl;
     }
@@ -76,7 +76,8 @@ void BoogieWoogieApp::RunSimulation() {
                         case SDLK_ESCAPE:
                             isRunning = false;
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                     _inputHandler->GetAction(event.key.keysym.sym).Execute();
                     break;
@@ -86,16 +87,16 @@ void BoogieWoogieApp::RunSimulation() {
                     break;
             }
         }
-        //Update tiles of course
         _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
 
-        //Render tiles
+        //Update tiles of course
         _renderer->Draw();
 
         frameCount++;
         fps += delta;
         if (fps >= fpsInterval) {
             //     std::cout << "FPS: " << frameCount << std::endl;
+            //Make snapshot
             fps = 0;
             frameCount = 0;
         }
@@ -106,8 +107,8 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, list] = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
-        {
-            "txt", [&] {
+            {
+                    "txt", [&] {
                 TXTParser parser;
                 MapBuilder builder;
                 auto entries = parser.ParseData(list);
@@ -123,14 +124,15 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
                         case DataEntry::Tile:
                             builder.addTile(entry);
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                 }
                 _tileManager->AddTiles(std::move(builder.build()));
             }
-        },
-        {
-            "xml", [&] {
+            },
+            {
+                    "xml", [&] {
                 XMLParser parser;
                 MapBuilder builder;
                 auto entries = parser.ParseData(list);
@@ -146,12 +148,13 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
                         case DataEntry::Tile:
                             builder.addTile(entry);
                             break;
-                        default: break;
+                        default:
+                            break;
                     }
                 }
                 _tileManager->AddTiles(std::move(builder.build()));
             }
-        },
+            },
     };
     actions[type]();
 }
@@ -160,8 +163,8 @@ void BoogieWoogieApp::CreateArtists(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
     auto [type, data] = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
-        {
-            "csv", [&] {
+            {
+                    "csv", [&] {
                 CSVParser parser;
                 ArtistBuilder builder;
                 auto entries = parser.ParseData(data);
@@ -171,7 +174,7 @@ void BoogieWoogieApp::CreateArtists(const std::string &source) const {
                 }
                 _artistManager->SetArtists(std::move(builder.build()));
             }
-        },
+            },
     };
     actions[type]();
 }

@@ -19,12 +19,12 @@ struct DataEntry {
     EntryTag tag;
     std::unordered_map<std::string, std::string> entries;
 
-    void AddEntry(const std::string &tag, const std::string &data) {
-        entries[tag] = data;
+    void AddEntry(const std::string &keyVal, const std::string &data) {
+        entries[keyVal] = data;
     }
 
-    const std::string &operator[](const std::string &tag){
-        return entries.at(tag);
+    const std::string &operator[](const std::string &keyVal){
+        return entries.at(keyVal);
     }
 };
 

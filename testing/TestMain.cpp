@@ -6,7 +6,7 @@
 #include "TestLogger.hpp"
 #include "gtest/gtest.h"
 
-int TestSuite::StartTests() {
+int TestMain::StartTests() {
     ::testing::InitGoogleTest();
     ::testing::TestEventListeners& listeners = ::testing::UnitTest::GetInstance()->listeners();
 

@@ -4,17 +4,16 @@
 #include <gtest/gtest.h>
 
 #include "BoogieWoogieApp.hpp"
+#include "TxtParser.hpp"
 
 #define TEST_FRAMEWORK 1
 
 int main(void) {
 #if TEST_FRAMEWORK
-    return TestSuite::StartTests();
+    return TestMain::StartTests();
 #endif
-    // const auto reader = FileReaderFactory::CreateFileReader(R"(../assets/wrongfile.txt)");
-    // auto [type, data] = reader->ReadContent();
-    // auto& app = BoogieWoogieApp::GetInstance();
-    // app.SetupSimulation();
-    // app.RunSimulation();
-    // return 0;
+//    auto& app = BoogieWoogieApp::GetInstance();
+//    app.SetupSimulation();
+//    app.RunSimulation();
+    return 0;
 }

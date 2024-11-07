@@ -19,6 +19,28 @@ public:
         neighbours.clear();
     }
 
+    Tile(const Tile& other) {
+        char tag = type->tag;
+        switch (tag) {
+            case '_':
+                SetType<WhiteType>();
+                break;
+            case 'Y':
+                SetType<YellowType>();
+                break;
+            case 'R':
+                tile->SetType<RedType>();
+                break;
+            case 'G':
+                tile->SetType<GreyType>();
+                break;
+            case 'B':
+                tile->SetType<BlueType>();
+                break;
+            default: break;
+        }
+    }
+
     template<typename T>
     void SetType() {
         type = std::make_unique<T>();

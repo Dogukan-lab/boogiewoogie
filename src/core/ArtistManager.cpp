@@ -45,6 +45,9 @@ std::vector<std::unique_ptr<Artist> > &ArtistManager::GetArtists() {
     return _artists;
 }
 
+ArtistManager::RestoreMemento(ArtistMemento) {}
+
+
 //Update movement of artists
 void ArtistManager::UpdateArtists(const float deltaTime,
                                   const std::vector<std::vector<std::unique_ptr<Tile> > > &grid) {

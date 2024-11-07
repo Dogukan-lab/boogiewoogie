@@ -10,11 +10,13 @@
 
 
 std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
+    if(data.empty()) {
+        return {};
+    }
     //tile = index, data: type, x, y
     //type: letter, rgb, weight
     //Header part: rows, cols, letter, rgb, weight
     //Read header
-    //TODO holyyy please fix this... LarsGPT TM
     DataEntry entry{DataEntry::GridSize, {}};
     auto posA = data[0].find_first_of('=');
     auto posB = data[0].find_first_of(',');
@@ -22,9 +24,11 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
     entry.AddEntry("cols", data[0].substr(data[0].find_last_of('=') + 1));
     _entries.emplace_back(entry);
 
+    //Remove the cols and rows
     std::rotate(data.begin(), data.begin() + 1, data.end());
     data.pop_back();
 
+    //Remove the formatting letter,rgb,weight
     std::rotate(data.begin(), data.begin() + 1, data.end());
     data.pop_back();
 
@@ -58,7 +62,7 @@ std::vector<DataEntry> TXTParser::ParseData(std::vector<std::string> &data) {
         }
         currentRow++;
     }
-    std::cout << std::endl;
+//    std::cout << std::endl;
 
     return _entries;
 }
@@ -81,7 +85,6 @@ DataEntry &&TXTParser::ParseColour(DataEntry &entry, const std::string &data) {
 }
 
 std::vector<DataEntry> TXTParser::ParseTiles(const int &row, const int &cols, const std::string &tileRow) {
-    //TODO Do the funny thing to go through the string, and so on.
     const size_t size = cols > tileRow.size() ? tileRow.size() : cols;
     std::vector<DataEntry> tempEntries{};
     for (int i = 0; i < size; i++) {
