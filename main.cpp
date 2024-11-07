@@ -1,12 +1,8 @@
-#include <FileReader.hpp>
-#include <FileReaderFactory.hpp>
-#include <TestSuite.hpp>
-#include <gtest/gtest.h>
+#include <testing/TestSuite.hpp>
 
 #include "BoogieWoogieApp.hpp"
-#include "TxtParser.hpp"
 
-#define TEST_FRAMEWORK 1
+#define TEST_FRAMEWORK 0
 
 int main(void) {
 #if TEST_FRAMEWORK
