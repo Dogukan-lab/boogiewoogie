@@ -2,7 +2,7 @@
 // Created by doguk on 10/24/2024.
 //
 
-#include "WebReader.hpp"
+#include "include/WebReader.hpp"
 
 #include <algorithm>
 #include <curl/curl.h>

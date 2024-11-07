@@ -5,8 +5,8 @@
 #ifndef FILEREADTEST_HPP
 #define FILEREADTEST_HPP
 
-#include <FileReader.hpp>
-#include <FileReaderFactory.hpp>
+#include "include/FileReader.hpp"
+#include "include/FileReaderFactory.hpp"
 
 #include "gtest/gtest.h"
 

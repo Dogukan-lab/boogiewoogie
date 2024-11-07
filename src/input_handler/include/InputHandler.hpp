@@ -17,7 +17,6 @@ public:
     InputHandler();
     ~InputHandler();
 
-    // void addKey(int keycode, Action *command);
     Action* GetAction(int keycode) const;
     void executeMouse();
 

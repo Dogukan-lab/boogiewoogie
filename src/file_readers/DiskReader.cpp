@@ -2,7 +2,7 @@
 // Created by doguk on 10/24/2024.
 //
 
-#include "DiskReader.hpp"
+#include "include/DiskReader.hpp"
 #include <filesystem>
 
 DiskReader::DiskReader(const std::string& sourceFile): FileReader(sourceFile){}

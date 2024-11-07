@@ -4,7 +4,7 @@
 
 #ifndef XMLPARSER_HPP
 #define XMLPARSER_HPP
-#include <Parser.hpp>
+#include "Parser.hpp"
 
 class XMLParser: public Parser  {
 public:

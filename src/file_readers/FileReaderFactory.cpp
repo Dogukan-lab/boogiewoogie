@@ -2,10 +2,10 @@
 // Created by doguk on 10/24/2024.
 //
 
-#include "FileReaderFactory.hpp"
+#include "include/FileReaderFactory.hpp"
 
-#include "DiskReader.hpp"
-#include "WebReader.hpp"
+#include "include/DiskReader.hpp"
+#include "include/WebReader.hpp"
 
 std::unique_ptr<FileReader> FileReaderFactory::CreateFileReader(const std::string &source) {
     if (isWebUrl(source))

@@ -9,68 +9,61 @@
 
 
 Caretaker::Caretaker(ArtistManager &artist_manager,TileManager &tileManager, int mementoSize)
-    : mementos_(mementoSize),artistManager(artist_manager),tileManager(tileManager)  {  }
+    : _memento(mementoSize), artistManager(artist_manager), tileManager(tileManager)  {  }
 
 Caretaker::~Caretaker() {
-    for (auto m: mementos_) delete m;
+    for (auto m: _memento) delete m;
 }
 
 void Caretaker::Backup() {
     if (reverseMementoIndex > 0) {
         reverseMementoIndex++;
     }
-    mementos_.push_back(new Memento(artistManager.Save(),tileManager.Save()));
+    _memento.push_back(new Memento(artistManager.Save(), tileManager.Save()));
 }
 
 Memento *Caretaker::Redo() {
-    if (mementos_.empty()) { return nullptr; }
+    if (_memento.empty()) { return nullptr; }
 
     if (reverseMementoIndex - 1 < 0) {
-        reverseMementoIndex = mementos_.size();
+        reverseMementoIndex = _memento.size();
         return nullptr;
-    }//return mementos_.index_front(reverseMementoIndex) } //of reverseMementoIndex
+    }
 
     reverseMementoIndex--;
-    Memento *memento = mementos_.index_front(reverseMementoIndex);
+    Memento *memento = _memento.index_front(reverseMementoIndex);
 
     return memento;
 }
 
 
 Memento *Caretaker::Undo() {
-    if (mementos_.empty()) {
+    if (_memento.empty()) {
         return nullptr;
     }
 
-    if (reverseMementoIndex + 1 >= mementos_.size()) {
+    if (reverseMementoIndex + 1 >= _memento.size()) {
         reverseMementoIndex = 0;
         return nullptr;
     }
 
     reverseMementoIndex++;
-    Memento *memento = mementos_.index_front(reverseMementoIndex);
+    Memento *memento = _memento.index_front(reverseMementoIndex);
 
     std::cout << "Caretaker: Restoring state to: " << memento->GetDate() << "\n";
-    // std::cout << "Artist 0 Pos: x: " << mementos_.index_front(0)->GetAritsts().front()->GetPosition().x << " y: "
-    // << mementos_.index_front(0)->GetAritsts().front()->GetPosition().y << std::endl << std::endl;
 
     // originator_->Restore(memento);
-    for (auto artist : mementos_.index_front(reverseMementoIndex)->GetArtists()) {
-        // std::cout << "Artist 0 Pos: x: " << artist.startPos.x << " y: "
-        // << artist.startPos.y << std::endl;
-    }
-
     return memento;
 }
 
 
-uint16_t Caretaker::Size() const {
-    return mementos_.size();
+size_t Caretaker::Size() const {
+    return _memento.size();
 }
 
 void Caretaker::ShowHistory() {
     std::cout << "Caretaker: Here's the list of mementos:\n";
-    for (const Memento *memento: mementos_) {
+    for (const Memento *memento: _memento) {
         std::cout << memento->GetDate() << "\n";
     }
 }

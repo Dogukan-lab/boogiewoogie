@@ -12,8 +12,8 @@
 
 class Caretaker {
 private:
-    CircularBuffer<Memento *> mementos_; //todo ringbuffer van uniqe pointers?
-    int reverseMementoIndex = 0; //todo: add ringbuffer remove from head to index ?
+    CircularBuffer<Memento *> _memento;
+    int reverseMementoIndex = 0;
 
     ArtistManager &artistManager;
     TileManager &tileManager;
@@ -27,7 +27,7 @@ public:
 
     Memento *Undo();
 
-    uint16_t Size() const;
+    size_t Size() const;
 
     Memento *Redo();
 

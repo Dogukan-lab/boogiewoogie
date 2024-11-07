@@ -8,10 +8,8 @@
 
 enum class ShapeType {
     Rectangle,
-    Other,
 };
 
-//TODO Shape doesnt need a position, becuase the object owning it already has it.
 struct Shape {
     Shape(): Shape(11.32075471698113f,11.32075471698113f, ShapeType::Rectangle){}
 

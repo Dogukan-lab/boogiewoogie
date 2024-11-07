@@ -10,7 +10,6 @@
 #include "Builder.hpp"
 #include <vector>
 
-//TODO Remove the templating, and just accept to use a singleton instance of the manager
 class MapBuilder : public Builder<std::vector<std::vector<std::unique_ptr<Tile>>>> {
 public:
     MapBuilder() = default;
@@ -20,7 +19,7 @@ public:
     MapBuilder& setMapSize(DataEntry& entry);
     MapBuilder& addTile(DataEntry& entry);
     MapBuilder& addTileType(DataEntry& entry);
-    MapBuilder& addTiles(const std::vector<DataEntry>& entries);
+//    MapBuilder& addTiles(const std::vector<DataEntry>& entries);
 
     std::vector<std::vector<std::unique_ptr<Tile>>>&& build() override;
 

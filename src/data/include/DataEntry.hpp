@@ -7,7 +7,6 @@
 #include <string>
 #include <unordered_map>
 
-//TODO make the second part of map a std::variant of int,float,string,vector<type>
 struct DataEntry {
     enum EntryTag {
         Artist,
@@ -19,12 +18,12 @@ struct DataEntry {
     EntryTag tag;
     std::unordered_map<std::string, std::string> entries;
 
-    void AddEntry(const std::string &tag, const std::string &data) {
-        entries[tag] = data;
+    void AddEntry(const std::string &key, const std::string &data) {
+        entries[key] = data;
     }
 
-    const std::string &operator[](const std::string &tag){
-        return entries.at(tag);
+    const std::string &operator[](const std::string &key){
+        return entries.at(key);
     }
 };
 

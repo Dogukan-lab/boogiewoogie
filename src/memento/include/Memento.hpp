@@ -27,14 +27,6 @@ struct ArtistCopy {
     glm::vec2 position;
     glm::vec2 direction;
     glm::ivec2 lastTile{};
-
-    void PrintArtist() {
-        std::cout << "SHAPE DIMENSIONS: " << glm::to_string(shape.GetDimension()) << "\n"
-                << "CURRENT COLOUR: " << colour.r <<"," << colour.g << "," << colour.b << "\n"
-                << "CURRENT POS: " << glm::to_string(position) << "\n"
-                << "CURRENT DIRECTION: " << glm::to_string(direction) << "\n"
-                << "LAST TILE: " << glm::to_string(lastTile) << "\n";
-    }
 };
 
 class Memento {

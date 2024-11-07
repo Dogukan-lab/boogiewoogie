@@ -17,6 +17,5 @@ void TileInteraction::Execute() const {
     const int tileY = static_cast<int>(static_cast<float>(y)/tileSize.y);
 
     const auto& tile = BoogieWoogieApp::GetInstance().GetTileManager().getTiles()[tileY][tileX];
-    //Tile type function needs to be done by the Tile itself.
     tile->handleTileInteraction(nullptr);
 }

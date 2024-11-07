@@ -3,33 +3,18 @@
 //
 
 #include "BoogieWoogieApp.hpp"
-
-#include <Action.hpp>
-#include <AritistBuilder.hpp>
-#include <CsvParser.hpp>
-#include <functional>
-
-#include "FileReader.hpp"
-#include "FileReaderFactory.hpp"
-#include <iostream>
 #include <SDL.h>
-#include <iostream>
-#include <MapBuilder.hpp>
-#include <SDL_video.h>
-#include <thread>
-#include <TxtParser.hpp>
-#include <XmlParser.hpp>
-
-#include "TileManager.hpp"
-#include "BoogieRenderer.hpp"
-#include "Caretaker.hpp"
-#include "MementoManager.hpp"
+#include "include/FileReader.hpp"
+#include "Action.hpp"
+#include "include/FileReaderFactory.hpp"
+#include "include/TxtParser.hpp"
+#include "MapBuilder.hpp"
+#include "include/XmlParser.hpp"
+#include "include/CsvParser.hpp"
+#include "AritistBuilder.hpp"
 
 void BoogieWoogieApp::SetupSimulation() {
-    //Setup tiles for now...
-    //Surfaces?
-    //Or just deprecated....
-    std::string mapSource = R"(../assets/map/graph.xml)";
+    std::string mapSource = R"(https://firebasestorage.googleapis.com/v0/b/dpa-files.appspot.com/o/graph.xml?alt=media)";
     std::string artistSource = R"(../assets/artists/artist.csv)";
     CreateMap(mapSource);
     CreateArtists(artistSource);
@@ -62,8 +47,7 @@ BoogieWoogieApp::BoogieWoogieApp(const char *windowName, bool isCentered, int wi
 }
 
 void BoogieWoogieApp::RunSimulation() {
-    //Main loop van SDL2 applicatie
-    //Wait on thread finishing its reading job.
+    //Main loop of SDL2 application
     SDL_Event event;
     Uint32 prevTick = SDL_GetTicks();
     Uint32 fpsInterval = 1000;
@@ -75,7 +59,6 @@ void BoogieWoogieApp::RunSimulation() {
         Uint32 delta = curTicks - prevTick;
         prevTick = curTicks;
         //Poll keyboard events
-        //Dude there has to be a better way XD
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_KEYDOWN:
@@ -97,6 +80,7 @@ void BoogieWoogieApp::RunSimulation() {
                     break;
             }
         }
+
         //Update tiles
         if (!shouldUpdateArtists) {
             _artistManager->UpdateArtists(static_cast<float>(delta) / 1000.f, _tileManager->getTiles());
@@ -117,7 +101,6 @@ void BoogieWoogieApp::RunSimulation() {
         frameCount++;
         fps += delta;
         if (fps >= fpsInterval) {
-            //     std::cout << "FPS: " << frameCount << std::endl;
             fps = 0;
             frameCount = 0;
         }
@@ -126,13 +109,13 @@ void BoogieWoogieApp::RunSimulation() {
 
 void BoogieWoogieApp::CreateMap(const std::string &source) const {
     auto reader = FileReaderFactory::CreateFileReader(source);
-    auto [type, list] = reader->ReadContent();
+    auto pair = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
             {
                     "txt", [&] {
                 TXTParser parser;
                 MapBuilder builder;
-                auto entries = parser.ParseData(list);
+                auto entries = parser.ParseData(pair.second);
 
                 for (auto &entry: entries) {
                     switch (entry.tag) {
@@ -156,7 +139,7 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
                     "xml", [&] {
                 XMLParser parser;
                 MapBuilder builder;
-                auto entries = parser.ParseData(list);
+                auto entries = parser.ParseData(pair.second);
 
                 for (auto &entry: entries) {
                     switch (entry.tag) {
@@ -177,18 +160,18 @@ void BoogieWoogieApp::CreateMap(const std::string &source) const {
             }
             },
     };
-    actions[type]();
+    actions[pair.first]();
 }
 
 void BoogieWoogieApp::CreateArtists(const std::string &source) {
     auto reader = FileReaderFactory::CreateFileReader(source);
-    auto [type, data] = reader->ReadContent();
+    auto pair = reader->ReadContent();
     std::unordered_map<std::string, std::function<void()> > actions{
             {
                     "csv", [&] {
                 CSVParser parser;
                 ArtistBuilder builder;
-                auto entries = parser.ParseData(data);
+                auto entries = parser.ParseData(pair.second);
 
                 for (auto &entry: entries) {
                     builder.addArtist(entry);
@@ -197,5 +180,5 @@ void BoogieWoogieApp::CreateArtists(const std::string &source) {
             }
             },
     };
-    actions[type]();
+    actions[pair.first]();
 }

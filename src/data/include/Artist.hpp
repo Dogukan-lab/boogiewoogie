@@ -12,11 +12,9 @@
 class Artist {
 public:
     Artist();
-    Artist(const glm::vec2 startPos, const glm::vec2 direction);
+    Artist(glm::vec2 startPos, glm::vec2 direction);
 
-    Artist(const Shape shape, const SDL_Colour colour, const glm::vec2 startPos, const glm::vec2 direction, glm::ivec2 lastTile = glm::ivec2(0));
-
-    void Move(float deltaTime);
+    Artist(Shape shape, SDL_Colour colour, glm::vec2 startPos, glm::vec2 direction, glm::ivec2 lastTile = glm::ivec2(0));
 
     Shape &GetShape() { return artistbody; }
     SDL_Colour &GetColour() { return colour; }

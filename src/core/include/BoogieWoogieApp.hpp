@@ -14,7 +14,9 @@
 #include "InputHandler.hpp"
 #include "MementoManager.hpp"
 
-//Immovable object :)
+/**
+ * @brief singleton instance of the entire application, hence why it stores many systems
+ */
 class BoogieWoogieApp {
 public:
 
@@ -41,10 +43,7 @@ public:
 
     void RunSimulation();
     bool shouldUpdateArtists;
-    bool isRunning;
-    bool isPaused;
-    bool artistsLoaded = false;
-    bool mapLoaded = false;
+    bool isRunning = true;
     bool drawInstance = false;
 
     Memento currentMemento;
@@ -65,7 +64,7 @@ private:
 
     void CreateMap(const std::string &source) const;
 
-    void CreateArtists(const std::string &source) const;
+    void CreateArtists(const std::string &source);
 };
 
 
